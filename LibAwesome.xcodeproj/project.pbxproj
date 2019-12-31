@@ -15,6 +15,7 @@
 		04AA7C3F23BBA43C003706C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04AA7C3D23BBA43C003706C6 /* LaunchScreen.storyboard */; };
 		04AA7C4A23BBA43C003706C6 /* LibAwesomeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C4923BBA43C003706C6 /* LibAwesomeTests.swift */; };
 		04AA7C5523BBA43C003706C6 /* LibAwesomeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C5423BBA43C003706C6 /* LibAwesomeUITests.swift */; };
+		04AA7C6623BBA854003706C6 /* TopMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C6523BBA854003706C6 /* TopMenuView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		04AA7C5023BBA43C003706C6 /* LibAwesomeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LibAwesomeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AA7C5423BBA43C003706C6 /* LibAwesomeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibAwesomeUITests.swift; sourceTree = "<group>"; };
 		04AA7C5623BBA43C003706C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04AA7C6523BBA854003706C6 /* TopMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopMenuView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				04AA7C3223BBA43B003706C6 /* AppDelegate.swift */,
 				04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */,
 				04AA7C3623BBA43B003706C6 /* ContentView.swift */,
+				04AA7C6523BBA854003706C6 /* TopMenuView.swift */,
 				04AA7C3823BBA43C003706C6 /* Assets.xcassets */,
 				04AA7C3D23BBA43C003706C6 /* LaunchScreen.storyboard */,
 				04AA7C4023BBA43C003706C6 /* Info.plist */,
@@ -270,6 +273,7 @@
 				04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */,
 				04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */,
 				04AA7C3723BBA43B003706C6 /* ContentView.swift in Sources */,
+				04AA7C6623BBA854003706C6 /* TopMenuView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
