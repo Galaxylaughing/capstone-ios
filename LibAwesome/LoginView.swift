@@ -14,13 +14,11 @@ struct LoginView: View {
             VStack {
                 LoginIconView()
                 
-                NavigationLink(destination: LoginForm()) {
-                    Text("Login")
-                }
-                .padding(.vertical)
+                LoginForm(username: "", password: "")
+                    .padding(.vertical)
                 
                 NavigationLink(destination: SignUpForm()) {
-                    Text("Create Account")
+                    Text("Don't have an account? Sign up")
                 }
             }
         }
