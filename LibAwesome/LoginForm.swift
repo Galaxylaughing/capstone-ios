@@ -28,14 +28,45 @@ struct LoginForm: View {
                     Text("password")
                     TextField("password", text: $password)
                 }
-                Button(action: {self.showAlert.toggle()}) {
+                Button(action: { self.loginUser() }) {
                     Text("Login")
-                }.alert(isPresented: $showAlert, content: { self.alert })
+                }
+//                Button(action: {self.showAlert.toggle()}) {
+//                    Text("Login")
+//                }.alert(isPresented: $showAlert, content: { self.alert })
             }.navigationBarTitle(Text("Login"))
         }
     }
     
-//    func loginUser() {}
+//  syntax from http://www.appsdeveloperblog.com/http-post-request-example-in-swift/
+    func loginUser() {
+        // Prepare URL
+        let url = URL(string: API_HOST+"login/")
+        guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
+
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "POST"
+         
+        // HTTP Request Parameters which will be sent in HTTP Request Body
+        let postString = "username=\(username)&password=\(password)";
+        // Set HTTP Request Body
+        request.httpBody = postString.data(using: String.Encoding.utf8);
+
+        // Perform HTTP Request
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            // Check for Error
+            if let error = error {
+                print("Error took place: \(error)")
+                return
+            }
+            // Convert HTTP Response Data to a String
+            if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                print("Response data string:\n \(dataString)")
+            }
+        }
+        task.resume()
+    }
 }
 
 struct LoginForm_Previews: PreviewProvider {
