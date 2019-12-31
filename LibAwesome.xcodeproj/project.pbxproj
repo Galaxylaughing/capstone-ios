@@ -16,6 +16,10 @@
 		04AA7C4A23BBA43C003706C6 /* LibAwesomeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C4923BBA43C003706C6 /* LibAwesomeTests.swift */; };
 		04AA7C5523BBA43C003706C6 /* LibAwesomeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C5423BBA43C003706C6 /* LibAwesomeUITests.swift */; };
 		04AA7C6623BBA854003706C6 /* TopMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C6523BBA854003706C6 /* TopMenuView.swift */; };
+		04AA7C6823BBA905003706C6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C6723BBA905003706C6 /* LoginView.swift */; };
+		04AA7C6D23BBAC53003706C6 /* LoginIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C6C23BBAC53003706C6 /* LoginIconView.swift */; };
+		04AA7C7123BBADF8003706C6 /* LoginForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C7023BBADF8003706C6 /* LoginForm.swift */; };
+		04AA7C7523BBB158003706C6 /* SignUpForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C7423BBB158003706C6 /* SignUpForm.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +55,10 @@
 		04AA7C5423BBA43C003706C6 /* LibAwesomeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibAwesomeUITests.swift; sourceTree = "<group>"; };
 		04AA7C5623BBA43C003706C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04AA7C6523BBA854003706C6 /* TopMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopMenuView.swift; sourceTree = "<group>"; };
+		04AA7C6723BBA905003706C6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		04AA7C6C23BBAC53003706C6 /* LoginIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginIconView.swift; sourceTree = "<group>"; };
+		04AA7C7023BBADF8003706C6 /* LoginForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginForm.swift; sourceTree = "<group>"; };
+		04AA7C7423BBB158003706C6 /* SignUpForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpForm.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,10 +109,11 @@
 		04AA7C3123BBA43B003706C6 /* LibAwesome */ = {
 			isa = PBXGroup;
 			children = (
+				04AA7C6B23BBAA67003706C6 /* LoginViews */,
+				04AA7C6923BBAA06003706C6 /* HelperViews */,
 				04AA7C3223BBA43B003706C6 /* AppDelegate.swift */,
 				04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */,
 				04AA7C3623BBA43B003706C6 /* ContentView.swift */,
-				04AA7C6523BBA854003706C6 /* TopMenuView.swift */,
 				04AA7C3823BBA43C003706C6 /* Assets.xcassets */,
 				04AA7C3D23BBA43C003706C6 /* LaunchScreen.storyboard */,
 				04AA7C4023BBA43C003706C6 /* Info.plist */,
@@ -137,6 +146,25 @@
 				04AA7C5623BBA43C003706C6 /* Info.plist */,
 			);
 			path = LibAwesomeUITests;
+			sourceTree = "<group>";
+		};
+		04AA7C6923BBAA06003706C6 /* HelperViews */ = {
+			isa = PBXGroup;
+			children = (
+				04AA7C6523BBA854003706C6 /* TopMenuView.swift */,
+			);
+			name = HelperViews;
+			sourceTree = "<group>";
+		};
+		04AA7C6B23BBAA67003706C6 /* LoginViews */ = {
+			isa = PBXGroup;
+			children = (
+				04AA7C6C23BBAC53003706C6 /* LoginIconView.swift */,
+				04AA7C6723BBA905003706C6 /* LoginView.swift */,
+				04AA7C7023BBADF8003706C6 /* LoginForm.swift */,
+				04AA7C7423BBB158003706C6 /* SignUpForm.swift */,
+			);
+			name = LoginViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -270,10 +298,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04AA7C7523BBB158003706C6 /* SignUpForm.swift in Sources */,
 				04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */,
 				04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */,
 				04AA7C3723BBA43B003706C6 /* ContentView.swift in Sources */,
+				04AA7C6823BBA905003706C6 /* LoginView.swift in Sources */,
+				04AA7C7123BBADF8003706C6 /* LoginForm.swift in Sources */,
 				04AA7C6623BBA854003706C6 /* TopMenuView.swift in Sources */,
+				04AA7C6D23BBAC53003706C6 /* LoginIconView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
