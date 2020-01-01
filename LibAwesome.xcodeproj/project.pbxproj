@@ -16,7 +16,6 @@
 		04AA7C4A23BBA43C003706C6 /* LibAwesomeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C4923BBA43C003706C6 /* LibAwesomeTests.swift */; };
 		04AA7C5523BBA43C003706C6 /* LibAwesomeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C5423BBA43C003706C6 /* LibAwesomeUITests.swift */; };
 		04AA7C6623BBA854003706C6 /* TopMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C6523BBA854003706C6 /* TopMenuView.swift */; };
-		04AA7C6823BBA905003706C6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C6723BBA905003706C6 /* LoginView.swift */; };
 		04AA7C6D23BBAC53003706C6 /* LoginIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C6C23BBAC53003706C6 /* LoginIconView.swift */; };
 		04AA7C7123BBADF8003706C6 /* LoginForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C7023BBADF8003706C6 /* LoginForm.swift */; };
 		04AA7C7523BBB158003706C6 /* SignUpForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C7423BBB158003706C6 /* SignUpForm.swift */; };
@@ -59,7 +58,6 @@
 		04AA7C5423BBA43C003706C6 /* LibAwesomeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibAwesomeUITests.swift; sourceTree = "<group>"; };
 		04AA7C5623BBA43C003706C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04AA7C6523BBA854003706C6 /* TopMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopMenuView.swift; sourceTree = "<group>"; };
-		04AA7C6723BBA905003706C6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		04AA7C6C23BBAC53003706C6 /* LoginIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginIconView.swift; sourceTree = "<group>"; };
 		04AA7C7023BBADF8003706C6 /* LoginForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginForm.swift; sourceTree = "<group>"; };
 		04AA7C7423BBB158003706C6 /* SignUpForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpForm.swift; sourceTree = "<group>"; };
@@ -171,7 +169,6 @@
 			isa = PBXGroup;
 			children = (
 				04AA7C6C23BBAC53003706C6 /* LoginIconView.swift */,
-				04AA7C6723BBA905003706C6 /* LoginView.swift */,
 				04AA7C7023BBADF8003706C6 /* LoginForm.swift */,
 				04AA7C7423BBB158003706C6 /* SignUpForm.swift */,
 				04D4006323BBF982009D256C /* ErrorAlert.swift */,
@@ -324,7 +321,6 @@
 				04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */,
 				04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */,
 				04D4006423BBF982009D256C /* ErrorAlert.swift in Sources */,
-				04AA7C6823BBA905003706C6 /* LoginView.swift in Sources */,
 				04AA7C7F23BBC3AF003706C6 /* Constants.swift in Sources */,
 				04AA7C7B23BBB99E003706C6 /* User.swift in Sources */,
 				04AA7C7123BBADF8003706C6 /* LoginForm.swift in Sources */,
@@ -496,6 +492,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"LibAwesome/Preview Content\"";
+				DEVELOPMENT_TEAM = BX8X4S2Y7D;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LibAwesome/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -515,6 +512,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"LibAwesome/Preview Content\"";
+				DEVELOPMENT_TEAM = BX8X4S2Y7D;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LibAwesome/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

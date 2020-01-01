@@ -18,25 +18,34 @@ struct LoginForm: View {
     
     var body: some View {
         NavigationView {
-            Form {
-                HStack {
-                    Text("username")
-                    TextField("username", text: $username)
-                        .textContentType(.username)
-                }
-                HStack {
-                    Text("password")
-                    SecureField("password", text: $password)
-                        .textContentType(.password)
-//                    TextField("password", text: $password)
-                }
-                
-                Button(action: { self.loginUser() }) {
-                    Text("Login")
-                }.alert(item: $error, content: { error in
-                    alert(reason: error.reason)
-                })
-            }.navigationBarTitle(Text("Login"))
+                Form {
+                    HStack {
+                        Text("username")
+                        TextField("username", text: $username)
+                            .textContentType(.username)
+                    }
+                    HStack {
+                        Text("password")
+                        SecureField("password", text: $password)
+                            .textContentType(.password)
+                    }
+                    
+                    Button(action: { self.loginUser() }) {
+                        HStack {
+                            Spacer()
+                            Text("Login")
+                            Spacer()
+                        }
+                    }.alert(item: $error, content: { error in
+                        alert(reason: error.reason)
+                    })
+                    
+                    Section {
+                        NavigationLink(destination: SignUpForm()) {
+                            Text("Don't have an account? Sign up")
+                        }
+                    }
+                }.navigationBarTitle(Text("LibAwesome"))
         }
     }
     
@@ -69,7 +78,7 @@ struct LoginForm: View {
         return token
     }
     
-    //  syntax from http://www.appsdeveloperblog.com/http-post-request-example-in-swift/
+    // POST syntax from http://www.appsdeveloperblog.com/http-post-request-example-in-swift/
     func loginUser() {
         // Prepare URL
         let url = URL(string: API_HOST+"auth-token/")
