@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3223BBA43B003706C6 /* AppDelegate.swift */; };
 		04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */; };
-		04AA7C3723BBA43B003706C6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3623BBA43B003706C6 /* ContentView.swift */; };
+		04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3623BBA43B003706C6 /* TabbedView.swift */; };
 		04AA7C3923BBA43C003706C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04AA7C3823BBA43C003706C6 /* Assets.xcassets */; };
 		04AA7C3C23BBA43C003706C6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04AA7C3B23BBA43C003706C6 /* Preview Assets.xcassets */; };
 		04AA7C3F23BBA43C003706C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04AA7C3D23BBA43C003706C6 /* LaunchScreen.storyboard */; };
@@ -23,6 +23,7 @@
 		04AA7C7B23BBB99E003706C6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C7A23BBB99E003706C6 /* User.swift */; };
 		04AA7C7F23BBC3AF003706C6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C7E23BBC3AF003706C6 /* Constants.swift */; };
 		04D4006423BBF982009D256C /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D4006323BBF982009D256C /* ErrorAlert.swift */; };
+		04D4006623BD240B009D256C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D4006523BD240B009D256C /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +47,7 @@
 		04AA7C2F23BBA43B003706C6 /* LibAwesome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LibAwesome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AA7C3223BBA43B003706C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		04AA7C3623BBA43B003706C6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		04AA7C3623BBA43B003706C6 /* TabbedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedView.swift; sourceTree = "<group>"; };
 		04AA7C3823BBA43C003706C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04AA7C3B23BBA43C003706C6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		04AA7C3E23BBA43C003706C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -65,6 +66,7 @@
 		04AA7C7A23BBB99E003706C6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		04AA7C7E23BBC3AF003706C6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		04D4006323BBF982009D256C /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
+		04D4006523BD240B009D256C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,7 +123,8 @@
 				04AA7C6923BBAA06003706C6 /* HelperViews */,
 				04AA7C3223BBA43B003706C6 /* AppDelegate.swift */,
 				04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */,
-				04AA7C3623BBA43B003706C6 /* ContentView.swift */,
+				04D4006523BD240B009D256C /* ContentView.swift */,
+				04AA7C3623BBA43B003706C6 /* TabbedView.swift */,
 				04AA7C3823BBA43C003706C6 /* Assets.xcassets */,
 				04AA7C3D23BBA43C003706C6 /* LaunchScreen.storyboard */,
 				04AA7C4023BBA43C003706C6 /* Info.plist */,
@@ -317,8 +320,9 @@
 			files = (
 				04AA7C7523BBB158003706C6 /* SignUpForm.swift in Sources */,
 				04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */,
+				04D4006623BD240B009D256C /* ContentView.swift in Sources */,
 				04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */,
-				04AA7C3723BBA43B003706C6 /* ContentView.swift in Sources */,
+				04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */,
 				04D4006423BBF982009D256C /* ErrorAlert.swift in Sources */,
 				04AA7C6823BBA905003706C6 /* LoginView.swift in Sources */,
 				04AA7C7F23BBC3AF003706C6 /* Constants.swift in Sources */,

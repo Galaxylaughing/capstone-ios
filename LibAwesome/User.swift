@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct User: Codable {
-    static var current: User!
+final class User: ObservableObject {
+//    @Published static var current: User!
     
-    var username: String
-    var token: String?
+    @Published var username: String?
+    @Published var token: String?
 }

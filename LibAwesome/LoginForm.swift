@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct LoginForm: View {
+    @EnvironmentObject var currentUser: User
+    
     @State private var username: String = ""
     @State private var password: String = ""
     
@@ -20,10 +22,13 @@ struct LoginForm: View {
                 HStack {
                     Text("username")
                     TextField("username", text: $username)
+                        .textContentType(.username)
                 }
                 HStack {
                     Text("password")
-                    TextField("password", text: $password)
+                    SecureField("password", text: $password)
+                        .textContentType(.password)
+//                    TextField("password", text: $password)
                 }
                 
                 Button(action: { self.loginUser() }) {
@@ -92,10 +97,17 @@ struct LoginForm: View {
             if let data = data, let dataString = String(data: data, encoding: .utf8) {
                 print("Response data string:\n \(dataString)")
                 
-                guard let userToken = self.getToken(json: data) else { fatalError() } //TODO: don't throw fatal error
-                User.current = User(username: self.username, token: userToken)
+                guard let userToken = self.getToken(json: data) else {
+                    self.error = ErrorAlert(reason: "Invalid username or password")
+                    return
+                }
                 
-                //TODO: redirect to ContentView
+                // from https://stackoverflow.com/questions/57798050/updating-published-variable-of-an-observableobject-inside-child-view
+                // Update the value on the main thread
+                DispatchQueue.main.async {
+                    self.currentUser.username = self.username
+                    self.currentUser.token = userToken
+                }
             }
         }
         task.resume()
@@ -105,12 +117,6 @@ struct LoginForm: View {
 struct LoginForm_Previews: PreviewProvider {
     static var previews: some View {
         LoginForm()
+            .environmentObject(User())
     }
 }
-
-// when someone clicks login,
-// the app needs to make a POST request to the API's login url
-// providing a username and password
-
-// if correct, a JSON of id and username will be returned.
-// otherwise, an error message and non-200 status code
