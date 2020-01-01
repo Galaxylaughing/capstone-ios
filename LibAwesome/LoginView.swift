@@ -14,7 +14,7 @@ struct LoginView: View {
             VStack {
                 LoginIconView()
                 
-                LoginForm(username: "", password: "")
+                LoginForm()
                     .padding(.vertical)
                 
                 NavigationLink(destination: SignUpForm()) {

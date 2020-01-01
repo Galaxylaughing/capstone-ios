@@ -1,5 +1,5 @@
 //
-//  User.swift
+//  ErrorAlert.swift
 //  LibAwesome
 //
 //  Created by Sabrina on 12/31/19.
@@ -8,9 +8,10 @@
 
 import Foundation
 
-struct User: Codable {
-    static var current: User!
+struct ErrorAlert: Identifiable {
+    var id: String {
+        return reason
+    }
     
-    var username: String
-    var token: String?
+    let reason: String
 }

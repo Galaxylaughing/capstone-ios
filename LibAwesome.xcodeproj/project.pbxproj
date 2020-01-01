@@ -22,6 +22,7 @@
 		04AA7C7523BBB158003706C6 /* SignUpForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C7423BBB158003706C6 /* SignUpForm.swift */; };
 		04AA7C7B23BBB99E003706C6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C7A23BBB99E003706C6 /* User.swift */; };
 		04AA7C7F23BBC3AF003706C6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C7E23BBC3AF003706C6 /* Constants.swift */; };
+		04D4006423BBF982009D256C /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D4006323BBF982009D256C /* ErrorAlert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		04AA7C7423BBB158003706C6 /* SignUpForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpForm.swift; sourceTree = "<group>"; };
 		04AA7C7A23BBB99E003706C6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		04AA7C7E23BBC3AF003706C6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		04D4006323BBF982009D256C /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 				04AA7C6723BBA905003706C6 /* LoginView.swift */,
 				04AA7C7023BBADF8003706C6 /* LoginForm.swift */,
 				04AA7C7423BBB158003706C6 /* SignUpForm.swift */,
+				04D4006323BBF982009D256C /* ErrorAlert.swift */,
 			);
 			name = LoginViews;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */,
 				04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */,
 				04AA7C3723BBA43B003706C6 /* ContentView.swift in Sources */,
+				04D4006423BBF982009D256C /* ErrorAlert.swift in Sources */,
 				04AA7C6823BBA905003706C6 /* LoginView.swift in Sources */,
 				04AA7C7F23BBC3AF003706C6 /* Constants.swift in Sources */,
 				04AA7C7B23BBB99E003706C6 /* User.swift in Sources */,
