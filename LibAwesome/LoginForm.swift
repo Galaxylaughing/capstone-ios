@@ -10,6 +10,8 @@ import SwiftUI
 
 struct LoginForm: View {
     @EnvironmentObject var currentUser: User
+    @State private var showSignUp: Bool = false
+    @State private var signupSuccess: Bool = false
     
     @State private var username: String = ""
     @State private var password: String = ""
@@ -18,7 +20,21 @@ struct LoginForm: View {
     
     var body: some View {
         NavigationView {
+            VStack {
+                if self.signupSuccess {
+                    Text("Successfully created account.\nPlease login.")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color.secondary)
+                }
+                
                 Form {
+//                    if self.signupSuccess != "" {
+//                        Text("\(self.signupSuccess)")
+//                    } else {
+//                        Text("No sign up yet")
+//                    }
+                    
                     HStack {
                         Text("username")
                         TextField("username", text: $username)
@@ -41,11 +57,15 @@ struct LoginForm: View {
                     })
                     
                     Section {
-                        NavigationLink(destination: SignUpForm()) {
+                        NavigationLink(destination: SignUpForm(
+                                showSignUp: $showSignUp,
+                                signupSuccess: $signupSuccess
+                        ), isActive: $showSignUp) {
                             Text("Don't have an account? Sign up")
                         }
                     }
                 }.navigationBarTitle(Text("LibAwesome"))
+            }
         }
     }
     
