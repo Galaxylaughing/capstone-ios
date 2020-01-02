@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		0413022B23BD64AD00FDF25B /* HelloWorld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413022A23BD64AD00FDF25B /* HelloWorld.swift */; };
 		0413023123BE5ABB00FDF25B /* LogoutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413023023BE5ABB00FDF25B /* LogoutButton.swift */; };
+		0413023423BE624600FDF25B /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413023323BE624600FDF25B /* AlertHelper.swift */; };
+		0413023723BE633400FDF25B /* TokenHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413023623BE633400FDF25B /* TokenHelper.swift */; };
+		0413023923BE63BF00FDF25B /* APIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413023823BE63BF00FDF25B /* APIHelper.swift */; };
+		0413023B23BE69D100FDF25B /* UserModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413023A23BE69D100FDF25B /* UserModelTests.swift */; };
+		0413023D23BE6A3000FDF25B /* ErrorAlertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413023C23BE6A3000FDF25B /* ErrorAlertTests.swift */; };
+		0413023F23BE6A5D00FDF25B /* LoginUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413023E23BE6A5D00FDF25B /* LoginUserTests.swift */; };
 		04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3223BBA43B003706C6 /* AppDelegate.swift */; };
 		04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */; };
 		04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3623BBA43B003706C6 /* TabbedView.swift */; };
@@ -46,6 +52,12 @@
 /* Begin PBXFileReference section */
 		0413022A23BD64AD00FDF25B /* HelloWorld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelloWorld.swift; sourceTree = "<group>"; };
 		0413023023BE5ABB00FDF25B /* LogoutButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutButton.swift; sourceTree = "<group>"; };
+		0413023323BE624600FDF25B /* AlertHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
+		0413023623BE633400FDF25B /* TokenHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHelper.swift; sourceTree = "<group>"; };
+		0413023823BE63BF00FDF25B /* APIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
+		0413023A23BE69D100FDF25B /* UserModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModelTests.swift; sourceTree = "<group>"; };
+		0413023C23BE6A3000FDF25B /* ErrorAlertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlertTests.swift; sourceTree = "<group>"; };
+		0413023E23BE6A5D00FDF25B /* LoginUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUserTests.swift; sourceTree = "<group>"; };
 		04AA7C2F23BBA43B003706C6 /* LibAwesome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LibAwesome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AA7C3223BBA43B003706C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +106,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0413023223BE621700FDF25B /* HelperFunctions */ = {
+			isa = PBXGroup;
+			children = (
+				0413023323BE624600FDF25B /* AlertHelper.swift */,
+				0413023623BE633400FDF25B /* TokenHelper.swift */,
+				0413023823BE63BF00FDF25B /* APIHelper.swift */,
+			);
+			name = HelperFunctions;
+			sourceTree = "<group>";
+		};
+		0413023523BE627E00FDF25B /* HelperModels */ = {
+			isa = PBXGroup;
+			children = (
+				04D4006323BBF982009D256C /* ErrorAlert.swift */,
+			);
+			name = HelperModels;
+			sourceTree = "<group>";
+		};
 		04AA7C2623BBA43B003706C6 = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +147,8 @@
 		04AA7C3123BBA43B003706C6 /* LibAwesome */ = {
 			isa = PBXGroup;
 			children = (
+				0413023523BE627E00FDF25B /* HelperModels */,
+				0413023223BE621700FDF25B /* HelperFunctions */,
 				04AA7C7E23BBC3AF003706C6 /* Constants.swift */,
 				04AA7C7923BBB98A003706C6 /* Models */,
 				04AA7C6B23BBAA67003706C6 /* LoginViews */,
@@ -146,6 +178,9 @@
 			isa = PBXGroup;
 			children = (
 				04AA7C4923BBA43C003706C6 /* LibAwesomeTests.swift */,
+				0413023A23BE69D100FDF25B /* UserModelTests.swift */,
+				0413023C23BE6A3000FDF25B /* ErrorAlertTests.swift */,
+				0413023E23BE6A5D00FDF25B /* LoginUserTests.swift */,
 				04AA7C4B23BBA43C003706C6 /* Info.plist */,
 			);
 			path = LibAwesomeTests;
@@ -174,7 +209,6 @@
 				04AA7C6C23BBAC53003706C6 /* LoginIconView.swift */,
 				04AA7C7023BBADF8003706C6 /* LoginForm.swift */,
 				04AA7C7423BBB158003706C6 /* SignUpForm.swift */,
-				04D4006323BBF982009D256C /* ErrorAlert.swift */,
 			);
 			name = LoginViews;
 			sourceTree = "<group>";
@@ -318,8 +352,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0413023423BE624600FDF25B /* AlertHelper.swift in Sources */,
 				04AA7C7523BBB158003706C6 /* SignUpForm.swift in Sources */,
 				04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */,
+				0413023923BE63BF00FDF25B /* APIHelper.swift in Sources */,
 				04D4006623BD240B009D256C /* ContentView.swift in Sources */,
 				04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */,
 				04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */,
@@ -328,6 +364,7 @@
 				04AA7C7F23BBC3AF003706C6 /* Constants.swift in Sources */,
 				0413022B23BD64AD00FDF25B /* HelloWorld.swift in Sources */,
 				04AA7C7B23BBB99E003706C6 /* User.swift in Sources */,
+				0413023723BE633400FDF25B /* TokenHelper.swift in Sources */,
 				04AA7C7123BBADF8003706C6 /* LoginForm.swift in Sources */,
 				04AA7C6D23BBAC53003706C6 /* LoginIconView.swift in Sources */,
 			);
@@ -337,6 +374,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0413023D23BE6A3000FDF25B /* ErrorAlertTests.swift in Sources */,
+				0413023B23BE69D100FDF25B /* UserModelTests.swift in Sources */,
+				0413023F23BE6A5D00FDF25B /* LoginUserTests.swift in Sources */,
 				04AA7C4A23BBA43C003706C6 /* LibAwesomeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

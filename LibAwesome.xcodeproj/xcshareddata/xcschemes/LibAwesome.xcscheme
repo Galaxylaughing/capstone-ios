@@ -38,6 +38,14 @@
                BlueprintName = "LibAwesomeTests"
                ReferencedContainer = "container:LibAwesome.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "_TtCC15LibAwesomeTests15LibAwesomeTests14UserModelTests">
+               </Test>
+               <Test
+                  Identifier = "_TtCC15LibAwesomeTests15LibAwesomeTests15ErrorAlertTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">

@@ -47,7 +47,7 @@ struct LoginForm: View {
                             Spacer()
                         }
                     }.alert(item: $error, content: { error in
-                        alert(reason: error.reason)
+                        AlertHelper.alert(reason: error.reason)
                     })
                     
                     Section {
@@ -62,79 +62,26 @@ struct LoginForm: View {
             }
         }
     }
-    
-    // alert structure from https://goshdarnswiftui.com/
-    func alert(reason: String) -> Alert {
-        Alert(title: Text("Error"),
-                message: Text(reason),
-                dismissButton: .default(Text("OK"))
-        )
-    }
-    
-    func getToken(json: Data) -> String? {
-        // create a token variable
-        var token: String?
         
-        // create a decoder
-        let decoder = JSONDecoder()
-        
-        // create an object to match the JSON structure
-        struct TokenService: Decodable {
-            let token: String
-        }
-        
-        // decode the JSON into the object
-        if let tokenService = try? decoder.decode(TokenService.self, from: json) {
-            // map object-ified JSON to goal object
-            token = tokenService.token
-        }
-        
-        return token
-    }
-    
-    // POST syntax from http://www.appsdeveloperblog.com/http-post-request-example-in-swift/
     func loginUser() {
-        // Prepare URL
-        let url = URL(string: API_HOST+"auth-token/")
-        guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
-
-        // Prepare URL Request Object
-        var request = URLRequest(url: requestUrl)
-        request.httpMethod = "POST"
-         
-        // Prepare HTTP Request Parameters
-        let postString = "username=\(username)&password=\(password)";
-        // Set HTTP Request Body
-        request.httpBody = postString.data(using: String.Encoding.utf8);
-
-        // Perform HTTP Request
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            // Check for Error
-            if let error = error {
-                print("Error took place: \(error)")
-                
-                self.error = ErrorAlert(reason: "\(error)")
-                return
+        let response = APIHelper.loginUser(username: self.username, password: self.password)
+        
+        print("caller sees: \(response)")
+            
+        if let userToken = response["success"] {
+            // from https://stackoverflow.com/questions/57798050/updating-published-variable-of-an-observableobject-inside-child-view
+            // Update the value on the main thread
+            DispatchQueue.main.async {
+                self.currentUser.username = self.username
+                self.currentUser.token = userToken
             }
-            // Convert HTTP Response Data to a String
-            if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                print("Response data string:\n \(dataString)")
-                
-                guard let userToken = self.getToken(json: data) else {
-                    self.error = ErrorAlert(reason: "Invalid username or password")
-                    return
-                }
-                
-                // from https://stackoverflow.com/questions/57798050/updating-published-variable-of-an-observableobject-inside-child-view
-                // Update the value on the main thread
-                DispatchQueue.main.async {
-                    self.currentUser.username = self.username
-                    self.currentUser.token = userToken
-                }
-            }
+        } else if let errorData = response["error"] {
+            self.error = ErrorAlert(reason: "\(errorData)")
+        } else {
+            self.error = ErrorAlert(reason: "other unknown error")
         }
-        task.resume()
     }
+    
 }
 
 struct LoginForm_Previews: PreviewProvider {
