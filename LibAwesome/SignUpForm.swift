@@ -47,74 +47,28 @@ struct SignUpForm: View {
                         Spacer()
                     }
                 }.alert(item: $error, content: { error in
-                    alert(reason: error.reason)
+                    AlertHelper.alert(reason: error.reason)
                 })
                 
             }.navigationBarTitle(Text("Sign Up"))
     }
     
-    // alert structure from https://goshdarnswiftui.com/
-    func alert(reason: String) -> Alert {
-        Alert(title: Text("Error"),
-                message: Text(reason),
-                dismissButton: .default(Text("OK"))
-        )
-    }
-    
     // POST syntax from http://www.appsdeveloperblog.com/http-post-request-example-in-swift/
     func signupUser() {
-        // Prepare URL
-        let url = URL(string: API_HOST+"signup/")
-        guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
-
-        // Prepare URL Request Object
-        var request = URLRequest(url: requestUrl)
-        request.httpMethod = "POST"
-         
-        // Prepare HTTP Request Parameters
-        let postString = "username=\(username)&password=\(password)";
-        // Set HTTP Request Body
-        request.httpBody = postString.data(using: String.Encoding.utf8);
-
-        // Perform HTTP Request
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            // Check for Error
-            if let error = error {
-                print("Error took place: \(error)")
-                
-                self.error = ErrorAlert(reason: "\(error)")
-                return
-            }
-    
-            guard let httpResponse = response as? HTTPURLResponse else {
-                print("Error took place")
-                self.error = ErrorAlert(reason: "Unknown error communicating with server")
-                return
-            }
-            
-            if httpResponse.statusCode == 403 {
-                print("Error took place: \(httpResponse.statusCode) Account already exists")
-                self.error = ErrorAlert(reason: "Username already exists")
-                return
-            }
-
-            if !(200...299).contains(httpResponse.statusCode) {
-                print("Error took place: \(httpResponse.statusCode)")
-                self.error = ErrorAlert(reason: "\(httpResponse.statusCode)")
-                return
-            }
-            
-            // Convert HTTP Response Data to a String
-            if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                print("Response data string:\n \(dataString)")
-                
-                // set signup success message
-                self.signupSuccess = true
-                // take user back to login page
-                self.showSignUp = false
-            }
+        let response = APIHelper.signupUser(username: self.username, password: self.password)
+        
+        print("caller sees: \(response)")
+        
+        if let _ = response["success"] {
+            // set signup success message
+            self.signupSuccess = true
+            // take user back to login page
+            self.showSignUp = false
+        } else if let errorData = response["error"] {
+            self.error = ErrorAlert(reason: "\(errorData)")
+        } else {
+            self.error = ErrorAlert(reason: "other unknown error")
         }
-        task.resume()
     }
     
 }
