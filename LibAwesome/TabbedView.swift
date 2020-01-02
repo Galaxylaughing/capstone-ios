@@ -15,7 +15,7 @@ struct TabbedView: View {
         VStack {
             TopMenuView()
             TabView(selection: $selection){
-                Text("Library")
+                HelloWorld()
                     .font(.title)
                     .tabItem {
                         VStack {

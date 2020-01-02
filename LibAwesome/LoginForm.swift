@@ -29,12 +29,6 @@ struct LoginForm: View {
                 }
                 
                 Form {
-//                    if self.signupSuccess != "" {
-//                        Text("\(self.signupSuccess)")
-//                    } else {
-//                        Text("No sign up yet")
-//                    }
-                    
                     HStack {
                         Text("username")
                         TextField("username", text: $username)
