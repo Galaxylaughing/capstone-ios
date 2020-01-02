@@ -1,14 +1,14 @@
 //
-//  TopMenuView.swift
+//  LogoutButton.swift
 //  LibAwesome
 //
-//  Created by Sabrina on 12/31/19.
-//  Copyright © 2019 SabrinaLowney. All rights reserved.
+//  Created by Sabrina on 1/2/20.
+//  Copyright © 2020 SabrinaLowney. All rights reserved.
 //
 
 import SwiftUI
 
-struct TopMenuView: View {
+struct LogoutButton: View {
     @EnvironmentObject var currentUser: User
     
     var body: some View {
@@ -58,8 +58,8 @@ struct TopMenuView: View {
     }
 }
 
-struct TopMenuView_Previews: PreviewProvider {
+struct LogoutButton_Previews: PreviewProvider {
     static var previews: some View {
-        TopMenuView().environmentObject(User())
+        LogoutButton().environmentObject(User())
     }
 }

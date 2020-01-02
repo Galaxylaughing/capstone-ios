@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0413022B23BD64AD00FDF25B /* HelloWorld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413022A23BD64AD00FDF25B /* HelloWorld.swift */; };
+		0413023123BE5ABB00FDF25B /* LogoutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413023023BE5ABB00FDF25B /* LogoutButton.swift */; };
 		04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3223BBA43B003706C6 /* AppDelegate.swift */; };
 		04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */; };
 		04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3623BBA43B003706C6 /* TabbedView.swift */; };
@@ -16,7 +17,6 @@
 		04AA7C3F23BBA43C003706C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04AA7C3D23BBA43C003706C6 /* LaunchScreen.storyboard */; };
 		04AA7C4A23BBA43C003706C6 /* LibAwesomeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C4923BBA43C003706C6 /* LibAwesomeTests.swift */; };
 		04AA7C5523BBA43C003706C6 /* LibAwesomeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C5423BBA43C003706C6 /* LibAwesomeUITests.swift */; };
-		04AA7C6623BBA854003706C6 /* TopMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C6523BBA854003706C6 /* TopMenuView.swift */; };
 		04AA7C6D23BBAC53003706C6 /* LoginIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C6C23BBAC53003706C6 /* LoginIconView.swift */; };
 		04AA7C7123BBADF8003706C6 /* LoginForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C7023BBADF8003706C6 /* LoginForm.swift */; };
 		04AA7C7523BBB158003706C6 /* SignUpForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C7423BBB158003706C6 /* SignUpForm.swift */; };
@@ -45,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		0413022A23BD64AD00FDF25B /* HelloWorld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelloWorld.swift; sourceTree = "<group>"; };
+		0413023023BE5ABB00FDF25B /* LogoutButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutButton.swift; sourceTree = "<group>"; };
 		04AA7C2F23BBA43B003706C6 /* LibAwesome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LibAwesome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AA7C3223BBA43B003706C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,7 +60,6 @@
 		04AA7C5023BBA43C003706C6 /* LibAwesomeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LibAwesomeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AA7C5423BBA43C003706C6 /* LibAwesomeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibAwesomeUITests.swift; sourceTree = "<group>"; };
 		04AA7C5623BBA43C003706C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		04AA7C6523BBA854003706C6 /* TopMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopMenuView.swift; sourceTree = "<group>"; };
 		04AA7C6C23BBAC53003706C6 /* LoginIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginIconView.swift; sourceTree = "<group>"; };
 		04AA7C7023BBADF8003706C6 /* LoginForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginForm.swift; sourceTree = "<group>"; };
 		04AA7C7423BBB158003706C6 /* SignUpForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpForm.swift; sourceTree = "<group>"; };
@@ -163,7 +163,7 @@
 		04AA7C6923BBAA06003706C6 /* HelperViews */ = {
 			isa = PBXGroup;
 			children = (
-				04AA7C6523BBA854003706C6 /* TopMenuView.swift */,
+				0413023023BE5ABB00FDF25B /* LogoutButton.swift */,
 			);
 			name = HelperViews;
 			sourceTree = "<group>";
@@ -323,12 +323,12 @@
 				04D4006623BD240B009D256C /* ContentView.swift in Sources */,
 				04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */,
 				04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */,
+				0413023123BE5ABB00FDF25B /* LogoutButton.swift in Sources */,
 				04D4006423BBF982009D256C /* ErrorAlert.swift in Sources */,
 				04AA7C7F23BBC3AF003706C6 /* Constants.swift in Sources */,
 				0413022B23BD64AD00FDF25B /* HelloWorld.swift in Sources */,
 				04AA7C7B23BBB99E003706C6 /* User.swift in Sources */,
 				04AA7C7123BBADF8003706C6 /* LoginForm.swift in Sources */,
-				04AA7C6623BBA854003706C6 /* TopMenuView.swift in Sources */,
 				04AA7C6D23BBAC53003706C6 /* LoginIconView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

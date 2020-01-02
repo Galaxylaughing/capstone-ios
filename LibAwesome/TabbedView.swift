@@ -13,7 +13,7 @@ struct TabbedView: View {
  
     var body: some View {
         VStack {
-            TopMenuView()
+            LogoutButton()
             TabView(selection: $selection){
                 HelloWorld()
                     .font(.title)
