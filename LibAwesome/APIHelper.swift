@@ -85,28 +85,24 @@ struct APIHelper {
             if let error = error {
                 print("Error took place: \(error)")
                 
-//                self.error = ErrorAlert(reason: "\(error)")
                 returnData = ["error": "\(error)"]
                 return
             }
     
             guard let httpResponse = response as? HTTPURLResponse else {
                 print("Error took place")
-//                self.error = ErrorAlert(reason: "Unknown error communicating with server")
                 returnData = ["error": "Unknown error communicating with server"]
                 return
             }
             
             if httpResponse.statusCode == 403 {
                 print("Error took place: \(httpResponse.statusCode) Account already exists")
-//                self.error = ErrorAlert(reason: "Username already exists")
                 returnData = ["error": "Username already exists"]
                 return
             }
 
             if !(200...299).contains(httpResponse.statusCode) {
                 print("Error took place: \(httpResponse.statusCode)")
-//                self.error = ErrorAlert(reason: "\(httpResponse.statusCode)")
                 returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
                 return
             }
@@ -116,13 +112,46 @@ struct APIHelper {
                 print("Response data string:\n \(dataString)")
                 
                 returnData = ["success": "success"]
+            }
+            group.leave()
+        }
+        task.resume()
+        group.wait()
+        return returnData
+    }
+    
+    static func logout(token: String?) -> [String:String] {
+        let group = DispatchGroup()
+        group.enter()
+        
+        // return unknown error if no other code overwrites with the correct error or success message
+        var returnData: [String:String] = ["error": "unknown error"]
+        
+        // Prepare URL
+        let url = URL(string: API_HOST+"logout/")
+        guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
+
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "GET"
+        
+        //Prepare HTTP Request Header
+        let value = "Token \(token ?? "")"
+        request.setValue(value, forHTTPHeaderField: "Authorization")
+         
+        // Perform HTTP Request
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            // Check for Error
+            if let error = error {
+                print("Error took place: \(error)")
+                returnData = ["error": "\(error)"]
+                return
+            }
+            // Convert HTTP Response Data to a String
+            if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                print("Response data string:\n \(dataString)")
                 
-                /*
-                // set signup success message
-                self.signupSuccess = true
-                // take user back to login page
-                self.showSignUp = false
-                */
+                returnData = ["success": "\(dataString)"]
             }
             group.leave()
         }
