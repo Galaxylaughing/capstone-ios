@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct TabbedView: View {
+    @EnvironmentObject var bookList: BookList
     @State private var selection = 0
  
     var body: some View {

@@ -37,15 +37,17 @@ struct EncodingHelper {
     }
     
     // turn JSON into a BookList object
-    static func makeBookList(data: String) {
-        if let json = decode(str: data) {
+    static func makeBookList(data: String) -> BookList? {
+        if let bookList = decode(str: data) {
             print("\nRESULTING BOOKS:")
-            for book in json.books {
+            for book in bookList.books {
                 print(book)
             }
-        } else {
-            print("ERROR")
+            return bookList
         }
+        // else
+        print("ERROR")
+        return nil
     }
     
 }

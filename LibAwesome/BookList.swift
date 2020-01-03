@@ -19,7 +19,11 @@ class BookList: ObservableObject {
             var name: String
         }
     }
-        
+    
+    init(books: [Book]) {
+        self.books = books
+    }
+    
     init(from service: BookListService) {
         books = []
         
