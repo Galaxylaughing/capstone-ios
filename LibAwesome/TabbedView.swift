@@ -15,7 +15,7 @@ struct TabbedView: View {
         VStack {
             LogoutButton()
             TabView(selection: $selection){
-                HelloWorld()
+                LibraryView()
                     .font(.title)
                     .tabItem {
                         VStack {
@@ -33,7 +33,7 @@ struct TabbedView: View {
                         }
                     }
                     .tag(1)
-                Text("Add Entry")
+                HelloWorld()
                     .font(.title)
                     .tabItem {
                         VStack {

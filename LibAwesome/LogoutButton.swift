@@ -19,7 +19,6 @@ struct LogoutButton: View {
             }
             Image("first")
         }
-        .padding()
     }
     
     func logout() {

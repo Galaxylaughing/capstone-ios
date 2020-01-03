@@ -15,6 +15,10 @@
 		0413023B23BE69D100FDF25B /* UserModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413023A23BE69D100FDF25B /* UserModelTests.swift */; };
 		0413023D23BE6A3000FDF25B /* ErrorAlertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413023C23BE6A3000FDF25B /* ErrorAlertTests.swift */; };
 		0413023F23BE6A5D00FDF25B /* LoginUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413023E23BE6A5D00FDF25B /* LoginUserTests.swift */; };
+		0413024223BE94DE00FDF25B /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413024123BE94DE00FDF25B /* LibraryView.swift */; };
+		0413024423BE9F8700FDF25B /* TagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413024323BE9F8700FDF25B /* TagsView.swift */; };
+		0413024623BFC8A600FDF25B /* EncodingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413024523BFC8A600FDF25B /* EncodingHelper.swift */; };
+		0413024823BFE91300FDF25B /* BookList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413024723BFE91300FDF25B /* BookList.swift */; };
 		04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3223BBA43B003706C6 /* AppDelegate.swift */; };
 		04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */; };
 		04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3623BBA43B003706C6 /* TabbedView.swift */; };
@@ -58,6 +62,10 @@
 		0413023A23BE69D100FDF25B /* UserModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModelTests.swift; sourceTree = "<group>"; };
 		0413023C23BE6A3000FDF25B /* ErrorAlertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlertTests.swift; sourceTree = "<group>"; };
 		0413023E23BE6A5D00FDF25B /* LoginUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUserTests.swift; sourceTree = "<group>"; };
+		0413024123BE94DE00FDF25B /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		0413024323BE9F8700FDF25B /* TagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsView.swift; sourceTree = "<group>"; };
+		0413024523BFC8A600FDF25B /* EncodingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodingHelper.swift; sourceTree = "<group>"; };
+		0413024723BFE91300FDF25B /* BookList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookList.swift; sourceTree = "<group>"; };
 		04AA7C2F23BBA43B003706C6 /* LibAwesome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LibAwesome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AA7C3223BBA43B003706C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +120,7 @@
 				0413023323BE624600FDF25B /* AlertHelper.swift */,
 				0413023623BE633400FDF25B /* TokenHelper.swift */,
 				0413023823BE63BF00FDF25B /* APIHelper.swift */,
+				0413024523BFC8A600FDF25B /* EncodingHelper.swift */,
 			);
 			name = HelperFunctions;
 			sourceTree = "<group>";
@@ -122,6 +131,16 @@
 				04D4006323BBF982009D256C /* ErrorAlert.swift */,
 			);
 			name = HelperModels;
+			sourceTree = "<group>";
+		};
+		0413024023BE94CE00FDF25B /* TabbedViews */ = {
+			isa = PBXGroup;
+			children = (
+				0413022A23BD64AD00FDF25B /* HelloWorld.swift */,
+				0413024123BE94DE00FDF25B /* LibraryView.swift */,
+				0413024323BE9F8700FDF25B /* TagsView.swift */,
+			);
+			name = TabbedViews;
 			sourceTree = "<group>";
 		};
 		04AA7C2623BBA43B003706C6 = {
@@ -147,17 +166,17 @@
 		04AA7C3123BBA43B003706C6 /* LibAwesome */ = {
 			isa = PBXGroup;
 			children = (
-				0413023523BE627E00FDF25B /* HelperModels */,
-				0413023223BE621700FDF25B /* HelperFunctions */,
 				04AA7C7E23BBC3AF003706C6 /* Constants.swift */,
-				04AA7C7923BBB98A003706C6 /* Models */,
-				04AA7C6B23BBAA67003706C6 /* LoginViews */,
-				04AA7C6923BBAA06003706C6 /* HelperViews */,
 				04AA7C3223BBA43B003706C6 /* AppDelegate.swift */,
 				04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */,
 				04D4006523BD240B009D256C /* ContentView.swift */,
 				04AA7C3623BBA43B003706C6 /* TabbedView.swift */,
-				0413022A23BD64AD00FDF25B /* HelloWorld.swift */,
+				04AA7C6B23BBAA67003706C6 /* LoginViews */,
+				0413024023BE94CE00FDF25B /* TabbedViews */,
+				04AA7C6923BBAA06003706C6 /* HelperViews */,
+				0413023223BE621700FDF25B /* HelperFunctions */,
+				04AA7C7923BBB98A003706C6 /* Models */,
+				0413023523BE627E00FDF25B /* HelperModels */,
 				04AA7C3823BBA43C003706C6 /* Assets.xcassets */,
 				04AA7C3D23BBA43C003706C6 /* LaunchScreen.storyboard */,
 				04AA7C4023BBA43C003706C6 /* Info.plist */,
@@ -217,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				04AA7C7A23BBB99E003706C6 /* User.swift */,
+				0413024723BFE91300FDF25B /* BookList.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -358,12 +378,16 @@
 				0413023923BE63BF00FDF25B /* APIHelper.swift in Sources */,
 				04D4006623BD240B009D256C /* ContentView.swift in Sources */,
 				04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */,
+				0413024623BFC8A600FDF25B /* EncodingHelper.swift in Sources */,
+				0413024423BE9F8700FDF25B /* TagsView.swift in Sources */,
 				04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */,
 				0413023123BE5ABB00FDF25B /* LogoutButton.swift in Sources */,
 				04D4006423BBF982009D256C /* ErrorAlert.swift in Sources */,
 				04AA7C7F23BBC3AF003706C6 /* Constants.swift in Sources */,
 				0413022B23BD64AD00FDF25B /* HelloWorld.swift in Sources */,
 				04AA7C7B23BBB99E003706C6 /* User.swift in Sources */,
+				0413024223BE94DE00FDF25B /* LibraryView.swift in Sources */,
+				0413024823BFE91300FDF25B /* BookList.swift in Sources */,
 				0413023723BE633400FDF25B /* TokenHelper.swift in Sources */,
 				04AA7C7123BBADF8003706C6 /* LoginForm.swift in Sources */,
 				04AA7C6D23BBAC53003706C6 /* LoginIconView.swift in Sources */,
