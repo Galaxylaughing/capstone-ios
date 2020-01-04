@@ -21,7 +21,10 @@ struct LibraryView: View {
                 Text("options")
             }
             
-            List(bookList.books, id: \.title) { book in
+            // default to sorting alphabetically
+            List(bookList.books.sorted(by: {
+                $0 < $1
+            }), id: \.title) { book in
                 HStack {
                     VStack(alignment: .leading) {
                         Text(book.title)
@@ -31,8 +34,8 @@ struct LibraryView: View {
                             }
                         }
                     }
-                    Spacer()
-                    Text("in progress")
+//                    Spacer()
+//                    Text("in progress")
                 }
             }
         }

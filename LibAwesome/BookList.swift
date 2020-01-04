@@ -11,13 +11,22 @@ import Foundation
 class BookList: ObservableObject {
     @Published var books: [Book]
     
-    struct Book {
+    struct Book: Comparable {
         var title: String
         var authors: [Author]
         
         struct Author {
             var name: String
         }
+        
+        // conform to Comparable
+        static func < (lhs: Book, rhs: Book) -> Bool {
+            return lhs.title < rhs.title
+        }
+        static func == (lhs: Book, rhs: Book) -> Bool {
+            return lhs.title == rhs.title
+        }
+        
     }
     
     init(books: [Book]) {
