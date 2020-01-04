@@ -14,31 +14,35 @@ struct LibraryView: View {
     
     var body: some View {
         NavigationView{
-            VStack {
-                HStack(alignment: .bottom) {
-                    Text("Library")
-                        .font(.title)
-                    Spacer()
-                    VStack(alignment: .trailing) {
-                        LogoutButton()
-                        Text("options")
+            ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
+                VStack {
+                    HStack(alignment: .bottom) {
+                        Text("Library")
+                            .font(.title)
+                        Spacer()
+                        VStack(alignment: .trailing) {
+                            LogoutButton()
+                            Text("options")
+                        }
                     }
-                }
-                
-                // default to sorting alphabetically
-                List(bookList.books.sorted(by: {
-                    $0 < $1
-                })) { book in
-                    HStack {
-                        NavigationLink(destination: BookDetailView(book: book)) {
-                            VStack(alignment: .leading) {
-                                Text(book.title)
-                                Text(book.authorNames())
-                                    .font(.caption)
+                    
+                    // default to sorting alphabetically
+                    List(bookList.books.sorted(by: {
+                        $0 < $1
+                    })) { book in
+                        HStack {
+                            NavigationLink(destination: BookDetailView(book: book)) {
+                                VStack(alignment: .leading) {
+                                    Text(book.title)
+                                    Text(book.authorNames())
+                                        .font(.caption)
+                                }
                             }
                         }
                     }
                 }
+                AddButton()
+                    .padding([.bottom, .trailing])
             }
             .navigationBarTitle("Library")
             .navigationBarHidden(true)

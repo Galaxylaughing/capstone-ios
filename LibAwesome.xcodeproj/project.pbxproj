@@ -20,6 +20,7 @@
 		0413024623BFC8A600FDF25B /* EncodingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413024523BFC8A600FDF25B /* EncodingHelper.swift */; };
 		0413024823BFE91300FDF25B /* BookList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413024723BFE91300FDF25B /* BookList.swift */; };
 		0413024A23C022B400FDF25B /* BookDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413024923C022B400FDF25B /* BookDetailView.swift */; };
+		0413024D23C0566E00FDF25B /* AddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413024C23C0566E00FDF25B /* AddButton.swift */; };
 		04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3223BBA43B003706C6 /* AppDelegate.swift */; };
 		04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */; };
 		04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3623BBA43B003706C6 /* TabbedView.swift */; };
@@ -68,6 +69,7 @@
 		0413024523BFC8A600FDF25B /* EncodingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodingHelper.swift; sourceTree = "<group>"; };
 		0413024723BFE91300FDF25B /* BookList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookList.swift; sourceTree = "<group>"; };
 		0413024923C022B400FDF25B /* BookDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailView.swift; sourceTree = "<group>"; };
+		0413024C23C0566E00FDF25B /* AddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButton.swift; sourceTree = "<group>"; };
 		04AA7C2F23BBA43B003706C6 /* LibAwesome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LibAwesome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AA7C3223BBA43B003706C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				0413023023BE5ABB00FDF25B /* LogoutButton.swift */,
+				0413024C23C0566E00FDF25B /* AddButton.swift */,
 			);
 			name = HelperViews;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 				0413024A23C022B400FDF25B /* BookDetailView.swift in Sources */,
 				0413022B23BD64AD00FDF25B /* HelloWorld.swift in Sources */,
 				04AA7C7B23BBB99E003706C6 /* User.swift in Sources */,
+				0413024D23C0566E00FDF25B /* AddButton.swift in Sources */,
 				0413024223BE94DE00FDF25B /* LibraryView.swift in Sources */,
 				0413024823BFE91300FDF25B /* BookList.swift in Sources */,
 				0413023723BE633400FDF25B /* TokenHelper.swift in Sources */,

@@ -22,22 +22,22 @@ struct LogoutButton: View {
     }
     
     func logout() {
-        let response = APIHelper.logout(token: self.currentUser.token)
+        /*let response = APIHelper.logout(token: self.currentUser.token)
         
-        print("caller sees: \(response)")
+        print("caller sees: \(response)")*/
         
-        if let _ = response["success"] {
+        /*if let _ = response["success"] {*/
             // from https://stackoverflow.com/questions/57798050/updating-published-variable-of-an-observableobject-inside-child-view
             // Clear the currentUser on the main thread
             DispatchQueue.main.async {
                 self.currentUser.username = nil
                 self.currentUser.token = nil
             }
-        } else if let errorData = response["error"] {
+        /*} else if let errorData = response["error"] {
             print(errorData)
         } else {
             print("other unknown error")
-        }
+        }*/
     }
 }
 

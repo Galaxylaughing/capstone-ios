@@ -13,9 +13,6 @@ struct APIHelper {
     
     // POST syntax from http://www.appsdeveloperblog.com/http-post-request-example-in-swift/
     static func loginUser(username: String, password: String) -> [String:String] {
-        let group = DispatchGroup()
-        group.enter()
-        
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
         
@@ -32,9 +29,11 @@ struct APIHelper {
         // Set HTTP Request Body
         request.httpBody = postString.data(using: String.Encoding.utf8);
         
+        let group = DispatchGroup()
+        group.enter()
         // Perform HTTP Request
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            
+            defer { group.leave() }
             // Check for Error
             if let error = error {
                 print("Error took place: \(error)")
@@ -52,7 +51,6 @@ struct APIHelper {
                 
                 returnData = ["success": "\(userToken)"]
             }
-            group.leave()
         }
         task.resume()
         group.wait()
@@ -60,9 +58,6 @@ struct APIHelper {
     }
     
     static func signupUser(username: String, password: String) -> [String:String] {
-        let group = DispatchGroup()
-        group.enter()
-        
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
         
@@ -79,8 +74,12 @@ struct APIHelper {
         // Set HTTP Request Body
         request.httpBody = postString.data(using: String.Encoding.utf8);
         
+        let group = DispatchGroup()
+        group.enter()
         // Perform HTTP Request
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            defer { group.leave() }
+            
             // Check for Error
             if let error = error {
                 print("Error took place: \(error)")
@@ -113,17 +112,14 @@ struct APIHelper {
                 
                 returnData = ["success": "success"]
             }
-            group.leave()
         }
         task.resume()
         group.wait()
         return returnData
     }
     
+    /*
     static func logout(token: String?) -> [String:String] {
-        let group = DispatchGroup()
-        group.enter()
-        
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
         
@@ -139,8 +135,12 @@ struct APIHelper {
         let value = "Token \(token ?? "")"
         request.setValue(value, forHTTPHeaderField: "Authorization")
         
+        let group = DispatchGroup()
+        group.enter()
         // Perform HTTP Request
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            defer { group.leave() }
+            
             // Check for Error
             if let error = error {
                 print("Error took place: \(error)")
@@ -153,17 +153,14 @@ struct APIHelper {
                 
                 returnData = ["success": "\(dataString)"]
             }
-            group.leave()
         }
         task.resume()
         group.wait()
         return returnData
     }
+    */
     
     static func getBooks(token: String?) -> [String:String] {
-        let group = DispatchGroup()
-        group.enter()
-        
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
         
@@ -179,8 +176,12 @@ struct APIHelper {
         let value = "Token \(token ?? "")"
         request.setValue(value, forHTTPHeaderField: "Authorization")
         
+        let group = DispatchGroup()
+        group.enter()
         // Perform HTTP Request
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            defer { group.leave() }
+            
             // Check for Error
             if let error = error {
                 print("Error took place: \(error)")
@@ -193,7 +194,6 @@ struct APIHelper {
                 
                 returnData = ["success": "\(dataString)"]
             }
-            group.leave()
         }
         task.resume()
         group.wait()
