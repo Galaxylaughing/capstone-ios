@@ -15,11 +15,14 @@ struct LibraryView: View {
     var body: some View {
         NavigationView{
             VStack {
-                HStack {
+                HStack(alignment: .bottom) {
                     Text("Library")
                         .font(.title)
                     Spacer()
-                    Text("options")
+                    VStack(alignment: .trailing) {
+                        LogoutButton()
+                        Text("options")
+                    }
                 }
                 
                 // default to sorting alphabetically
@@ -30,17 +33,12 @@ struct LibraryView: View {
                         NavigationLink(destination: BookDetailView(book: book)) {
                             VStack(alignment: .leading) {
                                 Text(book.title)
-                                VStack(alignment: .leading) {
-                                    ForEach(book.authors, id: \.name) { author in
-                                        Text(author.name)
-                                            .font(.caption)
-                                    }
-                                }
+                                Text(book.authorNames())
+                                    .font(.caption)
                             }
                         }
                     }
                 }
-                //            Spacer()
             }
             .navigationBarTitle("Library")
             .navigationBarHidden(true)

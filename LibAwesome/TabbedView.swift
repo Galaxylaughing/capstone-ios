@@ -14,7 +14,7 @@ struct TabbedView: View {
     
     var body: some View {
         VStack {
-            LogoutButton()
+//            LogoutButton()
             TabView(selection: $selection){
                 LibraryView()
                     .font(.title)
