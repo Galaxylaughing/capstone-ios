@@ -11,7 +11,8 @@ import Foundation
 class BookList: ObservableObject {
     @Published var books: [Book]
     
-    struct Book: Comparable {
+    struct Book: Comparable, Identifiable {
+        var id: Int
         var title: String
         var authors: [Author]
         
@@ -46,6 +47,7 @@ class BookList: ObservableObject {
             }
             
             let book = BookList.Book(
+                id: item.id,
                 title: item.title,
                 authors: authors
             )
@@ -60,6 +62,7 @@ struct BookListService: Decodable {
     let books: [Book]
     
     struct Book: Decodable {
+        let id: Int
         let title: String
         let authors: [String]
     }

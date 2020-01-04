@@ -24,9 +24,10 @@ struct LibraryView: View {
             // default to sorting alphabetically
             List(bookList.books.sorted(by: {
                 $0 < $1
-            }), id: \.title) { book in
+            })) { book in
                 HStack {
                     VStack(alignment: .leading) {
+                        Text("\(book.id)")
                         Text(book.title)
                         VStack {
                             ForEach(book.authors, id: \.name) { author in
