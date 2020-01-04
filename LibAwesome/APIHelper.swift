@@ -22,7 +22,7 @@ struct APIHelper {
         // Prepare URL
         let url = URL(string: API_HOST+"auth-token/")
         guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
-
+        
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "POST"
@@ -31,7 +31,7 @@ struct APIHelper {
         let postString = "username=\(username)&password=\(password)";
         // Set HTTP Request Body
         request.httpBody = postString.data(using: String.Encoding.utf8);
-
+        
         // Perform HTTP Request
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
@@ -69,16 +69,16 @@ struct APIHelper {
         // Prepare URL
         let url = URL(string: API_HOST+"signup/")
         guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
-
+        
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "POST"
-         
+        
         // Prepare HTTP Request Parameters
         let postString = "username=\(username)&password=\(password)";
         // Set HTTP Request Body
         request.httpBody = postString.data(using: String.Encoding.utf8);
-
+        
         // Perform HTTP Request
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             // Check for Error
@@ -88,7 +88,7 @@ struct APIHelper {
                 returnData = ["error": "\(error)"]
                 return
             }
-    
+            
             guard let httpResponse = response as? HTTPURLResponse else {
                 print("Error took place")
                 returnData = ["error": "Unknown error communicating with server"]
@@ -100,7 +100,7 @@ struct APIHelper {
                 returnData = ["error": "Username already exists"]
                 return
             }
-
+            
             if !(200...299).contains(httpResponse.statusCode) {
                 print("Error took place: \(httpResponse.statusCode)")
                 returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
@@ -130,7 +130,7 @@ struct APIHelper {
         // Prepare URL
         let url = URL(string: API_HOST+"logout/")
         guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
-
+        
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "GET"
@@ -138,7 +138,7 @@ struct APIHelper {
         //Prepare HTTP Request Header
         let value = "Token \(token ?? "")"
         request.setValue(value, forHTTPHeaderField: "Authorization")
-         
+        
         // Perform HTTP Request
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             // Check for Error
@@ -170,7 +170,7 @@ struct APIHelper {
         // Prepare URL
         let url = URL(string: API_HOST+"books/")
         guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
-
+        
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "GET"
@@ -178,7 +178,7 @@ struct APIHelper {
         //Prepare HTTP Request Header
         let value = "Token \(token ?? "")"
         request.setValue(value, forHTTPHeaderField: "Authorization")
-         
+        
         // Perform HTTP Request
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             // Check for Error

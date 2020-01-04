@@ -13,40 +13,61 @@ struct LibraryView: View {
     @EnvironmentObject var bookList: BookList
     
     var body: some View {
-        VStack {
-            HStack {
-                Text("Library")
-                    .font(.title)
-                Spacer()
-                Text("options")
-            }
-            
-            // default to sorting alphabetically
-            List(bookList.books.sorted(by: {
-                $0 < $1
-            })) { book in
+        NavigationView{
+            VStack {
                 HStack {
-                    VStack(alignment: .leading) {
-                        Text("\(book.id)")
-                        Text(book.title)
-                        VStack {
-                            ForEach(book.authors, id: \.name) { author in
-                                Text(author.name)
+                    Text("Library")
+                        .font(.title)
+                    Spacer()
+                    Text("options")
+                }
+                
+                // default to sorting alphabetically
+                List(bookList.books.sorted(by: {
+                    $0 < $1
+                })) { book in
+                    HStack {
+                        NavigationLink(destination: BookDetailView(book: book)) {
+                            VStack(alignment: .leading) {
+                                Text(book.title)
+                                VStack(alignment: .leading) {
+                                    ForEach(book.authors, id: \.name) { author in
+                                        Text(author.name)
+                                            .font(.caption)
+                                    }
+                                }
                             }
                         }
                     }
-//                    Spacer()
-//                    Text("in progress")
                 }
+                //            Spacer()
             }
+            .navigationBarTitle("Library")
+            .navigationBarHidden(true)
         }
     }
-
+    
 }
 
 struct LibraryView_Previews: PreviewProvider {
+    static var exampleBook1 = BookList.Book(
+        id: 1,
+        title: "Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch",
+        authors: [
+            BookList.Book.Author(name: "Neil Gaiman"),
+            BookList.Book.Author(name: "Terry Pratchett"),
+    ])
+    static var exampleBook2 = BookList.Book(
+        id: 2,
+        title: "A Great and Terrible Beauty",
+        authors: [
+            BookList.Book.Author(name: "Libba Bray")
+    ])
+    static var bookList = BookList(books: [exampleBook1, exampleBook2])
+    
     static var previews: some View {
         LibraryView()
+            .environmentObject(bookList)
             .previewDevice(PreviewDevice(rawValue: "iPhone 8"))
             .previewDisplayName("iPhone 8")
     }

@@ -52,22 +52,24 @@ struct LoginForm: View {
                     
                     Section {
                         NavigationLink(destination: SignUpForm(
-                                showSignUp: $showSignUp,
-                                signupSuccess: $signupSuccess
+                            showSignUp: $showSignUp,
+                            signupSuccess: $signupSuccess
                         ), isActive: $showSignUp) {
                             Text("Don't have an account? Sign up")
                         }
                     }
-                }.navigationBarTitle(Text("LibAwesome"))
+                }
+                .navigationBarTitle(Text("LibAwesome"))
+                .navigationBarHidden(false)
             }
         }
     }
-        
+    
     func loginUser() {
         let response = APIHelper.loginUser(username: self.username, password: self.password)
         
         print("caller sees: \(response)")
-            
+        
         if let userToken = response["success"] {
             // from https://stackoverflow.com/questions/57798050/updating-published-variable-of-an-observableobject-inside-child-view
             // Update the value on the main thread

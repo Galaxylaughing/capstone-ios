@@ -13,8 +13,8 @@ struct AlertHelper {
     // alert structure from https://goshdarnswiftui.com/
     static func alert(reason: String) -> Alert {
         Alert(title: Text("Error"),
-                message: Text(reason),
-                dismissButton: .default(Text("OK"))
+              message: Text(reason),
+              dismissButton: .default(Text("OK"))
         )
     }
 }

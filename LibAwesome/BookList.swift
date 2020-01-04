@@ -20,6 +20,19 @@ class BookList: ObservableObject {
             var name: String
         }
         
+        func authorNames() -> String {
+            var names = ""
+            for (i, author) in self.authors.enumerated() {
+                names += author.name
+                if i == self.authors.count - 2 {
+                    names += " & "
+                } else if i < self.authors.count - 2 {
+                    names += ", "
+                }
+            }
+            return names
+        }
+        
         // conform to Comparable
         static func < (lhs: Book, rhs: Book) -> Bool {
             return lhs.title < rhs.title
@@ -39,7 +52,7 @@ class BookList: ObservableObject {
         
         let items = service.books
         for item in items {
-    
+            
             var authors: [BookList.Book.Author] = []
             for authorName in item.authors {
                 let author = BookList.Book.Author(name: authorName)

@@ -21,7 +21,7 @@ struct HelloWorld: View {
         // Prepare URL
         let url = URL(string: API_HOST+"helloworld/")
         guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
-
+        
         // Prepare URL Request Object
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "GET"
@@ -29,7 +29,7 @@ struct HelloWorld: View {
         //Prepare HTTP Request Header
         let value = "Token \(self.currentUser.token ?? "")"
         request.setValue(value, forHTTPHeaderField: "Authorization")
-         
+        
         // Perform HTTP Request
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             // Check for Error

@@ -20,37 +20,37 @@ struct SignUpForm: View {
     @State private var error: ErrorAlert?
     
     var body: some View {
-            Form {
+        Form {
+            HStack {
+                Text("username")
+                TextField("username", text: $username)
+                    .textContentType(.username)
+            }
+            Section {
                 HStack {
-                    Text("username")
-                    TextField("username", text: $username)
-                        .textContentType(.username)
-                }
-                Section {
-                    HStack {
-                        Text("password")
-                        SecureField("password", text: $password)
-                            .textContentType(.password)
-                    }
-                    
-                    HStack {
-                        Text("retype password")
-                        SecureField("password", text: $confirmPassword)
-                            .textContentType(.password)
-                    }
+                    Text("password")
+                    SecureField("password", text: $password)
+                        .textContentType(.password)
                 }
                 
-                Button(action: { self.signupUser() }) {
-                    HStack {
-                        Spacer()
-                        Text("Create Account")
-                        Spacer()
-                    }
-                }.alert(item: $error, content: { error in
-                    AlertHelper.alert(reason: error.reason)
-                })
-                
-            }.navigationBarTitle(Text("Sign Up"))
+                HStack {
+                    Text("retype password")
+                    SecureField("password", text: $confirmPassword)
+                        .textContentType(.password)
+                }
+            }
+            
+            Button(action: { self.signupUser() }) {
+                HStack {
+                    Spacer()
+                    Text("Create Account")
+                    Spacer()
+                }
+            }.alert(item: $error, content: { error in
+                AlertHelper.alert(reason: error.reason)
+            })
+            
+        }.navigationBarTitle(Text("Sign Up"))
     }
     
     // POST syntax from http://www.appsdeveloperblog.com/http-post-request-example-in-swift/

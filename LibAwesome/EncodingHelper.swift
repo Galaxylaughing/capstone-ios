@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct EncodingHelper {
-
+    
     // parsing JSON example: https://dev.to/jaumevn/parsing-json-with-swift-5-2m40
     static func decode(str: String) -> BookList? {
         print("I'M DECODING THIS:")

@@ -9,7 +9,7 @@
 import Foundation
 
 final class User: ObservableObject {
-//    @Published static var current: User!
+    //    @Published static var current: User!
     
     @Published var username: String?
     @Published var token: String?
