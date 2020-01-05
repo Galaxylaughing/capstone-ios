@@ -76,6 +76,8 @@ struct LoginForm: View {
             DispatchQueue.main.async {
                 self.currentUser.username = self.username
                 self.currentUser.token = userToken
+                
+                print(self.currentUser)
             }
         } else if let errorData = response["error"] {
             self.error = ErrorAlert(reason: "\(errorData)")

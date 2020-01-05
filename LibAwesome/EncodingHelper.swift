@@ -50,4 +50,16 @@ struct EncodingHelper {
         return nil
     }
     
+    // turn JSON into a Book object
+    static func makeBook(data: String) -> BookList.Book? {
+        if let bookList = decode(str: data) {
+            print("\nRESULTING BOOK:")
+            print(bookList.books[0])
+            return bookList.books[0]
+        }
+        // else
+        print("ERROR")
+        return nil
+    }
+    
 }

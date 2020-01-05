@@ -22,7 +22,7 @@ struct LibraryView: View {
                         Spacer()
                         VStack(alignment: .trailing) {
                             LogoutButton()
-                            Text("options")
+                            Image(systemName: "ellipsis.circle")
                         }
                     }
                     

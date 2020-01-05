@@ -17,7 +17,7 @@ struct LogoutButton: View {
             Button(action: { self.logout() }) {
                 Text("logout")
             }
-            Image("first")
+            Image(systemName: "escape")
         }
     }
     

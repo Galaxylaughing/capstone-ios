@@ -20,7 +20,7 @@ struct TabbedView: View {
                     .font(.title)
                     .tabItem {
                         VStack {
-                            Image("first")
+                            Image(systemName: "house.fill")
                             Text("Library")
                         }
                 }
@@ -29,7 +29,7 @@ struct TabbedView: View {
                     .font(.title)
                     .tabItem {
                         VStack {
-                            Image("second")
+                            Image(systemName: "tag.fill")
                             Text("Tags")
                         }
                 }
@@ -38,7 +38,7 @@ struct TabbedView: View {
                     .font(.title)
                     .tabItem {
                         VStack {
-                            Image("first")
+                            Image(systemName: "plus.circle.fill")
                             Text("Add Entry")
                         }
                 }
@@ -47,7 +47,7 @@ struct TabbedView: View {
                     .font(.title)
                     .tabItem {
                         VStack {
-                            Image("second")
+                            Image(systemName: "lightbulb.fill")
                             Text("Read Next")
                         }
                 }
@@ -56,7 +56,7 @@ struct TabbedView: View {
                     .font(.title)
                     .tabItem {
                         VStack {
-                            Image("first")
+                            Image(systemName: "calendar")
                             Text("Timeline")
                         }
                 }
