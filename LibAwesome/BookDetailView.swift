@@ -9,14 +9,33 @@
 import SwiftUI
 
 struct BookDetailView: View {
-    let book: BookList.Book
+    @EnvironmentObject var book: BookList.Book
     
     var body: some View {
         VStack {
-            Text(book.title)
-            Text(book.authorNames())
+            VStack { // title and author
+                ForEach(book.findComponents(), id: \.self) { component in
+                    VStack {
+                        if component == self.book.getMainTitle() {
+                            Text(self.book.getMainTitle())
+                                .font(.largeTitle)
+                                .multilineTextAlignment(.center)
+                        } else {
+                            Text(component)
+                                .multilineTextAlignment(.center)
+                        }
+                    }
+                }
+                Text(book.authorNames())
+                    .font(.headline)
+                    .multilineTextAlignment(.center)
+            }
+            Spacer()
         }
+        .navigationBarTitle(Text(book.getMainTitle()), displayMode: .inline)
+        .navigationBarItems(trailing: EditBookButton().environmentObject(self.book))
     }
+    
 }
 
 struct BookDetailView_Previews: PreviewProvider {
@@ -29,7 +48,8 @@ struct BookDetailView_Previews: PreviewProvider {
     ])
     
     static var previews: some View {
-        BookDetailView(book: exampleBook)
+        BookDetailView()
+            .environmentObject(self.exampleBook)
             .previewDevice(PreviewDevice(rawValue: "iPhone 8"))
             .previewDisplayName("iPhone 8")
     }

@@ -328,4 +328,68 @@ struct APIHelper {
         return returnData
     }
     
+    static func patchBook(token: String?, bookId: Int, title: String, authors: [String]) -> [String:String] {
+        // return unknown error if no other code overwrites with the correct error or success message
+        var returnData: [String:String] = ["error": "unknown error"]
+        
+        // prepare URL
+        let url = URL(string: API_HOST+"books/\(bookId)/")
+        guard let requestURL = url else { fatalError() } // unwraps the 'URL?' object
+        
+        // prepare request
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        // set content-type, which PUT/PATCH requires
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        
+        // set header
+        let value = "Token \(token ?? "")"
+        request.setValue(value, forHTTPHeaderField: "Authorization")
+        
+        // request parameters
+        var postString = "title=\(title)"
+        for author in authors {
+            postString.append("&author=\(author)")
+        }
+        // request body
+        request.httpBody = postString.data(using: String.Encoding.utf8);
+        print("SENDING BODY", postString)
+        
+        let group = DispatchGroup()
+        group.enter()
+        // Perform HTTP Request
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            defer { group.leave() }
+            
+            // Check for Error
+            if let error = error {
+                print("Error took place: \(error)")
+                returnData = ["error": "\(error)"]
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                print("Error took place")
+                returnData = ["error": "Unknown error communicating with server"]
+                return
+            }
+            
+            if !(200...299).contains(httpResponse.statusCode) {
+                print("Error took place: \(httpResponse.statusCode)")
+                returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
+                return
+            }
+            
+            // Convert HTTP Response Data to a String
+            if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                print("Response data string:\n \(dataString)")
+                returnData = ["success": "\(dataString)"]
+            }
+        }
+        task.resume()
+        group.wait()
+        
+        return returnData
+    }
+    
 }

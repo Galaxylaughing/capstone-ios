@@ -23,13 +23,19 @@ struct LibraryView: View {
                 VStack {
                     List {
                         ForEach(bookList.books.sorted(by: {$0 < $1})) { book in
-                            NavigationLink(destination: BookDetailView(book: book)) {
+                            NavigationLink(destination: BookDetailView().environmentObject(book)) {
                                 VStack(alignment: .leading) {
                                     Text(book.title)
                                     Text(book.authorNames())
                                         .font(.caption)
                                 }
-                            }
+                            }/*.contextMenu {
+                                Button(action: { print("added") } ) { Text("Add") }
+                                Button(action: { self.displayConfirm(at: book.id) } ) {
+                                    Text("Delete Book")
+                                    Image(systemName: "trash")
+                                }
+                            }*/
                         }.onDelete(perform: self.displayConfirm)
                     }
                         // from https://www.hackingwithswift.com/quick-start/ios-swiftui/using-an-alert-to-pop-a-navigationlink-programmatically
@@ -61,6 +67,16 @@ struct LibraryView: View {
             .navigationBarTitle("Library", displayMode: .large)
             .navigationBarItems(trailing: LogoutButton())
         }
+    }
+    
+    func displayConfirm(at id: Int) {
+        for book in bookList.books {
+            if book.id == id {
+                self.bookTitleToDelete = book.title
+            }
+        }
+        self.bookToDelete = id
+        self.showConfirm = true
     }
     
     func displayConfirm(at offsets: IndexSet) {
@@ -95,28 +111,6 @@ struct LibraryView: View {
             }
         }
     }
-    
-//    func createBook() {
-//        // make POST to create a book
-//        let response = APIHelper.postBook(token: self.currentUser.token, title: self.title, authors: self.authors)
-//
-//        if response["success"] != nil {
-//            // add new book to environment BookList
-//            if let newBook = EncodingHelper.makeBook(data: response["success"]!) {
-//                DispatchQueue.main.async {
-//                    self.bookList.books.append(newBook)
-//                }
-//            }
-//            // should dismiss sheet if success
-//            self.showAddForm = false
-//        } else if response["error"] != nil {
-//            // should pop up error if failure
-//            self.error = ErrorAlert(reason: response["error"]!)
-//        } else {
-//            self.error = ErrorAlert(reason: "Unknown error")
-//        }
-//
-//    }
     
 }
 

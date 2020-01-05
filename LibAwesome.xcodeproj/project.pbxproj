@@ -22,6 +22,8 @@
 		0413024A23C022B400FDF25B /* BookDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413024923C022B400FDF25B /* BookDetailView.swift */; };
 		0413024D23C0566E00FDF25B /* AddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413024C23C0566E00FDF25B /* AddButton.swift */; };
 		0413024F23C0613F00FDF25B /* AddBookForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413024E23C0613F00FDF25B /* AddBookForm.swift */; };
+		0413025723C28E1900FDF25B /* EditBookButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413025623C28E1900FDF25B /* EditBookButton.swift */; };
+		0413025923C28E5000FDF25B /* EditBookForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413025823C28E5000FDF25B /* EditBookForm.swift */; };
 		04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3223BBA43B003706C6 /* AppDelegate.swift */; };
 		04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */; };
 		04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3623BBA43B003706C6 /* TabbedView.swift */; };
@@ -72,6 +74,8 @@
 		0413024923C022B400FDF25B /* BookDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailView.swift; sourceTree = "<group>"; };
 		0413024C23C0566E00FDF25B /* AddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButton.swift; sourceTree = "<group>"; };
 		0413024E23C0613F00FDF25B /* AddBookForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookForm.swift; sourceTree = "<group>"; };
+		0413025623C28E1900FDF25B /* EditBookButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBookButton.swift; sourceTree = "<group>"; };
+		0413025823C28E5000FDF25B /* EditBookForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBookForm.swift; sourceTree = "<group>"; };
 		04AA7C2F23BBA43B003706C6 /* LibAwesome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LibAwesome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AA7C3223BBA43B003706C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -155,6 +159,7 @@
 			children = (
 				0413024923C022B400FDF25B /* BookDetailView.swift */,
 				0413024E23C0613F00FDF25B /* AddBookForm.swift */,
+				0413025823C28E5000FDF25B /* EditBookForm.swift */,
 			);
 			name = AuxiliaryViews;
 			sourceTree = "<group>";
@@ -235,6 +240,7 @@
 			children = (
 				0413023023BE5ABB00FDF25B /* LogoutButton.swift */,
 				0413024C23C0566E00FDF25B /* AddButton.swift */,
+				0413025623C28E1900FDF25B /* EditBookButton.swift */,
 			);
 			name = HelperViews;
 			sourceTree = "<group>";
@@ -389,6 +395,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0413025923C28E5000FDF25B /* EditBookForm.swift in Sources */,
 				0413023423BE624600FDF25B /* AlertHelper.swift in Sources */,
 				04AA7C7523BBB158003706C6 /* SignUpForm.swift in Sources */,
 				04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */,
@@ -409,6 +416,7 @@
 				0413024823BFE91300FDF25B /* BookList.swift in Sources */,
 				0413024F23C0613F00FDF25B /* AddBookForm.swift in Sources */,
 				0413023723BE633400FDF25B /* TokenHelper.swift in Sources */,
+				0413025723C28E1900FDF25B /* EditBookButton.swift in Sources */,
 				04AA7C7123BBADF8003706C6 /* LoginForm.swift in Sources */,
 				04AA7C6D23BBAC53003706C6 /* LoginIconView.swift in Sources */,
 			);

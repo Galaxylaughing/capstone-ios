@@ -11,10 +11,10 @@ import Foundation
 class BookList: ObservableObject {
     @Published var books: [Book]
     
-    struct Book: Comparable, Identifiable {
+    class Book: Comparable, Identifiable, ObservableObject {
         var id: Int
-        var title: String
-        var authors: [Author]
+        @Published var title: String
+        @Published var authors: [Author]
         
         struct Author {
             var name: String
@@ -33,12 +33,27 @@ class BookList: ObservableObject {
             return names
         }
         
+        func findComponents() -> [String] {
+            return self.title.components(separatedBy: ": ")
+        }
+        
+        func getMainTitle() -> String {
+            return findComponents()[0]
+        }
+        
         // conform to Comparable
         static func < (lhs: Book, rhs: Book) -> Bool {
             return lhs.title < rhs.title
         }
         static func == (lhs: Book, rhs: Book) -> Bool {
             return lhs.title == rhs.title
+        }
+        
+        // init
+        init(id: Int, title: String, authors: [BookList.Book.Author]) {
+            self.id = id
+            self.title = title
+            self.authors = authors
         }
         
     }

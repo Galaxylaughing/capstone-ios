@@ -1,33 +1,40 @@
 //
-//  AddBookForm.swift
+//  EditBookForm.swift
 //  LibAwesome
 //
-//  Created by Sabrina on 1/3/20.
+//  Created by Sabrina on 1/5/20.
 //  Copyright © 2020 SabrinaLowney. All rights reserved.
 //
 
 import SwiftUI
 
-struct AddBookForm: View {
+struct EditBookForm: View {
     @EnvironmentObject var currentUser: User
     @EnvironmentObject var bookList: BookList
+    @EnvironmentObject var book: BookList.Book
+    
+    @State private var error: ErrorAlert?
     
     @State private var title: String = ""
     @State private var authors: [String] = []
     @State private var author: String = ""
     
-    @State private var error: ErrorAlert?
-    @Binding var showAddForm: Bool
+    @Binding var showEditForm: Bool
     
     var body: some View {
         VStack {
-            Text("Add Book")
+            Text("Edit Book")
                 .padding(.top)
             
             Form {
+                Button(action: {self.fillFields()}) {
+                    Text("populate form")
+                }
+                
                 HStack {
                     Text("Title:")
                     TextField("title", text: $title)
+                        .lineLimit(nil) // if swiftui bug is fixed, will allow multiline textfield
                 }
                 
                 Section {
@@ -56,14 +63,13 @@ struct AddBookForm: View {
                                 }
                             }.onDelete(perform: self.swipeDeleteAuthor)
                         }
-                        
                     }
                 }
                 
-                Button(action: { self.createBook() }) {
+                Button(action: { self.editBook() }) {
                     HStack {
                         Spacer()
-                        Text("Add Book")
+                        Text("Edit Book")
                         Spacer()
                     }
                 }
@@ -73,8 +79,16 @@ struct AddBookForm: View {
                     AlertHelper.alert(reason: error.reason)
                 })
             }
-            
-        }//.navigationBarBackButtonHidden(true)
+            //.onAppear { self.fillFields() }
+        }
+        //.onAppear { self.fillFields() }
+    }
+    
+    func fillFields() {
+        self.title = book.title
+        for author in book.authors {
+            self.authors.append(author.name)
+        }
     }
     
     func deleteAuthor(name: String) {
@@ -100,34 +114,48 @@ struct AddBookForm: View {
         self.author = ""
     }
     
-    func createBook() {
-        // make POST to create a book
-        let response = APIHelper.postBook(token: self.currentUser.token, title: self.title, authors: self.authors)
+    func editBook() {
+        print("editing book")
+        let response = APIHelper.patchBook(token: self.currentUser.token, bookId: book.id, title: self.title, authors: self.authors)
         
         if response["success"] != nil {
-            // add new book to environment BookList
+            // update book in environment
             if let newBook = EncodingHelper.makeBook(data: response["success"]!) {
                 DispatchQueue.main.async {
-                    self.bookList.books.append(newBook)
+                    // update book in environment's BookList
+                    // find book in booklist with the newBook's id
+                    if let index = self.bookList.books.firstIndex(where: { $0.id == newBook.id }) {
+                        // replace book at index
+                        self.bookList.books[index] = newBook
+                    }
+                    // update book in state
+                    self.book.title = newBook.title
+                    self.book.authors = newBook.authors
                 }
             }
             // should dismiss sheet if success
-            self.showAddForm = false
+            self.showEditForm = false
         } else if response["error"] != nil {
             // should pop up error if failure
             self.error = ErrorAlert(reason: response["error"]!)
         } else {
             self.error = ErrorAlert(reason: "Unknown error")
         }
-        
     }
-    
 }
 
-struct AddBookForm_Previews: PreviewProvider {
-    @State static var showAddForm = true
+struct EditBookForm_Previews: PreviewProvider {
+    @State static var showEditForm = true
+    static var exampleBook = BookList.Book(
+        id: 1,
+        title: "Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch",
+        authors: [
+            BookList.Book.Author(name: "Neil Gaiman"),
+            BookList.Book.Author(name: "Terry Pratchett"),
+    ])
     
     static var previews: some View {
-        AddBookForm(showAddForm: $showAddForm)
+        EditBookForm(showEditForm: $showEditForm)
+            .environmentObject(self.exampleBook)
     }
 }
