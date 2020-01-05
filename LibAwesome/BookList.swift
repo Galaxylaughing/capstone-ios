@@ -95,3 +95,9 @@ struct BookListService: Decodable {
         let authors: [String]
     }
 }
+
+//struct TempBook: Identifiable {
+//    var id: Int
+//    var title: String
+//    var authors: [String]
+//}

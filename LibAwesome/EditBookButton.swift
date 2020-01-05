@@ -23,6 +23,7 @@ struct EditBookButton: View {
                 Image(systemName: "pencil")
             }
         }.sheet(isPresented: $showEditForm) {
+//            EditBookForm(showEditForm: self.$showEditForm, bookToEdit: BookList.Book(id: self.book.id, title: self.book.title, authors: self.book.authors))
             EditBookForm(showEditForm: self.$showEditForm)
                 .environmentObject(self.currentUser)
                 .environmentObject(self.bookList)

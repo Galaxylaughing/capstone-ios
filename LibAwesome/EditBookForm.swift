@@ -15,11 +15,12 @@ struct EditBookForm: View {
     
     @State private var error: ErrorAlert?
     
+    @Binding var showEditForm: Bool
+//    @State var bookToEdit: BookList.Book
+    
     @State private var title: String = ""
     @State private var authors: [String] = []
     @State private var author: String = ""
-    
-    @Binding var showEditForm: Bool
     
     var body: some View {
         VStack {
@@ -27,14 +28,16 @@ struct EditBookForm: View {
                 .padding(.top)
             
             Form {
-                Button(action: {self.fillFields()}) {
-                    Text("populate form")
-                }
-                
-                HStack {
-                    Text("Title:")
-                    TextField("title", text: $title)
-                        .lineLimit(nil) // if swiftui bug is fixed, will allow multiline textfield
+                Section {
+                    Button(action: {self.fillFields()}) {
+                        Text("populate form")
+                    }
+                    
+                    HStack {
+                        Text("Title:")
+                        TextField("title", text: $title)
+                            .lineLimit(nil) // if swiftui bug is fixed, will allow multiline textfield
+                    }
                 }
                 
                 Section {
@@ -49,35 +52,39 @@ struct EditBookForm: View {
                 }
                 
                 // prevent view from assigning empty space when no authors
-                if authors.count > 0 {
-                    Section {
-                        List {
-                            ForEach(authors, id: \.self) { author in
-                                HStack {
-                                    Text(author)
-                                    Spacer()
-                                    Text("delete")
-                                    Button(action: { self.deleteAuthor(name: author) } ) {
-                                        Image(systemName: "minus.circle")
+                Section {
+                    if authors.count > 0 {
+    //                    Section {
+                            List {
+                                ForEach(authors, id: \.self) { author in
+                                    HStack {
+                                        Text(author)
+                                        Spacer()
+                                        Text("delete")
+                                        Button(action: { self.deleteAuthor(name: author) } ) {
+                                            Image(systemName: "minus.circle")
+                                        }
                                     }
-                                }
-                            }.onDelete(perform: self.swipeDeleteAuthor)
-                        }
+                                }.onDelete(perform: self.swipeDeleteAuthor)
+                            }
+    //                    }
                     }
                 }
                 
-                Button(action: { self.editBook() }) {
-                    HStack {
-                        Spacer()
-                        Text("Edit Book")
-                        Spacer()
+                Section {
+                    Button(action: { self.editBook() }) {
+                        HStack {
+                            Spacer()
+                            Text("Save Book")
+                            Spacer()
+                        }
                     }
+                    // disable if no title or authors
+                    .disabled(self.title == "" || self.authors.count == 0)
+                    .alert(item: $error, content: { error in
+                        AlertHelper.alert(reason: error.reason)
+                    })
                 }
-                // disable if no title or authors
-                .disabled(self.title == "" || self.authors.count == 0)
-                .alert(item: $error, content: { error in
-                    AlertHelper.alert(reason: error.reason)
-                })
             }
             //.onAppear { self.fillFields() }
         }
