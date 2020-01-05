@@ -16,16 +16,6 @@ struct LibraryView: View {
         NavigationView{
             ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
                 VStack {
-                    HStack(alignment: .bottom) {
-                        Text("Library")
-                            .font(.title)
-                        Spacer()
-                        VStack(alignment: .trailing) {
-                            LogoutButton()
-                            Image(systemName: "ellipsis.circle")
-                        }
-                    }
-                    
                     // default to sorting alphabetically
                     List(bookList.books.sorted(by: {
                         $0 < $1
@@ -44,8 +34,8 @@ struct LibraryView: View {
                 AddButton()
                     .padding([.bottom, .trailing])
             }
-            .navigationBarTitle("Library")
-            .navigationBarHidden(true)
+            .navigationBarTitle("Library", displayMode: .large)
+            .navigationBarItems(trailing: LogoutButton())
         }
     }
     

@@ -50,7 +50,8 @@ struct SignUpForm: View {
                 AlertHelper.alert(reason: error.reason)
             })
             
-        }.navigationBarTitle(Text("Sign Up"))
+        }
+        .navigationBarTitle("Sign Up", displayMode: .inline)
     }
     
     // POST syntax from http://www.appsdeveloperblog.com/http-post-request-example-in-swift/
