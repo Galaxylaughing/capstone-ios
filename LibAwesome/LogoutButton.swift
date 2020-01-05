@@ -10,6 +10,7 @@ import SwiftUI
 
 struct LogoutButton: View {
     @EnvironmentObject var currentUser: User
+    @EnvironmentObject var bookList: BookList
     
     var body: some View {
         HStack {
@@ -22,22 +23,13 @@ struct LogoutButton: View {
     }
     
     func logout() {
-        /*let response = APIHelper.logout(token: self.currentUser.token)
-        
-        print("caller sees: \(response)")*/
-        
-        /*if let _ = response["success"] {*/
-            // from https://stackoverflow.com/questions/57798050/updating-published-variable-of-an-observableobject-inside-child-view
-            // Clear the currentUser on the main thread
+             // from https://stackoverflow.com/questions/57798050/updating-published-variable-of-an-observableobject-inside-child-view
+            // Clear the currentUser and booklist on the main thread
             DispatchQueue.main.async {
                 self.currentUser.username = nil
                 self.currentUser.token = nil
+                self.bookList.books = []
             }
-        /*} else if let errorData = response["error"] {
-            print(errorData)
-        } else {
-            print("other unknown error")
-        }*/
     }
 }
 

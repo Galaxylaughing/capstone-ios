@@ -269,4 +269,63 @@ struct APIHelper {
         return returnData
     }
     
+    static func deleteBook(token: String?, bookId: Int) -> [String:String] {
+        // return unknown error if no other code overwrites with the correct error or success message
+        var returnData: [String:String] = ["error": "unknown error"]
+        
+        // Prepare URL
+        let url = URL(string: API_HOST+"books/\(bookId)/")
+        guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
+        
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "DELETE"
+        
+        //Prepare HTTP Request Header
+        let value = "Token \(token ?? "")"
+        request.setValue(value, forHTTPHeaderField: "Authorization")
+        
+        let group = DispatchGroup()
+        group.enter()
+        // Perform HTTP Request
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            defer { group.leave() }
+            
+            // Check for Error
+            if let error = error {
+                print("Error took place: \(error)")
+                returnData = ["error": "\(error)"]
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                print("Error took place")
+                returnData = ["error": "Unknown error communicating with server"]
+                return
+            }
+            
+            if httpResponse.statusCode == 400 {
+                print("Error took place: \(httpResponse.statusCode) No book found with the ID \(bookId)")
+                returnData = ["error": "No book found with the ID \(bookId)"]
+                return
+            }
+            
+            if !(200...299).contains(httpResponse.statusCode) {
+                print("Error took place: \(httpResponse.statusCode)")
+                returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
+                return
+            }
+            
+            // Convert HTTP Response Data to a String
+            if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                print("Response data string:\n \(dataString)")
+                
+                returnData = ["success": "\(dataString)"]
+            }
+        }
+        task.resume()
+        group.wait()
+        return returnData
+    }
+    
 }

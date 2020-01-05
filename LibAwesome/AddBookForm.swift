@@ -55,7 +55,6 @@ struct AddBookForm: View {
                                     }
                                 }
                             }.onDelete(perform: self.swipeDeleteAuthor)
-                            
                         }
                         
                     }
