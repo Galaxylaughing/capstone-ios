@@ -105,7 +105,23 @@ struct BookListView: View {
 }
 
 struct BookListView_Previews: PreviewProvider {
+    static var exampleBook1 = BookList.Book(
+        id: 1,
+        title: "Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch",
+        authors: [
+            "Neil Gaiman",
+            "Terry Pratchett",
+    ])
+    static var exampleBook2 = BookList.Book(
+        id: 2,
+        title: "A Great and Terrible Beauty",
+        authors: [
+            "Libba Bray"
+    ])
+    static var bookList = BookList(books: [exampleBook1, exampleBook2])
+    
     static var previews: some View {
         BookListView()
+            .environmentObject(bookList)
     }
 }

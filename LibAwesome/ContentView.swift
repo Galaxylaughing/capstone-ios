@@ -11,12 +11,16 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var currentUser: User
     @EnvironmentObject var bookList: BookList
+    @EnvironmentObject var seriesList: SeriesList
     
     var body: some View {
         HStack {
             if currentUser.token != nil {
                 TabbedView()
-                    .onAppear { self.getBooks() }
+                    .onAppear {
+                        self.getBooks()
+                        self.getSeries()
+                    }
             } else {
                 LoginForm()
             }
@@ -24,6 +28,22 @@ struct ContentView: View {
     }
     
     func getBooks() {
+        let response = APIHelper.getSeries(token: self.currentUser.token)
+        
+        if let data = response["success"] {
+            let apiSeriesList = EncodingHelper.makeSeriesList(data: data) ?? SeriesList(series: [])
+            // update the environment variable
+            DispatchQueue.main.async {
+                self.seriesList.series = apiSeriesList.series
+            }
+        } else if let errorData = response["error"] {
+            print(errorData)
+        } else {
+            print("other unknown error")
+        }
+    }
+    
+    func getSeries() {
         let response = APIHelper.getBooks(token: self.currentUser.token)
         
         if let data = response["success"] {
@@ -45,7 +65,6 @@ struct ContentView_Previews: PreviewProvider {
        ContentView()
         .environmentObject(User())
         .environmentObject(BookList(books: []))
-        .previewDevice(PreviewDevice(rawValue: "iPhone 8"))
-        .previewDisplayName("iPhone 8")
+        .environmentObject(SeriesList(series: []))
     }
 }

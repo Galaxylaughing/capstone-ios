@@ -11,6 +11,7 @@ import SwiftUI
 struct LibraryView: View {
     @EnvironmentObject var currentUser: User
     @EnvironmentObject var bookList: BookList
+    @EnvironmentObject var seriesList: SeriesList
     
     // from krebera's answer about AnyView: https://forums.developer.apple.com/thread/122440
     @State var view: AnyView = AnyView(BookListView())

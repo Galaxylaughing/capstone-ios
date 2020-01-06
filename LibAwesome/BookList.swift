@@ -16,10 +16,6 @@ class BookList: ObservableObject {
         @Published var title: String
         @Published var authors: [String]
         
-//        struct Author {
-//            var name: String
-//        }
-        
         func authorNames() -> String {
             var names = ""
             for (i, author) in self.authors.enumerated() {

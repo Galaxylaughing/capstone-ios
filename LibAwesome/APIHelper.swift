@@ -398,4 +398,46 @@ struct APIHelper {
         return returnData
     }
     
+    // SERIES - GET ALL
+    static func getSeries(token: String?) -> [String:String] {
+        // return unknown error if no other code overwrites with the correct error or success message
+        var returnData: [String:String] = ["error": "unknown error"]
+        
+        // Prepare URL
+        let url = URL(string: API_HOST+"series/")
+        guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
+        
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "GET"
+        
+        //Prepare HTTP Request Header
+        let value = "Token \(token ?? "")"
+        request.setValue(value, forHTTPHeaderField: "Authorization")
+        
+        let group = DispatchGroup()
+        group.enter()
+        // Perform HTTP Request
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            defer { group.leave() }
+            
+            // Check for Error
+            if let error = error {
+                print("Error took place: \(error)")
+                returnData = ["error": "\(error)"]
+                return
+            }
+            
+            // Convert HTTP Response Data to a String
+            if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                print("Response data string:\n \(dataString)")
+                
+                returnData = ["success": "\(dataString)"]
+            }
+        }
+        task.resume()
+        group.wait()
+        return returnData
+    }
+    
 }

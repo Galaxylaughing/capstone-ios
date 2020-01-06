@@ -19,6 +19,10 @@ struct DrawerContent: View {
                     Text("Books")
                         .foregroundColor(Color.white)
                 }
+                Button(action: { self.parentView = AnyView(SeriesListView()) }) {
+                    Text("Series")
+                        .foregroundColor(Color.white)
+                }
                 Button(action: { self.parentView = AnyView(TagsView()) }) {
                     Text("Tags")
                         .foregroundColor(Color.white)
