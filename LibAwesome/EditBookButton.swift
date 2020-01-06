@@ -24,7 +24,7 @@ struct EditBookButton: View {
             }
         }.sheet(isPresented: $showEditForm) {
 //            EditBookForm(showEditForm: self.$showEditForm, bookToEdit: BookList.Book(id: self.book.id, title: self.book.title, authors: self.book.authors))
-            EditBookForm(showEditForm: self.$showEditForm)
+            EditBookForm(showEditForm: self.$showEditForm, bookToEdit: BookList.Book(id: self.book.id, title: self.book.title, authors: self.book.authors))
                 .environmentObject(self.currentUser)
                 .environmentObject(self.bookList)
                 .environmentObject(self.book)
@@ -37,8 +37,8 @@ struct EditBookButton_Previews: PreviewProvider {
         id: 1,
         title: "Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch",
         authors: [
-            BookList.Book.Author(name: "Neil Gaiman"),
-            BookList.Book.Author(name: "Terry Pratchett"),
+            "Neil Gaiman",
+            "Terry Pratchett",
     ])
     
     static var previews: some View {

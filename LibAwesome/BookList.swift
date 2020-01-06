@@ -14,16 +14,16 @@ class BookList: ObservableObject {
     class Book: Comparable, Identifiable, ObservableObject {
         var id: Int
         @Published var title: String
-        @Published var authors: [Author]
+        @Published var authors: [String]
         
-        struct Author {
-            var name: String
-        }
+//        struct Author {
+//            var name: String
+//        }
         
         func authorNames() -> String {
             var names = ""
             for (i, author) in self.authors.enumerated() {
-                names += author.name
+                names += author
                 if i == self.authors.count - 2 {
                     names += " & "
                 } else if i < self.authors.count - 2 {
@@ -50,12 +50,18 @@ class BookList: ObservableObject {
         }
         
         // init
-        init(id: Int, title: String, authors: [BookList.Book.Author]) {
+        init(id: Int, title: String, authors: [String]) {
             self.id = id
             self.title = title
             self.authors = authors
         }
-        
+        // init
+        init(book: Book) {
+            self.id = book.id
+            self.title = book.title
+            self.authors = book.authors
+        }
+
     }
     
     init(books: [Book]) {
@@ -68,9 +74,9 @@ class BookList: ObservableObject {
         let items = service.books
         for item in items {
             
-            var authors: [BookList.Book.Author] = []
+            var authors: [String] = []
             for authorName in item.authors {
-                let author = BookList.Book.Author(name: authorName)
+                let author = authorName
                 authors.append(author)
             }
             
@@ -95,9 +101,3 @@ struct BookListService: Decodable {
         let authors: [String]
     }
 }
-
-//struct TempBook: Identifiable {
-//    var id: Int
-//    var title: String
-//    var authors: [String]
-//}

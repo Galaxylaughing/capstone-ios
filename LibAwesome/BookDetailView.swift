@@ -43,8 +43,8 @@ struct BookDetailView_Previews: PreviewProvider {
         id: 1,
         title: "Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch",
         authors: [
-            BookList.Book.Author(name: "Neil Gaiman"),
-            BookList.Book.Author(name: "Terry Pratchett"),
+            "Neil Gaiman",
+            "Terry Pratchett",
     ])
     
     static var previews: some View {

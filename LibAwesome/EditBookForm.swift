@@ -16,10 +16,8 @@ struct EditBookForm: View {
     @State private var error: ErrorAlert?
     
     @Binding var showEditForm: Bool
-//    @State var bookToEdit: BookList.Book
+    @State var bookToEdit: BookList.Book
     
-    @State private var title: String = ""
-    @State private var authors: [String] = []
     @State private var author: String = ""
     
     var body: some View {
@@ -29,13 +27,9 @@ struct EditBookForm: View {
             
             Form {
                 Section {
-                    Button(action: {self.fillFields()}) {
-                        Text("populate form")
-                    }
-                    
                     HStack {
                         Text("Title:")
-                        TextField("title", text: $title)
+                        TextField("title", text: $bookToEdit.title)
                             .lineLimit(nil) // if swiftui bug is fixed, will allow multiline textfield
                     }
                 }
@@ -52,11 +46,11 @@ struct EditBookForm: View {
                 }
                 
                 // prevent view from assigning empty space when no authors
-                Section {
-                    if authors.count > 0 {
-    //                    Section {
+//                Section {
+                    if bookToEdit.authors.count > 0 {
+                        Section {
                             List {
-                                ForEach(authors, id: \.self) { author in
+                                ForEach(bookToEdit.authors, id: \.self) { author in
                                     HStack {
                                         Text(author)
                                         Spacer()
@@ -67,9 +61,9 @@ struct EditBookForm: View {
                                     }
                                 }.onDelete(perform: self.swipeDeleteAuthor)
                             }
-    //                    }
+                        }
                     }
-                }
+//                }
                 
                 Section {
                     Button(action: { self.editBook() }) {
@@ -80,50 +74,41 @@ struct EditBookForm: View {
                         }
                     }
                     // disable if no title or authors
-                    .disabled(self.title == "" || self.authors.count == 0)
+                    .disabled(self.bookToEdit.title == "" || self.bookToEdit.authors.count == 0)
                     .alert(item: $error, content: { error in
                         AlertHelper.alert(reason: error.reason)
                     })
                 }
             }
-            //.onAppear { self.fillFields() }
-        }
-        //.onAppear { self.fillFields() }
-    }
-    
-    func fillFields() {
-        self.title = book.title
-        for author in book.authors {
-            self.authors.append(author.name)
         }
     }
     
     func deleteAuthor(name: String) {
         // delete with button
-        if let index = self.authors.firstIndex(of: name) {
-            DispatchQueue.main.async {
-                self.authors.remove(at: index)
-            }
+        let book = self.bookToEdit
+        if let index = book.authors.firstIndex(of: name) {
+            book.authors.remove(at: index)
+            self.bookToEdit = BookList.Book(book: book)
         }
     }
     
     func swipeDeleteAuthor(at offsets: IndexSet) {
         // delete by swipe
-        DispatchQueue.main.async {
-            self.authors.remove(atOffsets: offsets)
-        }
+        let book = self.bookToEdit
+        book.authors.remove(atOffsets: offsets)
+        self.bookToEdit = BookList.Book(book: book)
     }
     
     func addAuthor() {
         // add author to list
-        self.authors.append(self.author)
+        self.bookToEdit.authors.append(self.author)
         // clear author from field
         self.author = ""
     }
     
     func editBook() {
         print("editing book")
-        let response = APIHelper.patchBook(token: self.currentUser.token, bookId: book.id, title: self.title, authors: self.authors)
+        let response = APIHelper.patchBook(token: self.currentUser.token, bookId: book.id, title: self.bookToEdit.title, authors: self.bookToEdit.authors)
         
         if response["success"] != nil {
             // update book in environment
@@ -153,16 +138,17 @@ struct EditBookForm: View {
 
 struct EditBookForm_Previews: PreviewProvider {
     @State static var showEditForm = true
+    static var bookToEdit = BookList.Book(id: 1, title: "title", authors: ["author one"])
     static var exampleBook = BookList.Book(
         id: 1,
         title: "Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch",
         authors: [
-            BookList.Book.Author(name: "Neil Gaiman"),
-            BookList.Book.Author(name: "Terry Pratchett"),
+            "Neil Gaiman",
+            "Terry Pratchett",
     ])
     
     static var previews: some View {
-        EditBookForm(showEditForm: $showEditForm)
+        EditBookForm(showEditForm: $showEditForm, bookToEdit: bookToEdit)
             .environmentObject(self.exampleBook)
     }
 }
