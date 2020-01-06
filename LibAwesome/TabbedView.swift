@@ -25,33 +25,24 @@ struct TabbedView: View {
                         }
                 }
                 .tag(0)
-                Text("Tags")
-                    .font(.title)
-                    .tabItem {
-                        VStack {
-                            Image(systemName: "tag.fill")
-                            Text("Tags")
-                        }
-                }
-                .tag(1)
                 HelloWorld()
                     .font(.title)
                     .tabItem {
                         VStack {
-                            Image(systemName: "plus.circle.fill")
-                            Text("Add Entry")
+                            Image(systemName: "magnifyingglass")
+                            Text("Search")
                         }
                 }
-                .tag(2)
+                .tag(1)
                 Text("Read Next")
                     .font(.title)
                     .tabItem {
                         VStack {
-                            Image(systemName: "lightbulb.fill")
+                            Image(systemName: "lightbulb")
                             Text("Read Next")
                         }
                 }
-                .tag(3)
+                .tag(2)
                 Text("Timeline")
                     .font(.title)
                     .tabItem {
@@ -60,7 +51,7 @@ struct TabbedView: View {
                             Text("Timeline")
                         }
                 }
-                .tag(4)
+                .tag(3)
             }
         }
     }

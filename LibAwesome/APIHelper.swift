@@ -10,8 +10,9 @@ import Foundation
 import SwiftUI
 
 struct APIHelper {
-    
     // POST syntax from http://www.appsdeveloperblog.com/http-post-request-example-in-swift/
+    
+    // USER - POST/TOKEN
     static func loginUser(username: String, password: String) -> [String:String] {
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
@@ -57,6 +58,7 @@ struct APIHelper {
         return returnData
     }
     
+    // USER - POST/CREATE
     static func signupUser(username: String, password: String) -> [String:String] {
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
@@ -160,6 +162,7 @@ struct APIHelper {
     }
     */
     
+    // BOOK - GET ALL
     static func getBooks(token: String?) -> [String:String] {
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
@@ -201,6 +204,7 @@ struct APIHelper {
         return returnData
     }
     
+    // BOOK - POST/CREATE
     static func postBook(token: String?, title: String, authors: [String]) -> [String:String] {
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
@@ -269,6 +273,7 @@ struct APIHelper {
         return returnData
     }
     
+    // BOOK - DELETE
     static func deleteBook(token: String?, bookId: Int) -> [String:String] {
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
@@ -328,7 +333,8 @@ struct APIHelper {
         return returnData
     }
     
-    static func patchBook(token: String?, bookId: Int, title: String, authors: [String]) -> [String:String] {
+    // BOOK - PUT/UPDATE
+    static func putBook(token: String?, bookId: Int, title: String, authors: [String]) -> [String:String] {
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
         

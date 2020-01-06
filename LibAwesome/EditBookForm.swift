@@ -108,7 +108,7 @@ struct EditBookForm: View {
     
     func editBook() {
         print("editing book")
-        let response = APIHelper.patchBook(token: self.currentUser.token, bookId: book.id, title: self.bookToEdit.title, authors: self.bookToEdit.authors)
+        let response = APIHelper.putBook(token: self.currentUser.token, bookId: book.id, title: self.bookToEdit.title, authors: self.bookToEdit.authors)
         
         if response["success"] != nil {
             // update book in environment

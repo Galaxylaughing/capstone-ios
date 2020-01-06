@@ -12,103 +12,39 @@ struct LibraryView: View {
     @EnvironmentObject var currentUser: User
     @EnvironmentObject var bookList: BookList
     
-    @State private var error: String?
-    @State private var showConfirm = false
-    @State private var bookToDelete: Int = 0
-    @State private var bookTitleToDelete: String = ""
+    // from krebera's answer about AnyView: https://forums.developer.apple.com/thread/122440
+    @State var view: AnyView = AnyView(BookListView())
+    
+    @State var isDrawerBackDropOpen: Bool = false
+    @State var isDrawerOpen: Bool = false
     
     var body: some View {
-        NavigationView{
-            ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
-                VStack {
-                    List {
-                        ForEach(bookList.books.sorted(by: {$0 < $1})) { book in
-                            NavigationLink(destination: BookDetailView().environmentObject(book)) {
-                                VStack(alignment: .leading) {
-                                    Text(book.title)
-                                    Text(book.authorNames())
-                                        .font(.caption)
-                                }
-                            }/*.contextMenu {
-                                Button(action: { print("added") } ) { Text("Add") }
-                                Button(action: { self.displayConfirm(at: book.id) } ) {
-                                    Text("Delete Book")
-                                    Image(systemName: "trash")
-                                }
-                            }*/
-                        }.onDelete(perform: self.displayConfirm)
-                    }
-                        // from https://www.hackingwithswift.com/quick-start/ios-swiftui/using-an-alert-to-pop-a-navigationlink-programmatically
-                        .alert(isPresented: self.$showConfirm) {
-                            if self.error == nil {
-                                return Alert(title: Text("Delete '\(self.bookTitleToDelete)'"),
-                                             message: Text("Are you sure?"),
-                                             primaryButton: .destructive(Text("Delete")) {
-                                                self.swipeDeleteBook()
-                                             },
-                                             secondaryButton: .cancel()
-                                )
-                            } else {
-                                return Alert(title: Text("Error"),
-                                             message: Text(error!),
-                                             dismissButton: Alert.Button.default(
-                                                Text("OK"), action: {
-                                                    self.error = nil
-                                                    self.showConfirm = false
-                                                }
-                                             )
-                                )
-                            }
+        ZStack {
+            NavigationView {
+//                BookListView()
+                self.view
+                    .navigationBarTitle("Library", displayMode: .large)
+                    // nav drawer from https://www.iosapptemplates.com/blog/swiftui/navigation-drawer-swiftui
+                    .navigationBarItems(leading: Button(action: {
+                        // toggle drawer open after 0.2 seconds
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            self.isDrawerBackDropOpen.toggle()
+                            self.isDrawerOpen.toggle()
+                        }
+                    }) {
+                            Image(systemName: "slider.horizontal.3")
+                        },
+                        trailing: LogoutButton())
+            }
+            DrawerBackDrop(isOpen: self.isDrawerBackDropOpen)
+                .onTapGesture {
+                    if self.isDrawerOpen {
+                        self.isDrawerBackDropOpen.toggle()
+                        self.isDrawerOpen.toggle()
                     }
                 }
-                AddButton()
-                    .padding([.bottom, .trailing])
-            }
-            .navigationBarTitle("Library", displayMode: .large)
-            .navigationBarItems(trailing: LogoutButton())
-        }
-    }
-    
-    func displayConfirm(at id: Int) {
-        for book in bookList.books {
-            if book.id == id {
-                self.bookTitleToDelete = book.title
-            }
-        }
-        self.bookToDelete = id
-        self.showConfirm = true
-    }
-    
-    func displayConfirm(at offsets: IndexSet) {
-        let book = bookList.books.sorted(by: {$0 < $1})[offsets.first!]
-        self.bookToDelete = book.id
-        self.bookTitleToDelete = book.title
-        self.showConfirm = true
-    }
-    
-    func swipeDeleteBook() {
-        self.showConfirm = false
-        
-        // make DELETE request
-        let response = APIHelper.deleteBook(token: self.currentUser.token, bookId: self.bookToDelete)
-        
-        if response["success"] != nil {
-            // remove book from environment
-            if let indexToDelete = self.bookList.books.firstIndex(where: {$0.id == self.bookToDelete}) {
-                DispatchQueue.main.async {
-                    self.bookList.books.remove(at: indexToDelete)
-                }
-            }
-        } else if response["error"] != nil {
-            self.error = response["error"]!
-            DispatchQueue.main.async {
-                self.showConfirm = true
-            }
-        } else {
-            self.error = "Unknown error"
-            DispatchQueue.main.async {
-                self.showConfirm = true
-            }
+//            NavDrawer(isOpen: self.isDrawerOpen, parentView: self.$view)
+                .overlay( NavDrawer(isOpen: self.isDrawerOpen, parentView: self.$view) )
         }
     }
     
@@ -133,7 +69,5 @@ struct LibraryView_Previews: PreviewProvider {
     static var previews: some View {
         LibraryView()
             .environmentObject(bookList)
-            .previewDevice(PreviewDevice(rawValue: "iPhone 8"))
-            .previewDisplayName("iPhone 8")
     }
 }

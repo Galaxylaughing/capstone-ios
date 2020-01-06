@@ -14,22 +14,8 @@ struct AddButton: View {
     @State var showAddForm: Bool = false
     
     var body: some View {
-//        NavigationLink(destination: AddBookForm()) {
         Button(action: { self.showAddForm.toggle() }) {
-            ZStack {
-                Image(systemName: "book")
-                    .resizable()
-                    .frame(width: 40, height: 40)
-                Circle()
-                    .fill(Color.white)
-                    .frame(width: 20, height: 20)
-                    .offset(x: 15.0, y: 15.0)
-                Image(systemName: "plus.circle.fill")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .offset(x: 15.0, y: 15.0)
-    //                .frame(width: 70, height: 70)
-            }
+            AddBookIcon()
         }.sheet(isPresented: $showAddForm) {
             AddBookForm(showAddForm: self.$showAddForm)
                 .environmentObject(self.currentUser)
