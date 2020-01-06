@@ -221,56 +221,64 @@ struct APIHelper {
         let value = "Token \(token ?? "")"
         request.setValue(value, forHTTPHeaderField: "Authorization")
         
-        // request parameters
-        var postString = "title=\(title)"
-        for author in authors {
-            postString.append("&author=\(author)")
-        }
-        // request body
-        request.httpBody = postString.data(using: String.Encoding.utf8);
-        
-        let group = DispatchGroup()
-        group.enter()
-        // Perform HTTP Request
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            defer { group.leave() }
+        // set body
+        let book = BookListService.Book(id: 0, title: title, authors: authors) // id field is ignored on Django side for this endpoint
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+
+        if let jsonData = try? encoder.encode(book) {
+            print(String(data: jsonData, encoding: .utf8)!)
             
-            // Check for Error
-            if let error = error {
-                print("Error took place: \(error)")
+            request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+            request.httpBody = jsonData
+            
+            let group = DispatchGroup()
+            group.enter()
+            // Perform HTTP Request
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                defer { group.leave() }
                 
-                returnData = ["error": "\(error)"]
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                print("Error took place")
-                returnData = ["error": "Unknown error communicating with server"]
-                return
-            }
-            
-            if httpResponse.statusCode == 400 {
-                print("Error took place: \(httpResponse.statusCode) Invalid book parameters")
-                returnData = ["error": "Invalid book information"]
-                return
-            }
-            
-            if !(200...299).contains(httpResponse.statusCode) {
-                print("Error took place: \(httpResponse.statusCode)")
-                returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
-                return
-            }
-            
-            // Convert HTTP Response Data to a String
-            if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                print("Response data string:\n \(dataString)")
+                // Check for Error
+                if let error = error {
+                    print("Error took place: \(error)")
+                    
+                    returnData = ["error": "\(error)"]
+                    return
+                }
                 
-                returnData = ["success": "\(dataString)"]
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    print("Error took place")
+                    returnData = ["error": "Unknown error communicating with server"]
+                    return
+                }
+                
+                if httpResponse.statusCode == 400 {
+                    print("Error took place: \(httpResponse.statusCode) Invalid book parameters")
+                    returnData = ["error": "Invalid book information"]
+                    return
+                }
+                
+                if !(200...299).contains(httpResponse.statusCode) {
+                    print("Error took place: \(httpResponse.statusCode)")
+                    returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
+                    return
+                }
+                
+                // Convert HTTP Response Data to a String
+                if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                    print("Response data string:\n \(dataString)")
+                    
+                    returnData = ["success": "\(dataString)"]
+                }
             }
+            task.resume()
+            group.wait()
+            return returnData
+            
+        } else {
+            print("error occurred during JSON encoding")
+            return ["error": "Could not encode object to JSON"]
         }
-        task.resume()
-        group.wait()
-        
-        return returnData
     }
     
     // BOOK - DELETE
@@ -353,49 +361,57 @@ struct APIHelper {
         let value = "Token \(token ?? "")"
         request.setValue(value, forHTTPHeaderField: "Authorization")
         
-        // request parameters
-        var postString = "title=\(title)"
-        for author in authors {
-            postString.append("&author=\(author)")
+        // set body
+        let book = BookListService.Book(id: bookId, title: title, authors: authors)
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+
+        if let jsonData = try? encoder.encode(book) {
+            print(String(data: jsonData, encoding: .utf8)!)
+            
+            request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+            request.httpBody = jsonData
+            
+            let group = DispatchGroup()
+            group.enter()
+            // Perform HTTP Request
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                defer { group.leave() }
+                
+                // Check for Error
+                if let error = error {
+                    print("Error took place: \(error)")
+                    returnData = ["error": "\(error)"]
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    print("Error took place")
+                    returnData = ["error": "Unknown error communicating with server"]
+                    return
+                }
+                
+                if !(200...299).contains(httpResponse.statusCode) {
+                    print("Error took place: \(httpResponse.statusCode)")
+                    returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
+                    return
+                }
+                
+                // Convert HTTP Response Data to a String
+                if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                    print("Response data string:\n \(dataString)")
+                    returnData = ["success": "\(dataString)"]
+                }
+            }
+            task.resume()
+            group.wait()
+            
+            return returnData
+            
+        } else {
+            print("error occurred during JSON encoding")
+            return ["error": "Could not encode object to JSON"]
         }
-        // request body
-        request.httpBody = postString.data(using: String.Encoding.utf8);
-        print("SENDING BODY", postString)
-        
-        let group = DispatchGroup()
-        group.enter()
-        // Perform HTTP Request
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            defer { group.leave() }
-            
-            // Check for Error
-            if let error = error {
-                print("Error took place: \(error)")
-                returnData = ["error": "\(error)"]
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                print("Error took place")
-                returnData = ["error": "Unknown error communicating with server"]
-                return
-            }
-            
-            if !(200...299).contains(httpResponse.statusCode) {
-                print("Error took place: \(httpResponse.statusCode)")
-                returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
-                return
-            }
-            
-            // Convert HTTP Response Data to a String
-            if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                print("Response data string:\n \(dataString)")
-                returnData = ["success": "\(dataString)"]
-            }
-        }
-        task.resume()
-        group.wait()
-        
-        return returnData
     }
     
     // SERIES - GET ALL

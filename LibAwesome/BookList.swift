@@ -91,7 +91,7 @@ class BookList: ObservableObject {
 struct BookListService: Decodable {
     let books: [Book]
     
-    struct Book: Decodable {
+    struct Book: Codable {
         let id: Int
         let title: String
         let authors: [String]
