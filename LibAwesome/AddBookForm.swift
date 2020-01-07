@@ -23,7 +23,7 @@ struct AddBookForm: View {
     @State private var author: String = ""
     
     @State private var assignSeries: Bool = false
-    @State private var seriesIndex = -1
+    @State private var seriesIndex = 0
     @State private var seriesPositionIndex = 0
     let seriesPositions: [Int] = Array(1...100)
     
@@ -107,7 +107,7 @@ struct AddBookForm: View {
                                     }
                                     
                                     VStack {
-                                        Text("Series Name")
+                                        Text("Series Name: \(self.env.seriesList.series[self.seriesIndex].name)")
                                         Picker("Series name", selection: $seriesIndex) {
                                             ForEach(0 ..< self.env.seriesList.series.count) {
                                                 Text("\(self.env.seriesList.series[$0].name)").tag($0)
@@ -154,26 +154,35 @@ struct AddBookForm: View {
     // SUBMIT FORM
     func createBook() {
         
-        var position: Int? = nil
-        var seriesId: Int? = nil
-        if self.assignSeries {
-            position = self.seriesPositions[self.seriesPositionIndex]
-            let seriesIndex = self.seriesIndex
-            // look up series id from index
-            seriesId = self.env.seriesList.series[seriesIndex].id
-            print("series name", self.env.seriesList.series[seriesIndex].name)
-        }
+//        getSeriesId(seriesList: SeriesList, assignSeries: Bool, seriesPositions: [Int], seriesPositionIndex: Int, seriesIndex: Int) -> [String:Int?]
         
-        print("position", String(position!))
-        print("series", String(seriesId!))
+        let seriesData = BookHelper.getSeriesId(
+            seriesList: self.env.seriesList,
+            assignSeries: self.assignSeries,
+            seriesPositions: self.seriesPositions,
+            seriesPositionIndex: self.seriesPositionIndex,
+            seriesIndex: self.seriesIndex)
+//
+//        var position: Int? = nil
+//        var seriesId: Int? = nil
+//        if self.assignSeries {
+//            position = self.seriesPositions[self.seriesPositionIndex]
+//            let seriesIndex = self.seriesIndex
+//            // look up series id from index
+//            seriesId = self.env.seriesList.series[seriesIndex].id
+//            print("series name", self.env.seriesList.series[seriesIndex].name)
+//        }
+//
+//        print("position", String(position!))
+//        print("series", String(seriesId!))
         
         // make POST to create a book
         let response = APIHelper.postBook(
             token: self.env.user.token,
             title: self.title,
             authors: self.authors,
-            position: position,
-            seriesId: seriesId)
+            position: seriesData["position"] ?? nil,
+            seriesId: seriesData["seriesId"] ?? nil)
         
         if response["success"] != nil {
             // add new book to environment BookList
