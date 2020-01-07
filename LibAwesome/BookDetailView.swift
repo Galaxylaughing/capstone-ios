@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct BookDetailView: View {
+    @EnvironmentObject var env: Env
     @EnvironmentObject var book: BookList.Book
     
     var body: some View {
@@ -29,11 +30,23 @@ struct BookDetailView: View {
                 Text(book.authorNames())
                     .font(.headline)
                     .multilineTextAlignment(.center)
+                if book.position != nil {
+                    Text("Number \(String(book.position!)) in its series")
+                        .padding(.top)
+                }
+                if book.seriesId != nil {
+                    Text("Series: \(self.getSeriesName())")
+                }
             }
             Spacer()
         }
         .navigationBarTitle(Text(book.getMainTitle()), displayMode: .inline)
         .navigationBarItems(trailing: EditBookButton().environmentObject(self.book))
+    }
+    
+    func getSeriesName() -> String {
+        let series = self.env.seriesList.series.first(where: {$0.id == book.seriesId})
+        return series!.name
     }
     
 }
@@ -45,7 +58,7 @@ struct BookDetailView_Previews: PreviewProvider {
         authors: [
             "Neil Gaiman",
             "Terry Pratchett",
-    ])
+    ], position: 1)
     
     static var previews: some View {
         BookDetailView()

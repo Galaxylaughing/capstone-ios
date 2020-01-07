@@ -205,7 +205,13 @@ struct APIHelper {
     }
     
     // BOOK - POST/CREATE
-    static func postBook(token: String?, title: String, authors: [String]) -> [String:String] {
+    static func postBook(
+        token: String?,
+        title: String,
+        authors: [String],
+        position: Int? = nil,
+        seriesId: Int? = nil) -> [String:String] {
+        
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
         
@@ -222,7 +228,7 @@ struct APIHelper {
         request.setValue(value, forHTTPHeaderField: "Authorization")
         
         // set body
-        let book = BookListService.Book(id: 0, title: title, authors: authors) // id field is ignored on Django side for this endpoint
+        let book = BookListService.Book(id: 0, title: title, authors: authors, position_in_series: position, series: seriesId)
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
 
@@ -355,14 +361,14 @@ struct APIHelper {
         request.httpMethod = "PUT"
         
         // set content-type, which PUT/PATCH requires
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type") //TODO:
         
         // set header
         let value = "Token \(token ?? "")"
         request.setValue(value, forHTTPHeaderField: "Authorization")
         
         // set body
-        let book = BookListService.Book(id: bookId, title: title, authors: authors)
+        let book = BookListService.Book(id: bookId, title: title, authors: authors, position_in_series: nil, series: nil)
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
 

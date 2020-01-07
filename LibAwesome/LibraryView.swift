@@ -22,9 +22,7 @@ struct LibraryView: View {
     var body: some View {
         ZStack {
             NavigationView {
-//                BookListView()
                 self.view
-                    //.navigationBarTitle("Library", displayMode: .large)
                     // nav drawer from https://www.iosapptemplates.com/blog/swiftui/navigation-drawer-swiftui
                     .navigationBarItems(leading: Button(action: {
                         // toggle drawer open after 0.2 seconds

@@ -10,23 +10,19 @@ import SwiftUI
 
 struct AddSeriesButton: View {
     @EnvironmentObject var env: Env
-//    @EnvironmentObject var currentUser: User
-//    @EnvironmentObject var seriesList: SeriesList
-    @State var showSeriesForm: Bool = false
+    @State var showForm: Bool = false
     @State var showLabel: Bool = false
     
     var body: some View {
-        Button(action: { self.showSeriesForm.toggle() }) {
+        Button(action: { self.showForm.toggle() }) {
             if self.showLabel {
                 Text("Add Series")
             } else {
                 AddIcon()
             }
-        }.sheet(isPresented: $showSeriesForm) {
-            AddSeriesForm(showSeriesForm: self.$showSeriesForm)
+        }.sheet(isPresented: $showForm) {
+            AddSeriesForm(showForm: self.$showForm)
                 .environmentObject(self.env)
-//                .environmentObject(self.currentUser)
-//                .environmentObject(self.seriesList)
         }
     }
 }

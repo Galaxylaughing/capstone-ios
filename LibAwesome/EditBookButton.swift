@@ -10,26 +10,20 @@ import SwiftUI
 
 struct EditBookButton: View {
     @EnvironmentObject var env: Env
-//    @EnvironmentObject var currentUser: User
-//    @EnvironmentObject var bookList: BookList
-    
     @EnvironmentObject var book: BookList.Book
-    @State var showEditForm: Bool = false
+    @State var showForm: Bool = false
     
     var body: some View {
-        Button(action: { self.showEditForm.toggle() }) {
+        Button(action: { self.showForm.toggle() }) {
             HStack {
                 Text("edit")
                     .font(.caption)
                 Image(systemName: "pencil")
             }
-        }.sheet(isPresented: $showEditForm) {
-//            EditBookForm(showEditForm: self.$showEditForm, bookToEdit: BookList.Book(id: self.book.id, title: self.book.title, authors: self.book.authors))
-            EditBookForm(showEditForm: self.$showEditForm, bookToEdit: BookList.Book(id: self.book.id, title: self.book.title, authors: self.book.authors))
+        }.sheet(isPresented: $showForm) {
+            EditBookForm(showForm: self.$showForm, bookToEdit: BookList.Book(id: self.book.id, title: self.book.title, authors: self.book.authors))
                 .environmentObject(self.env)
                 .environmentObject(self.book)
-//                .environmentObject(self.currentUser)
-//                .environmentObject(self.bookList)
         }
     }
 }

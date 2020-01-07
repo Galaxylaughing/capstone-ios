@@ -10,49 +10,63 @@ import SwiftUI
 
 struct AddBookForm: View {
     @EnvironmentObject var env: Env
-//    @EnvironmentObject var currentUser: User
-//    @EnvironmentObject var bookList: BookList
-//    @EnvironmentObject var seriesList: SeriesList
+    //    @EnvironmentObject var currentUser: User
+    //    @EnvironmentObject var bookList: BookList
+    //    @EnvironmentObject var seriesList: SeriesList
     
     @State private var error: ErrorAlert?
-    @Binding var showAddForm: Bool
+    @Binding var showForm: Bool
     
     // form fields
     @State private var title: String = ""
     @State private var authors: [String] = []
     @State private var author: String = ""
-//    @State private var showCounts: Bool = false
+    
+    @State private var assignSeries: Bool = false
     @State private var seriesIndex = -1
+    @State private var seriesPositionIndex = 0
+    let seriesPositions: [Int] = Array(1...100)
+    
+    fileprivate func saveButton() -> some View {
+        return Button(action: { self.createBook() }) {
+            Text("Add Book")
+        }
+            // disable if no title or authors
+            .disabled(self.title == "" || self.authors.count == 0)
+            .alert(item: $error, content: { error in
+                AlertHelper.alert(reason: error.reason)
+            })
+    }
+    
+    fileprivate func cancelButton() -> some View {
+        return Button(action: { self.showForm = false }) {
+            Text("Cancel")
+        }
+    }
     
     var body: some View {
         NavigationView {
-        VStack {
-//            Text("Add Book")
-//                .padding(.top)
-            
-            Form {
-                Section {
-                    VStack(alignment: .leading) {
-                        Text("Title *")
-                        TextField("book title", text: $title)
+            VStack {
+                Form {
+                    Section {
+                        VStack(alignment: .leading) {
+                            Text("Title *")
+                            TextField("book title", text: $title)
+                        }
                     }
-                }
-//                AddTitleField(title: self.$title)
-                
-                Section {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text("Author *")
-                        }
-                        HStack {
-                            TextField("author name", text: $author)
-                            Spacer()
-                            Button(action: { self.addAuthor() } ) {
-                                Image(systemName: "plus.circle")
-                            }.disabled(self.author == "")
-                        }
-                
-//                        if authors.count > 0 {
+                    
+                    Section {
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text("Author *")
+                            }
+                            HStack {
+                                TextField("author name", text: $author)
+                                Spacer()
+                                Button(action: { self.addAuthor() } ) {
+                                    Image(systemName: "plus.circle")
+                                }.disabled(self.author == "")
+                            }
                             List {
                                 ForEach(authors, id: \.self) { author in
                                     HStack {
@@ -65,67 +79,53 @@ struct AddBookForm: View {
                                     }
                                 }.onDelete(perform: self.swipeDeleteAuthor)
                             }
-//                        }
-                    }
-                }
-                
-                Section {
-                    VStack(alignment: .leading) {
-//                        Text("Series")
-                        
-                        Picker("Series:", selection: $seriesIndex) {
-                            Text("stand-alone").tag(-1)
-                            ForEach(0 ..< self.env.seriesList.series.count) {
-                                Text("\(self.env.seriesList.series[$0].name)").tag($0)
-                            }
                         }
-//                        .pickerStyle(WheelPickerStyle())
-//                        .labelsHidden()
                     }
-                }
-                
-                /*
-                Section {
-                    VStack(alignment: .leading) {
-                        Text("Series")
-                        
-//                        if self.showCounts {
-//                            Button(action: { self.showCounts = false }) {
-//                                Text("count is unknown")
-//                            }
+                    
+                    Section {
+                        VStack(alignment: .leading) {
                             
-                            Picker("Series:", selection: $seriesIndex) {
-                                ForEach(0 ..< self.seriesIndex.count) {
-                                    Text("\(self.seriesIndex[$0])").tag($0)
+                            Toggle(isOn: $assignSeries) {
+                                Text("Assign to Series")
+                            }
+                            
+                            if self.assignSeries {
+                                Text("").padding(.bottom)
+                                
+                                // side-by-side picker frames from  https://stackoverflow.com/questions/56961550/swiftui-placing-two-pickers-side-by-side-in-hstack-does-not-resize-pickers
+                                HStack {
+                                    VStack {
+                                        Text("Number")
+                                        Picker("Position in series", selection: $seriesPositionIndex) {
+                                            ForEach(0 ..< self.seriesPositions.count) {
+                                                Text("\(self.seriesPositions[$0])").tag($0)
+                                            }
+                                        }
+                                        .pickerStyle(WheelPickerStyle())
+                                        .frame(minWidth: 0, maxWidth: 100, minHeight: 0, maxHeight: .infinity)
+                                        .clipped()
+                                    }
+                                    
+                                    VStack {
+                                        Text("Series Name")
+                                        Picker("Series name", selection: $seriesIndex) {
+                                            ForEach(0 ..< self.env.seriesList.series.count) {
+                                                Text("\(self.env.seriesList.series[$0].name)").tag($0)
+                                            }
+                                        }
+                                        .pickerStyle(WheelPickerStyle())
+                                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                                        .clipped()
+                                    }
                                 }
                             }
-                            .pickerStyle(WheelPickerStyle())
-                            .labelsHidden()
-//                        } else {
-//                            Button(action: { self.showCounts = true }) {
-//                                Text("specify count")
-//                            }
-//                        }
-                        
-                    }
-                }*/
-                
-                Section {
-                    Button(action: { self.createBook() }) {
-                        HStack {
-                            Spacer()
-                            Text("Add Book")
-                            Spacer()
+                            
                         }
                     }
-                    // disable if no title or authors
-                    .disabled(self.title == "" || self.authors.count == 0)
-                    .alert(item: $error, content: { error in
-                        AlertHelper.alert(reason: error.reason)
-                    })
                 }
             }
-        }.navigationBarTitle("Add Book", displayMode: .inline)
+            .navigationBarTitle("Add Book", displayMode: .inline)
+            .navigationBarItems(leading: cancelButton(), trailing: saveButton())
         }
     }
     
@@ -153,11 +153,27 @@ struct AddBookForm: View {
     
     // SUBMIT FORM
     func createBook() {
-        if self.seriesIndex == -1 {
-            // post without series
+        
+        var position: Int? = nil
+        var seriesId: Int? = nil
+        if self.assignSeries {
+            position = self.seriesPositions[self.seriesPositionIndex]
+            let seriesIndex = self.seriesIndex
+            // look up series id from index
+            seriesId = self.env.seriesList.series[seriesIndex].id
+            print("series name", self.env.seriesList.series[seriesIndex].name)
         }
+        
+        print("position", String(position!))
+        print("series", String(seriesId!))
+        
         // make POST to create a book
-        let response = APIHelper.postBook(token: self.env.user.token, title: self.title, authors: self.authors)
+        let response = APIHelper.postBook(
+            token: self.env.user.token,
+            title: self.title,
+            authors: self.authors,
+            position: position,
+            seriesId: seriesId)
         
         if response["success"] != nil {
             // add new book to environment BookList
@@ -169,7 +185,7 @@ struct AddBookForm: View {
                 }
             }
             // should dismiss sheet if success
-            self.showAddForm = false
+            self.showForm = false
         } else if response["error"] != nil {
             // should pop up error if failure
             self.error = ErrorAlert(reason: response["error"]!)
@@ -182,7 +198,7 @@ struct AddBookForm: View {
 }
 
 struct AddBookForm_Previews: PreviewProvider {
-    @State static var showAddForm = true
+    @State static var showForm = true
     
     static var series1 = SeriesList.Series(
         id: 1,
@@ -199,11 +215,16 @@ struct AddBookForm_Previews: PreviewProvider {
         name: "Dresden Files",
         plannedCount: 0,
         books: [])
-    static var seriesList = SeriesList(series: [series1, series2, series3])
+    static var series4 = SeriesList.Series(
+        id: 4,
+        name: "A Song of Ice and Fire",
+        plannedCount: 6,
+        books: [])
+    static var seriesList = SeriesList(series: [series1, series2, series3, series4])
     static var env = Env(user: Env.defaultEnv.user, bookList: Env.defaultEnv.bookList, seriesList: seriesList)
     
     static var previews: some View {
-        AddBookForm(showAddForm: $showAddForm)
+        AddBookForm(showForm: $showForm)
             .environmentObject(env)
     }
 }

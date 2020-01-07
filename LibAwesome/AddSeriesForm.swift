@@ -14,7 +14,7 @@ struct AddSeriesForm: View {
 //    @EnvironmentObject var seriesList: SeriesList
     
     @State private var error: ErrorAlert?
-    @Binding var showSeriesForm: Bool
+    @Binding var showForm: Bool
     
     // form fields
     @State private var name: String = ""
@@ -27,32 +27,26 @@ struct AddSeriesForm: View {
     @State private var showCountValidation: Bool = false
     
     fileprivate func saveButton() -> some View {
-        return
-            Button(action: { self.createSeries() }) {
+        return Button(action: { self.createSeries() }) {
                 Text("Add Series")
-//                    .foregroundColor(Color.red)
             }
                 // disable if no name
-                .disabled(self.name == "")
-                .alert(item: $error, content: { error in
-                    AlertHelper.alert(reason: error.reason)
-                })
+            .disabled(self.name == "")
+            .alert(item: $error, content: { error in
+                AlertHelper.alert(reason: error.reason)
+            })
     }
 
-        fileprivate func cancelButton() -> some View {
-            return
-                Button(action: { self.showSeriesForm = false }) {
-                    Text("Cancel")
-                }
-        }
+    fileprivate func cancelButton() -> some View {
+        return Button(action: { self.showForm = false }) {
+                Text("Cancel")
+            }
+    }
 
     
     var body: some View {
         NavigationView {
         VStack {
-//            Text("Add Series")
-//                .padding(.top)
-            
             Form {
                 Section {
                     VStack(alignment: .leading) {
@@ -64,37 +58,9 @@ struct AddSeriesForm: View {
                                     .foregroundColor(Color.red)
                             }
                         }
-//                        TextField("series name", text: $name, onEditingChanged: { changed in
-//                            self.checkSeriesName(name: self.name)
-//                        })
                         TextField("series name", text: $name)
                     }
                 }
-                
-//                Section {
-//                    VStack(alignment: .leading) {
-//                        Text("Number of Books Planned \( self.count < 0 ? "?" : "" )")
-//
-//                        if self.count >= 0 {
-//                            Button(action: { self.count = -1 }) {
-//                                Text("count is unknown")
-//                            }
-//
-//                            Stepper(onIncrement: {
-//                                self.count += 1
-//                            }, onDecrement: {
-//                                if self.count > 0 {
-//                                    self.count -= 1
-//                                }
-//                            }, label: { Text("\(self.count) books planned") })
-//
-//                        } else {
-//                            Button(action: { self.count = 0 }) {
-//                                Text("specify count")
-//                            }
-//                        }
-//                    }
-//                }
                 
                 Section {
                     VStack(alignment: .leading) {
@@ -161,7 +127,7 @@ struct AddSeriesForm: View {
                 }
             }
             // should dismiss sheet if success
-            self.showSeriesForm = false
+            self.showForm = false
         } else if response["error"] != nil {
             // should pop up error if failure
             self.error = ErrorAlert(reason: response["error"]!)
@@ -176,6 +142,6 @@ struct AddSeriesForm_Previews: PreviewProvider {
     @State static var showForm = true
     
     static var previews: some View {
-        AddSeriesForm(showSeriesForm: $showForm)
+        AddSeriesForm(showForm: $showForm)
     }
 }

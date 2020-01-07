@@ -10,44 +10,60 @@ import SwiftUI
 
 struct EditBookForm: View {
     @EnvironmentObject var env: Env
-//    @EnvironmentObject var currentUser: User
-//    @EnvironmentObject var bookList: BookList
     @EnvironmentObject var book: BookList.Book
     
     @State private var error: ErrorAlert?
     
-    @Binding var showEditForm: Bool
+    @Binding var showForm: Bool
     @State var bookToEdit: BookList.Book
-    
     @State private var author: String = ""
     
+    @State private var assignSeries: Bool = false
+    @State private var seriesIndex = -1
+    @State private var seriesPositionIndex = 0
+    let seriesPositions: [Int] = Array(1...100)
+    
+    fileprivate func saveButton() -> some View {
+        return Button(action: { self.editBook() }) {
+            Text("Save Book")
+        }
+            // disable if no title or authors
+            .disabled(self.bookToEdit.title == "" || self.bookToEdit.authors.count == 0)
+            .alert(item: $error, content: { error in
+                AlertHelper.alert(reason: error.reason)
+            })
+    }
+    
+    fileprivate func cancelButton() -> some View {
+        return Button(action: { self.showForm = false }) {
+            Text("Cancel")
+        }
+    }
+    
     var body: some View {
-        VStack {
-            Text("Edit Book")
-                .padding(.top)
-            
-            Form {
-                Section {
-                    HStack {
-                        Text("Title:")
-                        TextField("title", text: $bookToEdit.title)
-                            .lineLimit(nil) // if swiftui bug is fixed, will allow multiline textfield
+        NavigationView {
+            VStack {
+                Form {
+                    Section {
+                        HStack {
+                            Text("Title:")
+                            TextField("title", text: $bookToEdit.title)
+                                .lineLimit(nil) // if swiftui bug is fixed, will allow multiline textfield
+                        }
                     }
-                }
-                
-                Section {
-                    HStack {
-                        Text("Author:")
-                        TextField("author", text: $author)
-                        Spacer()
-                        Button(action: { self.addAuthor() } ) {
-                            Image(systemName: "plus.circle")
-                        }.disabled(self.author == "")
+                    
+                    Section {
+                        HStack {
+                            Text("Author:")
+                            TextField("author", text: $author)
+                            Spacer()
+                            Button(action: { self.addAuthor() } ) {
+                                Image(systemName: "plus.circle")
+                            }.disabled(self.author == "")
+                        }
                     }
-                }
-                
-                // prevent view from assigning empty space when no authors
-//                Section {
+                    
+                    // prevent view from assigning empty space when no authors
                     if bookToEdit.authors.count > 0 {
                         Section {
                             List {
@@ -64,23 +80,51 @@ struct EditBookForm: View {
                             }
                         }
                     }
-//                }
-                
-                Section {
-                    Button(action: { self.editBook() }) {
-                        HStack {
-                            Spacer()
-                            Text("Save Book")
-                            Spacer()
+                    
+                    Section {
+                        VStack(alignment: .leading) {
+                            
+                            Toggle(isOn: $assignSeries) {
+                                Text("Assign to Series")
+                            }
+                            
+                            if self.assignSeries {
+                                Text("").padding(.bottom)
+                                
+                                // side-by-side picker frames from  https://stackoverflow.com/questions/56961550/swiftui-placing-two-pickers-side-by-side-in-hstack-does-not-resize-pickers
+                                HStack {
+                                    VStack {
+                                        Text("Number")
+                                        Picker("Position in series", selection: $seriesPositionIndex) {
+                                            ForEach(0 ..< self.seriesPositions.count) {
+                                                Text("\(self.seriesPositions[$0])").tag($0)
+                                            }
+                                        }
+                                        .pickerStyle(WheelPickerStyle())
+                                        .frame(minWidth: 0, maxWidth: 100, minHeight: 0, maxHeight: .infinity)
+                                        .clipped()
+                                    }
+                                    
+                                    VStack {
+                                        Text("Series Name")
+                                        Picker("Series name", selection: $seriesIndex) {
+                                            ForEach(0 ..< self.env.seriesList.series.count) {
+                                                Text("\(self.env.seriesList.series[$0].name)").tag($0)
+                                            }
+                                        }
+                                        .pickerStyle(WheelPickerStyle())
+                                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                                        .clipped()
+                                    }
+                                }
+                            }
+                            
                         }
                     }
-                    // disable if no title or authors
-                    .disabled(self.bookToEdit.title == "" || self.bookToEdit.authors.count == 0)
-                    .alert(item: $error, content: { error in
-                        AlertHelper.alert(reason: error.reason)
-                    })
                 }
             }
+            .navigationBarTitle("Update Book", displayMode: .inline)
+            .navigationBarItems(leading: cancelButton(), trailing: saveButton())
         }
     }
     
@@ -108,8 +152,24 @@ struct EditBookForm: View {
     }
     
     func editBook() {
-        print("editing book")
-        let response = APIHelper.putBook(token: self.env.user.token, bookId: book.id, title: self.bookToEdit.title, authors: self.bookToEdit.authors)
+        var position: Int? = nil
+        if self.assignSeries {
+            position = self.seriesPositions[self.seriesPositionIndex]
+        }
+//
+//        // make POST to create a book
+//        let response = APIHelper.postBook(
+//            token: self.env.user.token,
+//            title: self.title,
+//            authors: self.authors,
+//            position: position)
+        
+        
+        let response = APIHelper.putBook(
+            token: self.env.user.token,
+            bookId: book.id,
+            title: self.bookToEdit.title,
+            authors: self.bookToEdit.authors)
         
         if response["success"] != nil {
             // update book in environment
@@ -129,7 +189,7 @@ struct EditBookForm: View {
                 }
             }
             // should dismiss sheet if success
-            self.showEditForm = false
+            self.showForm = false
         } else if response["error"] != nil {
             // should pop up error if failure
             self.error = ErrorAlert(reason: response["error"]!)
@@ -140,7 +200,7 @@ struct EditBookForm: View {
 }
 
 struct EditBookForm_Previews: PreviewProvider {
-    @State static var showEditForm = true
+    @State static var showForm = true
     static var bookToEdit = BookList.Book(id: 1, title: "title", authors: ["author one"])
     static var exampleBook = BookList.Book(
         id: 1,
@@ -151,7 +211,7 @@ struct EditBookForm_Previews: PreviewProvider {
     ])
     
     static var previews: some View {
-        EditBookForm(showEditForm: $showEditForm, bookToEdit: bookToEdit)
+        EditBookForm(showForm: $showForm, bookToEdit: bookToEdit)
             .environmentObject(self.exampleBook)
     }
 }

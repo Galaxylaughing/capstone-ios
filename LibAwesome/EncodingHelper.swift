@@ -41,7 +41,7 @@ struct EncodingHelper {
         if let bookList = decodeBookList(str: data) {
             print("\nRESULTING BOOKS:")
             for book in bookList.books {
-                print(book)
+                print(book, book.title)
             }
             return bookList
         }

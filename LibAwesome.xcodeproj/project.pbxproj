@@ -33,6 +33,7 @@
 		0413027523C3DDF900FDF25B /* AddSeriesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413027423C3DDF900FDF25B /* AddSeriesButton.swift */; };
 		0413027723C3DFA400FDF25B /* AddIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413027623C3DFA400FDF25B /* AddIcon.swift */; };
 		0413027B23C4308300FDF25B /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413027A23C4308300FDF25B /* Env.swift */; };
+		0413027E23C4D66200FDF25B /* SheetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413027D23C4D66200FDF25B /* SheetButton.swift */; };
 		04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3223BBA43B003706C6 /* AppDelegate.swift */; };
 		04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */; };
 		04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3623BBA43B003706C6 /* TabbedView.swift */; };
@@ -94,6 +95,7 @@
 		0413027423C3DDF900FDF25B /* AddSeriesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSeriesButton.swift; sourceTree = "<group>"; };
 		0413027623C3DFA400FDF25B /* AddIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIcon.swift; sourceTree = "<group>"; };
 		0413027A23C4308300FDF25B /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
+		0413027D23C4D66200FDF25B /* SheetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetButton.swift; sourceTree = "<group>"; };
 		04AA7C2F23BBA43B003706C6 /* LibAwesome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LibAwesome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AA7C3223BBA43B003706C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -210,6 +212,14 @@
 			name = Navigation;
 			sourceTree = "<group>";
 		};
+		0413027C23C4D64F00FDF25B /* HelperViews */ = {
+			isa = PBXGroup;
+			children = (
+				0413027D23C4D66200FDF25B /* SheetButton.swift */,
+			);
+			name = HelperViews;
+			sourceTree = "<group>";
+		};
 		04AA7C2623BBA43B003706C6 = {
 			isa = PBXGroup;
 			children = (
@@ -241,6 +251,7 @@
 				04AA7C6B23BBAA67003706C6 /* LoginViews */,
 				0413024023BE94CE00FDF25B /* TabbedViews */,
 				04AA7C6923BBAA06003706C6 /* Buttons */,
+				0413027C23C4D64F00FDF25B /* HelperViews */,
 				0413023223BE621700FDF25B /* HelperFunctions */,
 				04AA7C7923BBB98A003706C6 /* Models */,
 				0413023523BE627E00FDF25B /* HelperModels */,
@@ -453,6 +464,7 @@
 				0413027523C3DDF900FDF25B /* AddSeriesButton.swift in Sources */,
 				0413023923BE63BF00FDF25B /* APIHelper.swift in Sources */,
 				04D4006623BD240B009D256C /* ContentView.swift in Sources */,
+				0413027E23C4D66200FDF25B /* SheetButton.swift in Sources */,
 				04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */,
 				0413024623BFC8A600FDF25B /* EncodingHelper.swift in Sources */,
 				0413026123C2F40E00FDF25B /* DrawerBackDrop.swift in Sources */,
