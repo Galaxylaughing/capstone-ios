@@ -152,34 +152,21 @@ struct EditBookForm: View {
     }
     
     func editBook() {
-
-        var position: Int? = nil
-        var seriesId: Int? = nil
-        if self.assignSeries {
-            position = self.seriesPositions[self.seriesPositionIndex]
-            let seriesIndex = self.seriesIndex
-            // look up series id from index
-            seriesId = self.env.seriesList.series[seriesIndex].id
-            print("series name", self.env.seriesList.series[seriesIndex].name)
-        }
+        let seriesData = BookHelper.getSeriesId(
+            seriesList: self.env.seriesList,
+            assignSeries: self.assignSeries,
+            seriesPositions: self.seriesPositions,
+            seriesPositionIndex: self.seriesPositionIndex,
+            seriesIndex: self.seriesIndex)
         
-        print("position", String(position!))
-        print("series", String(seriesId!))
-        
-//
-//        // make POST to create a book
-//        let response = APIHelper.postBook(
-//            token: self.env.user.token,
-//            title: self.title,
-//            authors: self.authors,
-//            position: position)
-        
-        
+        // make PUT to update book
         let response = APIHelper.putBook(
             token: self.env.user.token,
             bookId: book.id,
             title: self.bookToEdit.title,
-            authors: self.bookToEdit.authors)
+            authors: self.bookToEdit.authors,
+            position: seriesData["position"] ?? nil,
+            seriesId: seriesData["seriesId"] ?? nil)
         
         if response["success"] != nil {
             // update book in environment
@@ -196,6 +183,8 @@ struct EditBookForm: View {
                     // update book in state
                     self.book.title = newBook.title
                     self.book.authors = newBook.authors
+                    self.book.position = newBook.position
+                    self.book.seriesId = newBook.seriesId
                 }
             }
             // should dismiss sheet if success

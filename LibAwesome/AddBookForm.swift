@@ -153,28 +153,12 @@ struct AddBookForm: View {
     
     // SUBMIT FORM
     func createBook() {
-        
-//        getSeriesId(seriesList: SeriesList, assignSeries: Bool, seriesPositions: [Int], seriesPositionIndex: Int, seriesIndex: Int) -> [String:Int?]
-        
         let seriesData = BookHelper.getSeriesId(
             seriesList: self.env.seriesList,
             assignSeries: self.assignSeries,
             seriesPositions: self.seriesPositions,
             seriesPositionIndex: self.seriesPositionIndex,
             seriesIndex: self.seriesIndex)
-//
-//        var position: Int? = nil
-//        var seriesId: Int? = nil
-//        if self.assignSeries {
-//            position = self.seriesPositions[self.seriesPositionIndex]
-//            let seriesIndex = self.seriesIndex
-//            // look up series id from index
-//            seriesId = self.env.seriesList.series[seriesIndex].id
-//            print("series name", self.env.seriesList.series[seriesIndex].name)
-//        }
-//
-//        print("position", String(position!))
-//        print("series", String(seriesId!))
         
         // make POST to create a book
         let response = APIHelper.postBook(

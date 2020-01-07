@@ -32,7 +32,7 @@ struct BookHelper {
         
         return [
             "position": position,
-            "series": seriesId
+            "seriesId": seriesId
         ]
     }
     
