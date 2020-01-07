@@ -9,8 +9,10 @@
 import SwiftUI
 
 struct AddBookForm: View {
-    @EnvironmentObject var currentUser: User
-    @EnvironmentObject var bookList: BookList
+    @EnvironmentObject var env: Env
+//    @EnvironmentObject var currentUser: User
+//    @EnvironmentObject var bookList: BookList
+//    @EnvironmentObject var seriesList: SeriesList
     
     @State private var error: ErrorAlert?
     @Binding var showAddForm: Bool
@@ -19,17 +21,14 @@ struct AddBookForm: View {
     @State private var title: String = ""
     @State private var authors: [String] = []
     @State private var author: String = ""
-    @State private var seriesName: String = ""
-    
-    // form validation
-    @State private var seriesNameAccepted: Bool = false
-    
-    @State private var text2: String = "blank"
+//    @State private var showCounts: Bool = false
+    @State private var seriesIndex = -1
     
     var body: some View {
+        NavigationView {
         VStack {
-            Text("Add Book")
-                .padding(.top)
+//            Text("Add Book")
+//                .padding(.top)
             
             Form {
                 Section {
@@ -72,21 +71,44 @@ struct AddBookForm: View {
                 
                 Section {
                     VStack(alignment: .leading) {
-                        Text("Series")
-                        HStack {
-                            TextField("series name", text: $seriesName)
-//                            TextField("series name", text: $seriesName, onEditingChanged: { changed in
-//                                self.checkSeries(name: self.seriesName)
-//                            })
-                            
-//                            Text(self.text2)
-                            
-                            if seriesNameAccepted {
-                                Image(systemName: "checkmark.square.fill")
+//                        Text("Series")
+                        
+                        Picker("Series:", selection: $seriesIndex) {
+                            Text("stand-alone").tag(-1)
+                            ForEach(0 ..< self.env.seriesList.series.count) {
+                                Text("\(self.env.seriesList.series[$0].name)").tag($0)
                             }
                         }
+//                        .pickerStyle(WheelPickerStyle())
+//                        .labelsHidden()
                     }
                 }
+                
+                /*
+                Section {
+                    VStack(alignment: .leading) {
+                        Text("Series")
+                        
+//                        if self.showCounts {
+//                            Button(action: { self.showCounts = false }) {
+//                                Text("count is unknown")
+//                            }
+                            
+                            Picker("Series:", selection: $seriesIndex) {
+                                ForEach(0 ..< self.seriesIndex.count) {
+                                    Text("\(self.seriesIndex[$0])").tag($0)
+                                }
+                            }
+                            .pickerStyle(WheelPickerStyle())
+                            .labelsHidden()
+//                        } else {
+//                            Button(action: { self.showCounts = true }) {
+//                                Text("specify count")
+//                            }
+//                        }
+                        
+                    }
+                }*/
                 
                 Section {
                     Button(action: { self.createBook() }) {
@@ -103,17 +125,8 @@ struct AddBookForm: View {
                     })
                 }
             }
-            
-        }//.navigationBarBackButtonHidden(true)
-    }
-    
-    // SERIES FORM FIELDS
-    func checkSeries(name: String) {
-        self.text2 = "Editing Changed"
-        print("checking series")
-        // check if series name in form is one of the user's existing series
-        // if yes: do nothing
-        // if not: change a state value to display the other form fields a new series requires
+        }.navigationBarTitle("Add Book", displayMode: .inline)
+        }
     }
     
     // AUTHOR FORM FIELDS
@@ -140,14 +153,19 @@ struct AddBookForm: View {
     
     // SUBMIT FORM
     func createBook() {
+        if self.seriesIndex == -1 {
+            // post without series
+        }
         // make POST to create a book
-        let response = APIHelper.postBook(token: self.currentUser.token, title: self.title, authors: self.authors)
+        let response = APIHelper.postBook(token: self.env.user.token, title: self.title, authors: self.authors)
         
         if response["success"] != nil {
             // add new book to environment BookList
             if let newBook = EncodingHelper.makeBook(data: response["success"]!) {
+                let bookList = self.env.bookList
+                bookList.books.append(newBook)
                 DispatchQueue.main.async {
-                    self.bookList.books.append(newBook)
+                    self.env.bookList = bookList
                 }
             }
             // should dismiss sheet if success
@@ -166,7 +184,26 @@ struct AddBookForm: View {
 struct AddBookForm_Previews: PreviewProvider {
     @State static var showAddForm = true
     
+    static var series1 = SeriesList.Series(
+        id: 1,
+        name: "Animorphs",
+        plannedCount: 10,
+        books: [])
+    static var series2 = SeriesList.Series(
+        id: 2,
+        name: "Warrior Cats",
+        plannedCount: 6,
+        books: [])
+    static var series3 = SeriesList.Series(
+        id: 3,
+        name: "Dresden Files",
+        plannedCount: 0,
+        books: [])
+    static var seriesList = SeriesList(series: [series1, series2, series3])
+    static var env = Env(user: Env.defaultEnv.user, bookList: Env.defaultEnv.bookList, seriesList: seriesList)
+    
     static var previews: some View {
         AddBookForm(showAddForm: $showAddForm)
+            .environmentObject(env)
     }
 }

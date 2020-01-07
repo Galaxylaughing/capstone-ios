@@ -9,8 +9,10 @@
 import SwiftUI
 
 struct BookListView: View {
-    @EnvironmentObject var currentUser: User
-    @EnvironmentObject var bookList: BookList
+    @EnvironmentObject var env: Env
+//    @EnvironmentObject var currentUser: User
+//    @EnvironmentObject var bookList: BookList
+//    @EnvironmentObject var seriesList: SeriesList
     
     @State private var error: String?
     @State private var showConfirm = false
@@ -21,7 +23,7 @@ struct BookListView: View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
             VStack {
                 List {
-                    ForEach(bookList.books.sorted(by: {$0 < $1})) { book in
+                    ForEach(env.bookList.books.sorted(by: {$0 < $1})) { book in
                         NavigationLink(destination: BookDetailView().environmentObject(book)) {
                             VStack(alignment: .leading) {
                                 Text(book.title)
@@ -55,13 +57,17 @@ struct BookListView: View {
                 }
             }
             AddButton()
-                .padding([.bottom, .trailing])
+//            .contextMenu {
+//                AddButton(showLabel: true)
+//                AddSeriesButton(showLabel: true)
+//            }
+            .padding(10)
         }
         .navigationBarTitle("Library", displayMode: .large)
     }
     
     func displayConfirm(at id: Int) {
-        for book in bookList.books {
+        for book in env.bookList.books {
             if book.id == id {
                 self.bookTitleToDelete = book.title
             }
@@ -71,7 +77,7 @@ struct BookListView: View {
     }
     
     func displayConfirm(at offsets: IndexSet) {
-        let book = bookList.books.sorted(by: {$0 < $1})[offsets.first!]
+        let book = env.bookList.books.sorted(by: {$0 < $1})[offsets.first!]
         self.bookToDelete = book.id
         self.bookTitleToDelete = book.title
         self.showConfirm = true
@@ -81,13 +87,15 @@ struct BookListView: View {
         self.showConfirm = false
         
         // make DELETE request
-        let response = APIHelper.deleteBook(token: self.currentUser.token, bookId: self.bookToDelete)
+        let response = APIHelper.deleteBook(token: self.env.user.token, bookId: self.bookToDelete)
         
         if response["success"] != nil {
             // remove book from environment
-            if let indexToDelete = self.bookList.books.firstIndex(where: {$0.id == self.bookToDelete}) {
+            if let indexToDelete = self.env.bookList.books.firstIndex(where: {$0.id == self.bookToDelete}) {
+                let bookList = self.env.bookList
+                bookList.books.remove(at: indexToDelete)
                 DispatchQueue.main.async {
-                    self.bookList.books.remove(at: indexToDelete)
+                    self.env.bookList = bookList
                 }
             }
         } else if response["error"] != nil {
@@ -119,9 +127,11 @@ struct BookListView_Previews: PreviewProvider {
             "Libba Bray"
     ])
     static var bookList = BookList(books: [exampleBook1, exampleBook2])
+    static var env = Env(user: Env.defaultEnv.user, bookList: bookList, seriesList: Env.defaultEnv.seriesList)
     
     static var previews: some View {
         BookListView()
-            .environmentObject(bookList)
+            .environmentObject(env)
+//            .environmentObject(bookList)
     }
 }

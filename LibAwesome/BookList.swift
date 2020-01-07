@@ -60,6 +60,10 @@ class BookList: ObservableObject {
 
     }
     
+    init(bookList: BookList) {
+        self.books = bookList.books
+    }
+    
     init(books: [Book]) {
         self.books = books
     }

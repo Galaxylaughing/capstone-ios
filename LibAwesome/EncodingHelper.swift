@@ -103,7 +103,6 @@ struct EncodingHelper {
     }
 
     // turn JSON into a Series object
-    /* TO DO BE USED FOR SERIES POST/CREATE
     static func makeSeries(data: String) -> SeriesList.Series? {
         if let seriesList = decodeSeriesList(str: data) {
             print("\nRESULTING Series:")
@@ -114,5 +113,4 @@ struct EncodingHelper {
         print("ERROR")
         return nil
     }
-    */
 }

@@ -50,7 +50,5 @@ struct BookDetailView_Previews: PreviewProvider {
     static var previews: some View {
         BookDetailView()
             .environmentObject(self.exampleBook)
-            .previewDevice(PreviewDevice(rawValue: "iPhone 8"))
-            .previewDisplayName("iPhone 8")
     }
 }

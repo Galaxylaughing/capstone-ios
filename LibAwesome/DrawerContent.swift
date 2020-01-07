@@ -10,21 +10,24 @@ import SwiftUI
 
 struct DrawerContent: View {
     @Binding var parentView: AnyView
+    @Binding var isOpen: Bool
     
     var body: some View {
         ZStack {
             Color.blue
             VStack {
-                Button(action: { self.parentView = AnyView(BookListView()) }) {
+                Button(action: {
+                    self.parentView = AnyView(BookListView())
+                    self.isOpen = false
+                }) {
                     Text("Books")
                         .foregroundColor(Color.white)
                 }
-                Button(action: { self.parentView = AnyView(SeriesListView()) }) {
+                Button(action: {
+                    self.parentView = AnyView(SeriesListView())
+                    self.isOpen = false
+                }) {
                     Text("Series")
-                        .foregroundColor(Color.white)
-                }
-                Button(action: { self.parentView = AnyView(TagsView()) }) {
-                    Text("Tags")
                         .foregroundColor(Color.white)
                 }
                 Spacer()
@@ -34,9 +37,10 @@ struct DrawerContent: View {
 }
 
 struct DrawerContent_Previews: PreviewProvider {
-    @State static var parentView: AnyView = AnyView(TagsView())
+    @State static var parentView: AnyView = AnyView(BookListView())
+    @State static var isOpen = true
     
     static var previews: some View {
-        DrawerContent(parentView: self.$parentView)
+        DrawerContent(parentView: self.$parentView, isOpen: $isOpen)
     }
 }

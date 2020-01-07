@@ -8,5 +8,5 @@
 
 import Foundation
 
-let API_HOST = "http://127.0.0.1:8000/"
-//let API_HOST = "http://192.168.1.18:8000/"
+//let API_HOST = "http://127.0.0.1:8000/"
+let API_HOST = "http://192.168.1.18:8000/"

@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct TabbedView: View {
-    @EnvironmentObject var bookList: BookList
+    @EnvironmentObject var env: Env
+//    @EnvironmentObject var bookList: BookList
     @State private var selection = 0
     
     var body: some View {
@@ -25,7 +26,7 @@ struct TabbedView: View {
                         }
                 }
                 .tag(0)
-                HelloWorld()
+                Text("Search")
                     .font(.title)
                     .tabItem {
                         VStack {
@@ -60,6 +61,7 @@ struct TabbedView: View {
 struct TabbedView_Previews: PreviewProvider {
     static var previews: some View {
         TabbedView()
+            .environmentObject(Env.defaultEnv)
             .environmentObject(BookList(books: []))
     }
 }

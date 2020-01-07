@@ -9,19 +9,23 @@
 import SwiftUI
 
 struct SeriesListView: View {
-    @EnvironmentObject var currentUser: User
-    @EnvironmentObject var seriesList: SeriesList
+    @EnvironmentObject var env: Env
+//    @EnvironmentObject var currentUser: User
+//    @EnvironmentObject var bookList: BookList
+//    @EnvironmentObject var seriesList: SeriesList
     
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
             VStack {
                 List {
-                    ForEach(seriesList.series.sorted(by: {$0 < $1})) { series in
+                    ForEach(env.seriesList.series.sorted(by: {$0 < $1})) { series in
 //                        NavigationLink(destination: BookDetailView().environmentObject(book)) {
                             VStack(alignment: .leading) {
                                 Text(series.name)
-                                Text("\(series.plannedCount) books planned")
-                                    .font(.caption)
+                                if series.plannedCount > 0 {
+                                    Text("\(series.plannedCount) books planned")
+                                        .font(.caption)
+                                }
                             }
 //                        }
                     }/*.onDelete(perform: self.displayConfirm)*/
@@ -49,10 +53,14 @@ struct SeriesListView: View {
                         }
                     }*/
             }
-            /*AddButton()
-                .padding([.bottom, .trailing])*/
+            AddSeriesButton()
+//            .contextMenu {
+//                AddButton()
+//                AddSeriesButton()
+//            }
+            .padding(10)
         }
-        .navigationBarTitle("Library", displayMode: .large)
+        .navigationBarTitle("Series", displayMode: .large)
     }
     
     func getSeries() {
@@ -72,10 +80,16 @@ struct SeriesListView_Previews: PreviewProvider {
         name: "Warrior Cats",
         plannedCount: 6,
         books: [])
-    static var seriesList = SeriesList(series: [series1, series2])
+    static var series3 = SeriesList.Series(
+        id: 3,
+        name: "Dresden Files",
+        plannedCount: 0,
+        books: [])
+    static var seriesList = SeriesList(series: [series1, series2, series3])
+    static var env = Env(user: Env.defaultEnv.user, bookList: Env.defaultEnv.bookList, seriesList: seriesList)
     
     static var previews: some View {
         SeriesListView()
-            .environmentObject(seriesList)
+            .environmentObject(env)
     }
 }

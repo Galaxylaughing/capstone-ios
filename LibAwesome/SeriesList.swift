@@ -34,6 +34,10 @@ class SeriesList: ObservableObject {
         }
     }
     
+    init(seriesList: SeriesList) {
+        self.series = seriesList.series
+    }
+    
     init(series: [Series]) {
         self.series = series
     }
@@ -66,7 +70,7 @@ class SeriesList: ObservableObject {
 struct SeriesListService: Decodable {
     let series: [Series]
     
-    struct Series: Decodable {
+    struct Series: Codable {
         let id: Int
         let name: String
         let planned_count: Int

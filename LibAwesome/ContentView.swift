@@ -9,13 +9,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var currentUser: User
-    @EnvironmentObject var bookList: BookList
-    @EnvironmentObject var seriesList: SeriesList
+    @EnvironmentObject var env: Env
+//    @EnvironmentObject var currentUser: User
+//    @EnvironmentObject var bookList: BookList
+//    @EnvironmentObject var seriesList: SeriesList
     
     var body: some View {
         HStack {
-            if currentUser.token != nil {
+            if self.env.user.token != nil {
                 TabbedView()
                     .onAppear {
                         self.getBooks()
@@ -27,14 +28,15 @@ struct ContentView: View {
         }
     }
     
-    func getBooks() {
-        let response = APIHelper.getSeries(token: self.currentUser.token)
+    func getSeries() {
+        let response = APIHelper.getSeries(token: self.env.user.token)
         
         if let data = response["success"] {
             let apiSeriesList = EncodingHelper.makeSeriesList(data: data) ?? SeriesList(series: [])
             // update the environment variable
             DispatchQueue.main.async {
-                self.seriesList.series = apiSeriesList.series
+                self.env.seriesList = apiSeriesList
+//                self.seriesList.series = apiSeriesList.series
             }
         } else if let errorData = response["error"] {
             print(errorData)
@@ -43,14 +45,15 @@ struct ContentView: View {
         }
     }
     
-    func getSeries() {
-        let response = APIHelper.getBooks(token: self.currentUser.token)
+    func getBooks() {
+        let response = APIHelper.getBooks(token: self.env.user.token)
         
         if let data = response["success"] {
             let apiBookList = EncodingHelper.makeBookList(data: data) ?? BookList(books: [])
             // update the environment variable
             DispatchQueue.main.async {
-                self.bookList.books = apiBookList.books
+                self.env.bookList = apiBookList
+//                self.bookList.books = apiBookList.books
             }
         } else if let errorData = response["error"] {
             print(errorData)
@@ -63,8 +66,9 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
        ContentView()
-        .environmentObject(User())
-        .environmentObject(BookList(books: []))
-        .environmentObject(SeriesList(series: []))
+        .environmentObject(Env.defaultEnv)
+//        .environmentObject(User())
+//        .environmentObject(BookList(books: []))
+//        .environmentObject(SeriesList(series: []))
     }
 }

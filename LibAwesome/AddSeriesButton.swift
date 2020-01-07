@@ -1,40 +1,38 @@
 //
-//  AddButton.swift
+//  AddSeriesButton.swift
 //  LibAwesome
 //
-//  Created by Sabrina on 1/3/20.
+//  Created by Sabrina on 1/6/20.
 //  Copyright © 2020 SabrinaLowney. All rights reserved.
 //
 
 import SwiftUI
 
-struct AddButton: View {
+struct AddSeriesButton: View {
     @EnvironmentObject var env: Env
 //    @EnvironmentObject var currentUser: User
-//    @EnvironmentObject var bookList: BookList
 //    @EnvironmentObject var seriesList: SeriesList
-    @State var showAddForm: Bool = false
+    @State var showSeriesForm: Bool = false
     @State var showLabel: Bool = false
     
     var body: some View {
-        Button(action: { self.showAddForm.toggle() }) {
+        Button(action: { self.showSeriesForm.toggle() }) {
             if self.showLabel {
-                Text("Add Book")
+                Text("Add Series")
             } else {
                 AddIcon()
             }
-        }.sheet(isPresented: $showAddForm) {
-            AddBookForm(showAddForm: self.$showAddForm)
+        }.sheet(isPresented: $showSeriesForm) {
+            AddSeriesForm(showSeriesForm: self.$showSeriesForm)
                 .environmentObject(self.env)
 //                .environmentObject(self.currentUser)
-//                .environmentObject(self.bookList)
 //                .environmentObject(self.seriesList)
         }
     }
 }
 
-struct AddButton_Previews: PreviewProvider {
+struct AddSeriesButton_Previews: PreviewProvider {
     static var previews: some View {
-        AddButton()
+        AddSeriesButton()
     }
 }

@@ -9,8 +9,9 @@
 import SwiftUI
 
 struct EditBookForm: View {
-    @EnvironmentObject var currentUser: User
-    @EnvironmentObject var bookList: BookList
+    @EnvironmentObject var env: Env
+//    @EnvironmentObject var currentUser: User
+//    @EnvironmentObject var bookList: BookList
     @EnvironmentObject var book: BookList.Book
     
     @State private var error: ErrorAlert?
@@ -108,17 +109,19 @@ struct EditBookForm: View {
     
     func editBook() {
         print("editing book")
-        let response = APIHelper.putBook(token: self.currentUser.token, bookId: book.id, title: self.bookToEdit.title, authors: self.bookToEdit.authors)
+        let response = APIHelper.putBook(token: self.env.user.token, bookId: book.id, title: self.bookToEdit.title, authors: self.bookToEdit.authors)
         
         if response["success"] != nil {
             // update book in environment
             if let newBook = EncodingHelper.makeBook(data: response["success"]!) {
-                DispatchQueue.main.async {
-                    // update book in environment's BookList
-                    // find book in booklist with the newBook's id
-                    if let index = self.bookList.books.firstIndex(where: { $0.id == newBook.id }) {
+                // update book in environment's BookList
+                // find book in booklist with the newBook's id
+                if let index = self.env.bookList.books.firstIndex(where: { $0.id == newBook.id }) {
+                    let bookList = self.env.bookList
+                    bookList.books[index] = newBook
+                    DispatchQueue.main.async {
                         // replace book at index
-                        self.bookList.books[index] = newBook
+                        self.env.bookList = bookList
                     }
                     // update book in state
                     self.book.title = newBook.title

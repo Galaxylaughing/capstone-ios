@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct LoginForm: View {
-    @EnvironmentObject var currentUser: User
+    @EnvironmentObject var env: Env
+//    @EnvironmentObject var currentUser: User
     @State private var showSignUp: Bool = false
     @State private var signupSuccess: Bool = false
     
@@ -74,10 +75,17 @@ struct LoginForm: View {
             // from https://stackoverflow.com/questions/57798050/updating-published-variable-of-an-observableobject-inside-child-view
             // Update the value on the main thread
             DispatchQueue.main.async {
-                self.currentUser.username = self.username
-                self.currentUser.token = userToken
+//                self.env = Env(env: self.env)
+                self.env.user = User(username: self.username, token: userToken)
+//                self.env.user.username = self.username
+//                self.env.user.token = userToken
+                print(self.env.user)
+                print(self.env.user.username ?? "couldn't get username")
+                print(self.env.user.token ?? "couldn't get token")
                 
-                print(self.currentUser)
+//                self.currentUser.username = self.username
+//                self.currentUser.token = userToken
+//                print(self.currentUser)
             }
         } else if let errorData = response["error"] {
             self.error = ErrorAlert(reason: "\(errorData)")
@@ -91,6 +99,7 @@ struct LoginForm: View {
 struct LoginForm_Previews: PreviewProvider {
     static var previews: some View {
         LoginForm()
-            .environmentObject(User())
+            .environmentObject(Env.defaultEnv)
+//            .environmentObject(User())
     }
 }

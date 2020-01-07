@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct SignUpForm: View {
-    @EnvironmentObject var currentUser: User
+//    @EnvironmentObject var env: Env
+//    @EnvironmentObject var currentUser: User
     @Binding var showSignUp: Bool
     @Binding var signupSuccess: Bool
     
@@ -79,6 +80,7 @@ struct SignUpForm_Previews: PreviewProvider {
     @State static var signupSuccess: Bool = false
     
     static var previews: some View {
-        SignUpForm(showSignUp: $showSignUp, signupSuccess: $signupSuccess).environmentObject(User())
+        SignUpForm(showSignUp: $showSignUp, signupSuccess: $signupSuccess)
+//            .environmentObject(User())
     }
 }

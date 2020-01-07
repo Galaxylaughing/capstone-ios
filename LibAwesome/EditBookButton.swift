@@ -9,8 +9,9 @@
 import SwiftUI
 
 struct EditBookButton: View {
-    @EnvironmentObject var currentUser: User
-    @EnvironmentObject var bookList: BookList
+    @EnvironmentObject var env: Env
+//    @EnvironmentObject var currentUser: User
+//    @EnvironmentObject var bookList: BookList
     
     @EnvironmentObject var book: BookList.Book
     @State var showEditForm: Bool = false
@@ -25,9 +26,10 @@ struct EditBookButton: View {
         }.sheet(isPresented: $showEditForm) {
 //            EditBookForm(showEditForm: self.$showEditForm, bookToEdit: BookList.Book(id: self.book.id, title: self.book.title, authors: self.book.authors))
             EditBookForm(showEditForm: self.$showEditForm, bookToEdit: BookList.Book(id: self.book.id, title: self.book.title, authors: self.book.authors))
-                .environmentObject(self.currentUser)
-                .environmentObject(self.bookList)
+                .environmentObject(self.env)
                 .environmentObject(self.book)
+//                .environmentObject(self.currentUser)
+//                .environmentObject(self.bookList)
         }
     }
 }
