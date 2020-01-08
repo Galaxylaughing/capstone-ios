@@ -17,10 +17,23 @@ struct EditBookButton: View {
         Button(action: { self.showForm.toggle() }) {
             EditIcon()
         }.sheet(isPresented: $showForm) {
-            EditBookForm(showForm: self.$showForm, bookToEdit: BookList.Book(id: self.book.id, title: self.book.title, authors: self.book.authors))
+            EditBookForm(showForm: self.$showForm,
+                         bookToEdit: BookList.Book(id: self.book.id, title: self.book.title, authors: self.book.authors),
+                         assignSeries: (self.book.seriesId != nil),
+                         seriesIndex: self.getSeriesIndex(),
+                         seriesPositionIndex: self.book.position - 1)
                 .environmentObject(self.env)
                 .environmentObject(self.book)
         }
+    }
+    
+    func getSeriesIndex() -> Int {
+        var seriesIndex = 0
+        let seriesList = self.env.seriesList.series
+        if let index = seriesList.firstIndex(where: {$0.id == self.book.seriesId}) {
+            seriesIndex = index
+        }
+        return seriesIndex
     }
 }
 

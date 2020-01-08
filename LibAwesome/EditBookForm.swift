@@ -18,9 +18,9 @@ struct EditBookForm: View {
     @State var bookToEdit: BookList.Book
     @State private var author: String = ""
     
-    @State private var assignSeries: Bool = false
-    @State private var seriesIndex = -1
-    @State private var seriesPositionIndex = 0
+    @State var assignSeries: Bool
+    @State var seriesIndex: Int
+    @State var seriesPositionIndex: Int
     let seriesPositions: [Int] = Array(1...100)
     
     fileprivate func saveButton() -> some View {
@@ -89,8 +89,6 @@ struct EditBookForm: View {
                             }
                             
                             if self.assignSeries {
-                                Text("").padding(.bottom)
-                                
                                 // side-by-side picker frames from  https://stackoverflow.com/questions/56961550/swiftui-placing-two-pickers-side-by-side-in-hstack-does-not-resize-pickers
                                 HStack {
                                     VStack {
@@ -101,7 +99,7 @@ struct EditBookForm: View {
                                             }
                                         }
                                         .pickerStyle(WheelPickerStyle())
-                                        .frame(minWidth: 0, maxWidth: 100, minHeight: 0, maxHeight: .infinity)
+                                        .frame(minWidth: 0, maxWidth: 100, minHeight: 0)
                                         .clipped()
                                     }
                                     
@@ -109,14 +107,14 @@ struct EditBookForm: View {
                                         Text("Series Name")
                                         Picker("Series name", selection: $seriesIndex) {
                                             ForEach(0 ..< self.env.seriesList.series.count) {
-                                                Text("\(self.env.seriesList.series[$0].name)").tag($0)
+                                                Text("\(self.env.seriesList.series[$0].name)").tag($0+1)
                                             }
                                         }
                                         .pickerStyle(WheelPickerStyle())
-                                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0)
                                         .clipped()
                                     }
-                                }
+                                }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 150)
                             }
                             
                         }
@@ -230,7 +228,7 @@ struct EditBookForm_Previews: PreviewProvider {
     ])
     
     static var previews: some View {
-        EditBookForm(showForm: $showForm, bookToEdit: bookToEdit)
+        EditBookForm(showForm: $showForm, bookToEdit: bookToEdit, assignSeries: false, seriesIndex: 1, seriesPositionIndex: 1)
             .environmentObject(self.exampleBook)
     }
 }
