@@ -17,7 +17,7 @@ struct EditSeriesButton: View {
         Button(action: { self.showForm.toggle() }) {
             EditIcon()
         }.sheet(isPresented: $showForm) {            
-            EditSeriesForm(showForm: self.$showForm, formSeries: SeriesList.Series(id: self.series.id, name: self.series.name, plannedCount: self.series.plannedCount, books: self.series.books))
+            EditSeriesForm(showForm: self.$showForm, formSeries: SeriesList.Series(id: self.series.id, name: self.series.name, plannedCount: self.series.plannedCount, books: self.series.books), showCounts: (self.series.plannedCount > 0))
                 .environmentObject(self.env)
                 .environmentObject(self.series)
         }

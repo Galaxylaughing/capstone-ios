@@ -548,7 +548,7 @@ struct APIHelper {
         token: String?,
         seriesId: Int,
         name: String,
-        planned_count: Int,
+        plannedCount: Int,
         books: [Int]) -> [String:String] {
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
@@ -566,7 +566,7 @@ struct APIHelper {
         request.setValue(value, forHTTPHeaderField: "Authorization")
 
         // set body
-        let series = SeriesListService.Series(id: seriesId, name: name, planned_count: planned_count, books: books)
+        let series = SeriesListService.Series(id: seriesId, name: name, planned_count: plannedCount, books: books)
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
 
