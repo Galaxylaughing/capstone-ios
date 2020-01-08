@@ -31,10 +31,6 @@ struct SeriesListView: View {
                                     Text("\(series.plannedCount) books planned")
                                         .font(.caption)
                                 }
-                                HStack {
-                                    Spacer()
-                                    EditSeriesButton().environmentObject(series)
-                                }
                             }
                         }
                     }.onDelete(perform: self.displayConfirm)

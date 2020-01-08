@@ -54,6 +54,7 @@ struct SeriesDetailView: View {
             
         }
         .navigationBarTitle("Series", displayMode: .inline)
+        .navigationBarItems(trailing: EditSeriesButton().environmentObject(self.series))
     }
     
     func getBooks() -> [BookList.Book] {
