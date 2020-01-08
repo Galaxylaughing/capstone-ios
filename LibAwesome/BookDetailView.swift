@@ -30,8 +30,8 @@ struct BookDetailView: View {
                 Text(book.authorNames())
                     .font(.headline)
                     .multilineTextAlignment(.center)
-                if book.position != nil {
-                    Text("Number \(String(book.position!)) in its series")
+                if book.seriesId != nil {
+                    Text("Number \(String(book.position)) in its series")
                         .padding(.top)
                 }
                 if book.seriesId != nil {
@@ -45,8 +45,10 @@ struct BookDetailView: View {
     }
     
     func getSeriesName() -> String {
-        let series = self.env.seriesList.series.first(where: {$0.id == book.seriesId})
-        return series!.name
+        if let series = self.env.seriesList.series.first(where: {$0.id == book.seriesId}) {
+            return series.name
+        }
+        return "[unknown]"
     }
     
 }

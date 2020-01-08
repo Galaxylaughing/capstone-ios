@@ -57,24 +57,20 @@ struct BookListView: View {
                 }
             }
             AddButton()
-//            .contextMenu {
-//                AddButton(showLabel: true)
-//                AddSeriesButton(showLabel: true)
-//            }
-            .padding(10)
+                .padding(10)
         }
         .navigationBarTitle("Library", displayMode: .large)
     }
     
-    func displayConfirm(at id: Int) {
-        for book in env.bookList.books {
-            if book.id == id {
-                self.bookTitleToDelete = book.title
-            }
-        }
-        self.bookToDelete = id
-        self.showConfirm = true
-    }
+//    func displayConfirm(at id: Int) {
+//        for book in env.bookList.books {
+//            if book.id == id {
+//                self.bookTitleToDelete = book.title
+//            }
+//        }
+//        self.bookToDelete = id
+//        self.showConfirm = true
+//    }
     
     func displayConfirm(at offsets: IndexSet) {
         let book = env.bookList.books.sorted(by: {$0 < $1})[offsets.first!]

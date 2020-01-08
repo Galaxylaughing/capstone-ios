@@ -9,12 +9,12 @@
 import SwiftUI
 
 struct EditBookForm: View {
+    @Binding var showForm: Bool
     @EnvironmentObject var env: Env
     @EnvironmentObject var book: BookList.Book
     
     @State private var error: ErrorAlert?
     
-    @Binding var showForm: Bool
     @State var bookToEdit: BookList.Book
     @State private var author: String = ""
     
@@ -175,10 +175,30 @@ struct EditBookForm: View {
                 // find book in booklist with the newBook's id
                 if let index = self.env.bookList.books.firstIndex(where: { $0.id == newBook.id }) {
                     let bookList = self.env.bookList
+                    let oldBook = bookList.books[index]
                     bookList.books[index] = newBook
+                    
+                    if oldBook.seriesId != newBook.seriesId {
+                        if let oldSeriesIndex = self.env.seriesList.series.firstIndex(where: {$0.id == oldBook.seriesId}) {
+                            // remove newBook id from books list
+                            var tempBooks = self.env.seriesList.series[oldSeriesIndex].books
+                            if let index = tempBooks.firstIndex(of: newBook.id) {
+                                tempBooks.remove(at: index)
+                            }
+                            self.env.seriesList.series[oldSeriesIndex].books = tempBooks
+                        }
+                        if let newSeriesIndex = self.env.seriesList.series.firstIndex(where: {$0.id == newBook.seriesId}) {
+                            // add newBook id to books list
+                            self.env.seriesList.series[newSeriesIndex].books.append(newBook.id)
+                        }
+                    }
+                    
+                    let seriesList = SeriesList(seriesList: self.env.seriesList)
+                    
                     DispatchQueue.main.async {
                         // replace book at index
                         self.env.bookList = bookList
+                        self.env.seriesList = seriesList
                     }
                     // update book in state
                     self.book.title = newBook.title

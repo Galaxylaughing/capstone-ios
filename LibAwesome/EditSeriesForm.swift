@@ -1,49 +1,46 @@
 //
-//  AddSeriesForm.swift
+//  EditSeriesForm.swift
 //  LibAwesome
 //
-//  Created by Sabrina on 1/6/20.
+//  Created by Sabrina on 1/7/20.
 //  Copyright © 2020 SabrinaLowney. All rights reserved.
 //
 
 import SwiftUI
 
-struct AddSeriesForm: View {
+struct EditSeriesForm: View {
     @EnvironmentObject var env: Env
-    
-    @State private var error: ErrorAlert?
+    @EnvironmentObject var series: SeriesList.Series
     @Binding var showForm: Bool
     
+    @State private var error: ErrorAlert?
+
     // form fields
-    @State private var name: String = ""
-    @State private var showCounts: Bool = false
-    @State private var plannedCountIndex = 0
-    let plannedCounts: [Int] = Array(1...100)
-    
-    // form field validation
-    @State private var showNameValidation: Bool = false
-    @State private var showCountValidation: Bool = false
+    @State var formSeries: SeriesList.Series // name
+    @State var showCounts: Bool = false
+//    @State var plannedCountIndex = 0
+//    let plannedCounts: [Int] = Array(1...100)
     
     
+    // navigation bar button
     fileprivate func saveButton() -> some View {
-        return Button(action: { self.createSeries() }) {
-            Text("Add Series")
+        return Button(action: { self.updateSeries() }) {
+            Text("Save")
         }
             // disable if no name
-            .disabled(self.name == "")
+            .disabled(self.formSeries.name == "")
             .alert(item: $error, content: { error in
                 AlertHelper.alert(reason: error.reason)
             })
     }
-    
     fileprivate func cancelButton() -> some View {
         return Button(action: { self.showForm = false }) {
             Text("Cancel")
         }
     }
     
-    
     var body: some View {
+        
         NavigationView {
             VStack {
                 Form {
@@ -52,27 +49,20 @@ struct AddSeriesForm: View {
                             HStack {
                                 Text("Name *")
                                 Spacer()
-                                if self.showNameValidation {
-                                    Text("name is required")
-                                        .foregroundColor(Color.red)
-                                }
                             }
-                            TextField("series name", text: $name)
+                            TextField("series name", text: $formSeries.name)
                         }
                     }
                     
                     Section {
                         VStack(alignment: .leading) {
-//                            Text("Number of Books Planned: \(self.showCounts ? "\(self.plannedCountIndex + 1)" : "unknown" )")
-                            
                             Toggle(isOn: $showCounts) {
                                 Text("Assign Number of Books Planned")
                             }
-                            
                             if self.showCounts {
-                                Picker("Number of Books Planned:", selection: $plannedCountIndex) {
-                                    ForEach(0 ..< self.plannedCounts.count) {
-                                        Text("\(self.plannedCounts[$0])").tag($0)
+                                Picker("Number of Books Planned:", selection: self.$formSeries.plannedCount) {
+                                    ForEach(1 ... 100, id: \.self) {
+                                        Text("\($0)").tag($0)
                                     }
                                 }
                                 .pickerStyle(WheelPickerStyle())
@@ -81,31 +71,20 @@ struct AddSeriesForm: View {
                         }
                     }
                 }
-                
+
             }
-            .navigationBarTitle("Add Series", displayMode: .inline)
+            .navigationBarTitle("Edit Series", displayMode: .inline)
             .navigationBarItems(leading: cancelButton(), trailing: saveButton())
         }
     }
     
-    
-    // name validation
-    func checkSeriesName(name: String) {
-        if name.count > 0 {
-            self.showNameValidation = false
-        } else {
-            self.showNameValidation = true
-        }
-    }
-    
-    // SUBMIT FORM
-    func createSeries() {
+    func updateSeries() {
         var plannedCount: Int = 0
         if self.showCounts {
-            plannedCount = self.plannedCounts[self.plannedCountIndex]
+            plannedCount = self.formSeries.plannedCount//self.plannedCounts[self.formSeries.plannedCount]
         }
         
-        let response = APIHelper.postSeries(token: self.env.user.token, name: self.name, plannedCount: plannedCount, books: [])
+        let response = APIHelper.postSeries(token: self.env.user.token, name: self.formSeries.name, plannedCount: plannedCount, books: self.formSeries.books)
         
         if response["success"] != nil {
             // add new book to environment BookList
@@ -124,14 +103,20 @@ struct AddSeriesForm: View {
         } else {
             self.error = ErrorAlert(reason: "Unknown error")
         }
-        
     }
 }
 
-struct AddSeriesForm_Previews: PreviewProvider {
+struct EditSeriesForm_Previews: PreviewProvider {
     @State static var showForm = true
+    static var series1 = SeriesList.Series(
+        id: 1,
+        name: "Animorphs",
+        plannedCount: 2,
+        books: [])
     
     static var previews: some View {
-        AddSeriesForm(showForm: $showForm)
+        EditSeriesForm(
+            showForm: $showForm,
+            formSeries: SeriesList.Series(id: self.series1.id, name: self.series1.name, plannedCount: self.series1.plannedCount, books: self.series1.books))
     }
 }

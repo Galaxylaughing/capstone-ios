@@ -15,7 +15,7 @@ class BookList: ObservableObject {
         var id: Int
         @Published var title: String
         @Published var authors: [String]
-        @Published var position: Int?
+        @Published var position: Int
         @Published var seriesId: Int?
         
         func authorNames() -> String {
@@ -48,7 +48,7 @@ class BookList: ObservableObject {
         }
         
         // init
-        init(id: Int, title: String, authors: [String], position: Int? = nil, seriesId: Int? = nil) {
+        init(id: Int, title: String, authors: [String], position: Int = 1, seriesId: Int? = nil) {
             self.id = id
             self.title = title
             self.authors = authors
@@ -90,7 +90,7 @@ class BookList: ObservableObject {
                 id: item.id,
                 title: item.title,
                 authors: authors,
-                position: item.position_in_series,
+                position: item.position_in_series ?? 1,
                 seriesId: item.series
             )
             

@@ -15,11 +15,7 @@ struct EditBookButton: View {
     
     var body: some View {
         Button(action: { self.showForm.toggle() }) {
-            HStack {
-                Text("edit")
-                    .font(.caption)
-                Image(systemName: "pencil")
-            }
+            EditIcon()
         }.sheet(isPresented: $showForm) {
             EditBookForm(showForm: self.$showForm, bookToEdit: BookList.Book(id: self.book.id, title: self.book.title, authors: self.book.authors))
                 .environmentObject(self.env)

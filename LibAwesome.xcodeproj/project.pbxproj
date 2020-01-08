@@ -33,8 +33,12 @@
 		0413027523C3DDF900FDF25B /* AddSeriesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413027423C3DDF900FDF25B /* AddSeriesButton.swift */; };
 		0413027723C3DFA400FDF25B /* AddIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413027623C3DFA400FDF25B /* AddIcon.swift */; };
 		0413027B23C4308300FDF25B /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413027A23C4308300FDF25B /* Env.swift */; };
-		0413027E23C4D66200FDF25B /* SheetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413027D23C4D66200FDF25B /* SheetButton.swift */; };
 		0413028023C4F4C400FDF25B /* BookHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413027F23C4F4C400FDF25B /* BookHelper.swift */; };
+		0413028223C502CE00FDF25B /* SeriesForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413028123C502CE00FDF25B /* SeriesForm.swift */; };
+		0413028423C5098300FDF25B /* EditSeriesForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413028323C5098300FDF25B /* EditSeriesForm.swift */; };
+		0413028623C5118700FDF25B /* EditSeriesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413028523C5118700FDF25B /* EditSeriesButton.swift */; };
+		0413028823C5120600FDF25B /* EditIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413028723C5120600FDF25B /* EditIcon.swift */; };
+		0413028A23C5401E00FDF25B /* SeriesDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413028923C5401E00FDF25B /* SeriesDetailView.swift */; };
 		04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3223BBA43B003706C6 /* AppDelegate.swift */; };
 		04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */; };
 		04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3623BBA43B003706C6 /* TabbedView.swift */; };
@@ -96,8 +100,12 @@
 		0413027423C3DDF900FDF25B /* AddSeriesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSeriesButton.swift; sourceTree = "<group>"; };
 		0413027623C3DFA400FDF25B /* AddIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIcon.swift; sourceTree = "<group>"; };
 		0413027A23C4308300FDF25B /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
-		0413027D23C4D66200FDF25B /* SheetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetButton.swift; sourceTree = "<group>"; };
 		0413027F23C4F4C400FDF25B /* BookHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookHelper.swift; sourceTree = "<group>"; };
+		0413028123C502CE00FDF25B /* SeriesForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesForm.swift; sourceTree = "<group>"; };
+		0413028323C5098300FDF25B /* EditSeriesForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSeriesForm.swift; sourceTree = "<group>"; };
+		0413028523C5118700FDF25B /* EditSeriesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSeriesButton.swift; sourceTree = "<group>"; };
+		0413028723C5120600FDF25B /* EditIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditIcon.swift; sourceTree = "<group>"; };
+		0413028923C5401E00FDF25B /* SeriesDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesDetailView.swift; sourceTree = "<group>"; };
 		04AA7C2F23BBA43B003706C6 /* LibAwesome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LibAwesome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AA7C3223BBA43B003706C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -180,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				0413024923C022B400FDF25B /* BookDetailView.swift */,
+				0413028923C5401E00FDF25B /* SeriesDetailView.swift */,
 				0413026723C39BCF00FDF25B /* Forms */,
 				0413026823C39BD900FDF25B /* Navigation */,
 			);
@@ -201,6 +210,8 @@
 				0413024E23C0613F00FDF25B /* AddBookForm.swift */,
 				0413025823C28E5000FDF25B /* EditBookForm.swift */,
 				0413027223C3DD8600FDF25B /* AddSeriesForm.swift */,
+				0413028323C5098300FDF25B /* EditSeriesForm.swift */,
+				0413028123C502CE00FDF25B /* SeriesForm.swift */,
 			);
 			name = Forms;
 			sourceTree = "<group>";
@@ -213,14 +224,6 @@
 				0413026023C2F40E00FDF25B /* DrawerBackDrop.swift */,
 			);
 			name = Navigation;
-			sourceTree = "<group>";
-		};
-		0413027C23C4D64F00FDF25B /* HelperViews */ = {
-			isa = PBXGroup;
-			children = (
-				0413027D23C4D66200FDF25B /* SheetButton.swift */,
-			);
-			name = HelperViews;
 			sourceTree = "<group>";
 		};
 		04AA7C2623BBA43B003706C6 = {
@@ -254,7 +257,6 @@
 				04AA7C6B23BBAA67003706C6 /* LoginViews */,
 				0413024023BE94CE00FDF25B /* TabbedViews */,
 				04AA7C6923BBAA06003706C6 /* Buttons */,
-				0413027C23C4D64F00FDF25B /* HelperViews */,
 				0413023223BE621700FDF25B /* HelperFunctions */,
 				04AA7C7923BBB98A003706C6 /* Models */,
 				0413023523BE627E00FDF25B /* HelperModels */,
@@ -302,8 +304,10 @@
 				0413024C23C0566E00FDF25B /* AddButton.swift */,
 				0413026523C39B5500FDF25B /* AddBookIcon.swift */,
 				0413027623C3DFA400FDF25B /* AddIcon.swift */,
+				0413028723C5120600FDF25B /* EditIcon.swift */,
 				0413025623C28E1900FDF25B /* EditBookButton.swift */,
 				0413027423C3DDF900FDF25B /* AddSeriesButton.swift */,
+				0413028523C5118700FDF25B /* EditSeriesButton.swift */,
 			);
 			name = Buttons;
 			sourceTree = "<group>";
@@ -460,21 +464,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0413028423C5098300FDF25B /* EditSeriesForm.swift in Sources */,
 				0413025923C28E5000FDF25B /* EditBookForm.swift in Sources */,
 				0413023423BE624600FDF25B /* AlertHelper.swift in Sources */,
 				04AA7C7523BBB158003706C6 /* SignUpForm.swift in Sources */,
 				04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */,
 				0413028023C4F4C400FDF25B /* BookHelper.swift in Sources */,
+				0413028823C5120600FDF25B /* EditIcon.swift in Sources */,
 				0413027523C3DDF900FDF25B /* AddSeriesButton.swift in Sources */,
 				0413023923BE63BF00FDF25B /* APIHelper.swift in Sources */,
+				0413028223C502CE00FDF25B /* SeriesForm.swift in Sources */,
 				04D4006623BD240B009D256C /* ContentView.swift in Sources */,
-				0413027E23C4D66200FDF25B /* SheetButton.swift in Sources */,
 				04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */,
 				0413024623BFC8A600FDF25B /* EncodingHelper.swift in Sources */,
 				0413026123C2F40E00FDF25B /* DrawerBackDrop.swift in Sources */,
 				04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */,
 				0413025D23C2EB9C00FDF25B /* DrawerContent.swift in Sources */,
+				0413028623C5118700FDF25B /* EditSeriesButton.swift in Sources */,
 				0413023123BE5ABB00FDF25B /* LogoutButton.swift in Sources */,
+				0413028A23C5401E00FDF25B /* SeriesDetailView.swift in Sources */,
 				04D4006423BBF982009D256C /* ErrorAlert.swift in Sources */,
 				04AA7C7F23BBC3AF003706C6 /* Constants.swift in Sources */,
 				0413024A23C022B400FDF25B /* BookDetailView.swift in Sources */,

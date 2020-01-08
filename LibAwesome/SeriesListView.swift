@@ -14,29 +14,38 @@ struct SeriesListView: View {
 //    @EnvironmentObject var bookList: BookList
 //    @EnvironmentObject var seriesList: SeriesList
     
+    @State private var error: String?
+    @State private var showConfirm = false
+    @State private var seriesToDelete: Int = 0
+    @State private var seriesNameToDelete: String = ""
+    
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
             VStack {
                 List {
                     ForEach(env.seriesList.series.sorted(by: {$0 < $1})) { series in
-//                        NavigationLink(destination: BookDetailView().environmentObject(book)) {
+                        NavigationLink(destination: SeriesDetailView().environmentObject(series)) {
                             VStack(alignment: .leading) {
                                 Text(series.name)
                                 if series.plannedCount > 0 {
                                     Text("\(series.plannedCount) books planned")
                                         .font(.caption)
                                 }
+                                HStack {
+                                    Spacer()
+                                    EditSeriesButton().environmentObject(series)
+                                }
                             }
-//                        }
-                    }/*.onDelete(perform: self.displayConfirm)*/
+                        }
+                    }.onDelete(perform: self.displayConfirm)
                 }
                     // from https://www.hackingwithswift.com/quick-start/ios-swiftui/using-an-alert-to-pop-a-navigationlink-programmatically
-                    /*.alert(isPresented: self.$showConfirm) {
+                    .alert(isPresented: self.$showConfirm) {
                         if self.error == nil {
-                            return Alert(title: Text("Delete '\(self.bookTitleToDelete)'"),
+                            return Alert(title: Text("Delete '\(self.seriesNameToDelete)'"),
                                          message: Text("Are you sure?"),
                                          primaryButton: .destructive(Text("Delete")) {
-                                            self.swipeDeleteBook()
+                                            self.swipeDeleteSeries()
                                 },
                                          secondaryButton: .cancel()
                             )
@@ -51,17 +60,61 @@ struct SeriesListView: View {
                                 )
                             )
                         }
-                    }*/
+                    }
             }
             AddSeriesButton()
-//            .contextMenu {
-//                AddButton()
-//                AddSeriesButton()
-//            }
-            .padding(10)
+                .padding(10)
         }
         .navigationBarTitle("Series", displayMode: .large)
     }
+    
+    
+//    func displayConfirm(at id: Int) {
+//        for book in env.bookList.books {
+//            if book.id == id {
+//                self.bookTitleToDelete = book.title
+//            }
+//        }
+//        self.bookToDelete = id
+//        self.showConfirm = true
+//    }
+    
+    func displayConfirm(at offsets: IndexSet) {
+        let series = env.seriesList.series.sorted(by: {$0 < $1})[offsets.first!]
+        self.seriesToDelete = series.id
+        self.seriesNameToDelete = series.name
+        self.showConfirm = true
+    }
+    
+    func swipeDeleteSeries() {
+        self.showConfirm = false
+        
+        // make DELETE request
+        let response = APIHelper.deleteSeries(token: self.env.user.token, seriesId: self.seriesToDelete)
+        
+        if response["success"] != nil {
+            // remove book from environment
+            if let indexToDelete = self.env.seriesList.series.firstIndex(where: {$0.id == self.seriesToDelete}) {
+                let seriesList = self.env.seriesList
+                seriesList.series.remove(at: indexToDelete)
+                DispatchQueue.main.async {
+                    self.env.seriesList = seriesList
+                }
+            }
+        } else if response["error"] != nil {
+            self.error = response["error"]!
+            DispatchQueue.main.async {
+                self.showConfirm = true
+            }
+        } else {
+            self.error = "Unknown error"
+            DispatchQueue.main.async {
+                self.showConfirm = true
+            }
+        }
+    }
+    
+    
     
     func getSeries() {
 //        let response = APIHelper.getSeries(token: self.currentUser.token)
