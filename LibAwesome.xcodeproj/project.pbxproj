@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04080F3A23C676C9006E1523 /* TagsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04080F3923C676C9006E1523 /* TagsListView.swift */; };
+		04080F3C23C67716006E1523 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04080F3B23C67716006E1523 /* TagList.swift */; };
+		04080F3E23C690AC006E1523 /* ShowTagCountButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04080F3D23C690AC006E1523 /* ShowTagCountButton.swift */; };
 		0413023123BE5ABB00FDF25B /* LogoutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413023023BE5ABB00FDF25B /* LogoutButton.swift */; };
 		0413023423BE624600FDF25B /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413023323BE624600FDF25B /* AlertHelper.swift */; };
 		0413023723BE633400FDF25B /* TokenHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413023623BE633400FDF25B /* TokenHelper.swift */; };
@@ -74,6 +77,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04080F3923C676C9006E1523 /* TagsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsListView.swift; sourceTree = "<group>"; };
+		04080F3B23C67716006E1523 /* TagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagList.swift; sourceTree = "<group>"; };
+		04080F3D23C690AC006E1523 /* ShowTagCountButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTagCountButton.swift; sourceTree = "<group>"; };
 		0413023023BE5ABB00FDF25B /* LogoutButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutButton.swift; sourceTree = "<group>"; };
 		0413023323BE624600FDF25B /* AlertHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
 		0413023623BE633400FDF25B /* TokenHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHelper.swift; sourceTree = "<group>"; };
@@ -222,6 +228,7 @@
 				0413025A23C2EB6100FDF25B /* NavDrawer.swift */,
 				0413025C23C2EB9C00FDF25B /* DrawerContent.swift */,
 				0413026023C2F40E00FDF25B /* DrawerBackDrop.swift */,
+				04080F3923C676C9006E1523 /* TagsListView.swift */,
 			);
 			name = Navigation;
 			sourceTree = "<group>";
@@ -308,6 +315,7 @@
 				0413025623C28E1900FDF25B /* EditBookButton.swift */,
 				0413027423C3DDF900FDF25B /* AddSeriesButton.swift */,
 				0413028523C5118700FDF25B /* EditSeriesButton.swift */,
+				04080F3D23C690AC006E1523 /* ShowTagCountButton.swift */,
 			);
 			name = Buttons;
 			sourceTree = "<group>";
@@ -328,6 +336,7 @@
 				04AA7C7A23BBB99E003706C6 /* User.swift */,
 				0413024723BFE91300FDF25B /* BookList.swift */,
 				0413027023C3AFA700FDF25B /* SeriesList.swift */,
+				04080F3B23C67716006E1523 /* TagList.swift */,
 				0413027A23C4308300FDF25B /* Env.swift */,
 			);
 			name = Models;
@@ -472,9 +481,12 @@
 				0413028023C4F4C400FDF25B /* BookHelper.swift in Sources */,
 				0413028823C5120600FDF25B /* EditIcon.swift in Sources */,
 				0413027523C3DDF900FDF25B /* AddSeriesButton.swift in Sources */,
+				04080F3C23C67716006E1523 /* TagList.swift in Sources */,
 				0413023923BE63BF00FDF25B /* APIHelper.swift in Sources */,
 				0413028223C502CE00FDF25B /* SeriesForm.swift in Sources */,
 				04D4006623BD240B009D256C /* ContentView.swift in Sources */,
+				04080F3A23C676C9006E1523 /* TagsListView.swift in Sources */,
+				04080F3E23C690AC006E1523 /* ShowTagCountButton.swift in Sources */,
 				04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */,
 				0413024623BFC8A600FDF25B /* EncodingHelper.swift in Sources */,
 				0413026123C2F40E00FDF25B /* DrawerBackDrop.swift in Sources */,

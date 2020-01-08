@@ -63,20 +63,21 @@ struct AddSeriesForm: View {
                     
                     Section {
                         VStack(alignment: .leading) {
-//                            Text("Number of Books Planned: \(self.showCounts ? "\(self.plannedCountIndex + 1)" : "unknown" )")
-                            
                             Toggle(isOn: $showCounts) {
                                 Text("Assign Number of Books Planned")
                             }
                             
                             if self.showCounts {
-                                Picker("Number of Books Planned:", selection: $plannedCountIndex) {
-                                    ForEach(0 ..< self.plannedCounts.count) {
-                                        Text("\(self.plannedCounts[$0])").tag($0)
+                                VStack {
+                                    Picker("Number of Books Planned:", selection: $plannedCountIndex) {
+                                        ForEach(0 ..< self.plannedCounts.count) {
+                                            Text("\(self.plannedCounts[$0])").tag($0)
+                                        }
                                     }
+                                    .pickerStyle(WheelPickerStyle())
+                                    .labelsHidden()
                                 }
-                                .pickerStyle(WheelPickerStyle())
-                                .labelsHidden()
+                                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 150)
                             }
                         }
                     }

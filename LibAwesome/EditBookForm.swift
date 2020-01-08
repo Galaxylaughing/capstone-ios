@@ -55,7 +55,7 @@ struct EditBookForm: View {
                     Section {
                         HStack {
                             Text("Author:")
-                            TextField("author", text: $author)
+                            TextField("add another author", text: $author)
                             Spacer()
                             Button(action: { self.addAuthor() } ) {
                                 Image(systemName: "plus.circle")

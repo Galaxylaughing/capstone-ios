@@ -10,9 +10,6 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var env: Env
-//    @EnvironmentObject var currentUser: User
-//    @EnvironmentObject var bookList: BookList
-//    @EnvironmentObject var seriesList: SeriesList
     
     var body: some View {
         HStack {
@@ -21,10 +18,30 @@ struct ContentView: View {
                     .onAppear {
                         self.getBooks()
                         self.getSeries()
+                        self.getTags()
                     }
             } else {
                 LoginForm()
             }
+        }
+    }
+    
+    func getTags() {
+        print("I'm going to go get the tags")
+        
+        let response = APIHelper.getTags(token: self.env.user.token)
+        
+        if let data = response["success"] {
+            // {"tags":[{"name":"non-fiction","books":[40,44]},{"name":"non-fiction/historical","books":[40]},{"name":"fiction","books":[44]}]}
+            let apiTagList = EncodingHelper.makeTagList(data: data) ?? TagList(tags: [])
+            // update the environment variable
+            DispatchQueue.main.async {
+                self.env.tagList = apiTagList
+            }
+        } else if let errorData = response["error"] {
+            print(errorData)
+        } else {
+            print("other unknown error")
         }
     }
     

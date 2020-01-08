@@ -107,7 +107,7 @@ struct AddBookForm: View {
                                     }
                                     
                                     VStack {
-                                        Text("Series Name: \(self.env.seriesList.series[self.seriesIndex].name)")
+                                        Text("Series Name")
                                         Picker("Series name", selection: $seriesIndex) {
                                             ForEach(0 ..< self.env.seriesList.series.count) {
                                                 Text("\(self.env.seriesList.series[$0].name)").tag($0)
@@ -117,7 +117,7 @@ struct AddBookForm: View {
                                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                                         .clipped()
                                     }
-                                }
+                                }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 150)
                             }
                             
                         }
@@ -214,7 +214,7 @@ struct AddBookForm_Previews: PreviewProvider {
         plannedCount: 6,
         books: [])
     static var seriesList = SeriesList(series: [series1, series2, series3, series4])
-    static var env = Env(user: Env.defaultEnv.user, bookList: Env.defaultEnv.bookList, seriesList: seriesList)
+    static var env = Env(user: Env.defaultEnv.user, bookList: Env.defaultEnv.bookList, seriesList: seriesList, tagList: Env.defaultEnv.tagList)
     
     static var previews: some View {
         AddBookForm(showForm: $showForm)
