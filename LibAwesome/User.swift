@@ -23,4 +23,9 @@ final class User: ObservableObject {
         self.username = nil
         self.token = nil
     }
+    
+    init(user: User) {
+        self.username = user.username
+        self.token = user.token
+    }
 }

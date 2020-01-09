@@ -88,7 +88,8 @@ struct BookDetailView_Previews: PreviewProvider {
     
     static var seriesList = SeriesList(series: [series1])
     static var bookList = BookList(books: [exampleBook])
-    static var env = Env(user: Env.defaultEnv.user, bookList: bookList, seriesList: seriesList, tagList: Env.defaultEnv.tagList)
+    static var env = Env(user: Env.defaultEnv.user, bookList: bookList, seriesList: seriesList, tagList: Env.defaultEnv.tagList, tag: Env.defaultEnv.tag
+)
     
     static var previews: some View {
         BookDetailView()

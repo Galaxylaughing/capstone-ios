@@ -42,7 +42,7 @@ struct DrawerContent: View {
                 }
                 
                 Section(header: HStack {Text("My Tags"); Spacer(); ShowTagCountButton(showCount: self.$showCount)}) {
-                    TagsListView(showCount: self.$showCount)
+                    TagsListView(showCount: self.$showCount, parentView: self.$parentView, isOpen: self.$isOpen)
                 }
                 
             }
@@ -76,7 +76,9 @@ struct DrawerContent_Previews: PreviewProvider {
         user: Env.defaultEnv.user,
         bookList: Env.defaultEnv.bookList,
         seriesList: Env.defaultEnv.seriesList,
-        tagList: tagList)
+        tagList: tagList,
+        tag: Env.defaultEnv.tag
+)
     
     static var previews: some View {
         DrawerContent(parentView: self.$parentView, isOpen: $isOpen)
