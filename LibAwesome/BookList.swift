@@ -17,7 +17,8 @@ class BookList: ObservableObject {
         @Published var authors: [String]
         @Published var position: Int
         @Published var seriesId: Int?
-        
+        @Published var tagIds: [Int]
+
         func authorNames() -> String {
             var names = ""
             for (i, author) in self.authors.enumerated() {
@@ -48,12 +49,13 @@ class BookList: ObservableObject {
         }
         
         // init
-        init(id: Int, title: String, authors: [String], position: Int = 1, seriesId: Int? = nil) {
+        init(id: Int, title: String, authors: [String], position: Int = 1, seriesId: Int? = nil, tagIds: [Int] = []) {
             self.id = id
             self.title = title
             self.authors = authors
             self.position = position
             self.seriesId = seriesId
+            self.tagIds = tagIds
         }
         // init
         init(book: Book) {
@@ -62,6 +64,7 @@ class BookList: ObservableObject {
             self.authors = book.authors
             self.position = book.position
             self.seriesId = book.seriesId
+            self.tagIds = book.tagIds
         }
 
     }
@@ -91,7 +94,8 @@ class BookList: ObservableObject {
                 title: item.title,
                 authors: authors,
                 position: item.position_in_series ?? 1,
-                seriesId: item.series
+                seriesId: item.series,
+                tagIds: item.tags
             )
             
             books.append(book)
@@ -109,5 +113,6 @@ struct BookListService: Decodable {
         let authors: [String]
         let position_in_series: Int?
         let series: Int?
+        let tags: [Int]
     }
 }
