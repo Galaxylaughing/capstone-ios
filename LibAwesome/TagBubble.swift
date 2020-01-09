@@ -14,9 +14,9 @@ struct TagBubble: View {
     var body: some View {
         Text(self.text)
             .foregroundColor(Color.white)
-            .padding(6)
+            .padding([.leading, .trailing], 15)
             .background(Color.blue)
-            .cornerRadius(12)
+            .cornerRadius(20)
     }
 }
 
