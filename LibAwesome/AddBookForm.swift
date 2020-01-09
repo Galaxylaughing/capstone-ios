@@ -67,18 +67,18 @@ struct AddBookForm: View {
                                     Image(systemName: "plus.circle")
                                 }.disabled(self.author == "")
                             }
-                            List {
-                                ForEach(authors, id: \.self) { author in
-                                    HStack {
-                                        Text(author)
-                                        Spacer()
-                                        Text("delete")
-                                        Button(action: { self.deleteAuthor(name: author) } ) {
-                                            Image(systemName: "minus.circle")
-                                        }
+                        }
+                        List {
+                            ForEach(authors, id: \.self) { author in
+                                HStack {
+                                    Text(author)
+                                    Spacer()
+                                    Text("delete")
+                                    Button(action: { self.deleteAuthor(name: author) } ) {
+                                        Image(systemName: "minus.circle")
                                     }
-                                }.onDelete(perform: self.swipeDeleteAuthor)
-                            }
+                                }
+                            }.onDelete(perform: self.swipeDeleteAuthor)
                         }
                     }
                     

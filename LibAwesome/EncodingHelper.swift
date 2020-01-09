@@ -142,7 +142,7 @@ struct EncodingHelper {
     // turn JSON into a TagList object
     static func makeTagList(data: String) -> TagList? {
         if let tagList = decodeTagList(str: data) {
-            print("\nRESULTING SERIES:")
+            print("\nRESULTING TAGS:")
             for tag in tagList.tags {
                 print(tag, tag.name)
             }
@@ -156,7 +156,7 @@ struct EncodingHelper {
     // turn JSON into a Tag object
     static func makeTag(data: String) -> TagList.Tag? {
         if let tagList = decodeTagList(str: data) {
-            print("\nRESULTING Tags:")
+            print("\nRESULTING TAGS:")
             print(tagList.tags[0], tagList.tags[0].name)
             return tagList.tags[0]
         }

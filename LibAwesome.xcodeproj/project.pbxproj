@@ -60,6 +60,8 @@
 		04E3124123C6C03200757B56 /* TagBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3124023C6C03200757B56 /* TagBubble.swift */; };
 		04E3124323C6C2C900757B56 /* Alphabetical.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3124223C6C2C900757B56 /* Alphabetical.swift */; };
 		04E3124523C6C8A200757B56 /* TagDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3124423C6C8A200757B56 /* TagDetailView.swift */; };
+		04E3124B23C77A4E00757B56 /* CheckList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3124A23C77A4E00757B56 /* CheckList.swift */; };
+		04E3124F23C78E0A00757B56 /* CallAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3124E23C78E0A00757B56 /* CallAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +141,8 @@
 		04E3124023C6C03200757B56 /* TagBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBubble.swift; sourceTree = "<group>"; };
 		04E3124223C6C2C900757B56 /* Alphabetical.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alphabetical.swift; sourceTree = "<group>"; };
 		04E3124423C6C8A200757B56 /* TagDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailView.swift; sourceTree = "<group>"; };
+		04E3124A23C77A4E00757B56 /* CheckList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckList.swift; sourceTree = "<group>"; };
+		04E3124E23C78E0A00757B56 /* CallAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +178,7 @@
 				0413023823BE63BF00FDF25B /* APIHelper.swift */,
 				0413024523BFC8A600FDF25B /* EncodingHelper.swift */,
 				0413027F23C4F4C400FDF25B /* BookHelper.swift */,
+				04E3124E23C78E0A00757B56 /* CallAPI.swift */,
 				04E3124223C6C2C900757B56 /* Alphabetical.swift */,
 			);
 			name = HelperFunctions;
@@ -224,6 +229,7 @@
 			children = (
 				0413024E23C0613F00FDF25B /* AddBookForm.swift */,
 				0413025823C28E5000FDF25B /* EditBookForm.swift */,
+				04E3124A23C77A4E00757B56 /* CheckList.swift */,
 				0413027223C3DD8600FDF25B /* AddSeriesForm.swift */,
 				0413028323C5098300FDF25B /* EditSeriesForm.swift */,
 				0413028123C502CE00FDF25B /* SeriesForm.swift */,
@@ -502,11 +508,13 @@
 				0413026123C2F40E00FDF25B /* DrawerBackDrop.swift in Sources */,
 				04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */,
 				0413025D23C2EB9C00FDF25B /* DrawerContent.swift in Sources */,
+				04E3124B23C77A4E00757B56 /* CheckList.swift in Sources */,
 				04E3124323C6C2C900757B56 /* Alphabetical.swift in Sources */,
 				0413028623C5118700FDF25B /* EditSeriesButton.swift in Sources */,
 				0413023123BE5ABB00FDF25B /* LogoutButton.swift in Sources */,
 				0413028A23C5401E00FDF25B /* SeriesDetailView.swift in Sources */,
 				04D4006423BBF982009D256C /* ErrorAlert.swift in Sources */,
+				04E3124F23C78E0A00757B56 /* CallAPI.swift in Sources */,
 				04AA7C7F23BBC3AF003706C6 /* Constants.swift in Sources */,
 				0413024A23C022B400FDF25B /* BookDetailView.swift in Sources */,
 				0413025B23C2EB6100FDF25B /* NavDrawer.swift in Sources */,

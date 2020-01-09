@@ -13,6 +13,11 @@ struct TabbedView: View {
 //    @EnvironmentObject var bookList: BookList
     @State private var selection = 0
     
+    var checklist = [
+        CheckListItem(isChecked: true, content: "fiction"),
+        CheckListItem(isChecked: false, content: "non-fiction")
+    ]
+    
     var body: some View {
         VStack {
 //            LogoutButton()

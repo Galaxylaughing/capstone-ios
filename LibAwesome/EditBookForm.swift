@@ -23,6 +23,9 @@ struct EditBookForm: View {
     @State var seriesPositionIndex: Int
     let seriesPositions: [Int] = Array(1...100)
     
+    @State var tagChecklist: [CheckListItem] = []
+    @State private var newTag: String = ""
+    
     fileprivate func saveButton() -> some View {
         return Button(action: { self.editBook() }) {
             Text("Save Book")
@@ -44,17 +47,32 @@ struct EditBookForm: View {
         NavigationView {
             VStack {
                 Form {
-                    Section {
+                    Section(header: Text("title")) {
                         HStack {
-                            Text("Title:")
+//                            Text("Title:")
                             TextField("title", text: $bookToEdit.title)
                                 .lineLimit(nil) // if swiftui bug is fixed, will allow multiline textfield
                         }
                     }
                     
-                    Section {
+                    Section(header: Text("author(s)")) {
+                        // prevent view from assigning empty space when no authors
+                        if bookToEdit.authors.count > 0 {
+                            List {
+                                ForEach(bookToEdit.authors, id: \.self) { author in
+                                    HStack {
+                                        Text(author)
+                                        Spacer()
+                                        Button(action: { self.deleteAuthor(name: author) } ) {
+                                            Image(systemName: "minus.circle")
+                                        }
+                                    }
+                                }.onDelete(perform: self.swipeDeleteAuthor)
+                            }
+                        }
+                        
                         HStack {
-                            Text("Author:")
+//                            Text("Author:")
                             TextField("add another author", text: $author)
                             Spacer()
                             Button(action: { self.addAuthor() } ) {
@@ -63,25 +81,7 @@ struct EditBookForm: View {
                         }
                     }
                     
-                    // prevent view from assigning empty space when no authors
-                    if bookToEdit.authors.count > 0 {
-                        Section {
-                            List {
-                                ForEach(bookToEdit.authors, id: \.self) { author in
-                                    HStack {
-                                        Text(author)
-                                        Spacer()
-                                        Text("delete")
-                                        Button(action: { self.deleteAuthor(name: author) } ) {
-                                            Image(systemName: "minus.circle")
-                                        }
-                                    }
-                                }.onDelete(perform: self.swipeDeleteAuthor)
-                            }
-                        }
-                    }
-                    
-                    Section {
+                    Section(header: Text("add to series")) {
                         VStack(alignment: .leading) {
                             
                             Toggle(isOn: $assignSeries) {
@@ -119,11 +119,56 @@ struct EditBookForm: View {
                             
                         }
                     }
+                    
+                    Section(header: Text("add tags")) { // tags
+                        HStack {
+                            TextField("add tag", text: $newTag)
+                                .autocapitalization(.none)
+                            Spacer()
+                            Button(action: { self.addTag() } ) {
+                                Image(systemName: "plus.circle")
+                            }.disabled(self.newTag == "")
+                        }
+                        
+                        VStack(alignment: .leading) {
+                            CheckList(list: self.$tagChecklist)
+                        }
+                    }
                 }
             }
             .navigationBarTitle("Update Book", displayMode: .inline)
             .navigationBarItems(leading: cancelButton(), trailing: saveButton())
         }
+        .onAppear(perform: {self.buildTagChecklist()})
+    }
+    
+    func addTag() {
+        // add tag to checklist
+        var checklist: [CheckListItem] = self.tagChecklist
+        let newChecklistItem = CheckListItem(isChecked: true, content: self.newTag)
+        checklist.append(newChecklistItem)
+        // sort checklist alphabetically
+        let alphaChecklist = checklist.sorted(by: {$0 < $1})
+        self.tagChecklist = alphaChecklist
+        // clear tag from field
+        self.newTag = ""
+    }
+
+    func buildTagChecklist() {
+        var checklist: [CheckListItem] = []
+        // convert env tags to checklist items
+        for tag in self.env.tagList.tags {
+            // determine if they should be checked or not by comparing with bookToEdit's tags
+            var isChecked: Bool = false
+            if self.bookToEdit.tags.contains(tag.name) {
+                isChecked = true
+            }
+            let checklistitem = CheckListItem(isChecked: isChecked, content: tag.name)
+            checklist.append(checklistitem)
+        }
+        // sort checklist alphabetically
+        let alphaChecklist = checklist.sorted(by: {$0 < $1})
+        self.tagChecklist = alphaChecklist
     }
     
     func deleteAuthor(name: String) {
@@ -149,7 +194,35 @@ struct EditBookForm: View {
         self.author = ""
     }
     
+    func onChecklistSubmit() {
+        for item in self.tagChecklist {
+            print(item.content, item.isChecked)
+        }
+    }
+    
+    func unBuildTagChecklist() {
+        // assign correct tags to self.bookToEdit based on checklist
+        for item in self.tagChecklist {
+            if item.isChecked {
+                self.bookToEdit.tags.append(item.content)
+            } else {
+                // remove any unchecked tags from bookToEdit
+                if let index = self.bookToEdit.tags.firstIndex(of: item.content) {
+                    self.bookToEdit.tags.remove(at: index)
+                }
+            }
+        }
+    }
+    
+    func updateTags() {
+        CallAPI.getTags(env: self.env)
+    }
+    
     func editBook() {
+        self.onChecklistSubmit() // should print current checklist values
+        self.unBuildTagChecklist()
+        print("BOOK'S TAGS:", self.bookToEdit.tags)
+        
         let seriesData = BookHelper.getSeriesId(
             seriesList: self.env.seriesList,
             assignSeries: self.assignSeries,
@@ -164,7 +237,11 @@ struct EditBookForm: View {
             title: self.bookToEdit.title,
             authors: self.bookToEdit.authors,
             position: seriesData["position"] ?? nil,
-            seriesId: seriesData["seriesId"] ?? nil)
+            seriesId: seriesData["seriesId"] ?? nil,
+            tags: self.bookToEdit.tags)
+        
+        // update environment's taglist
+        self.updateTags()
         
         if response["success"] != nil {
             // update book in environment
@@ -197,12 +274,14 @@ struct EditBookForm: View {
                         // replace book at index
                         self.env.bookList = bookList
                         self.env.seriesList = seriesList
+                        // also need to update tagList
                     }
                     // update book in state
                     self.book.title = newBook.title
                     self.book.authors = newBook.authors
                     self.book.position = newBook.position
                     self.book.seriesId = newBook.seriesId
+                    self.book.tags = newBook.tags
                 }
             }
             // should dismiss sheet if success
@@ -227,8 +306,32 @@ struct EditBookForm_Previews: PreviewProvider {
             "Terry Pratchett",
     ])
     
+    static var tag0 = TagList.Tag(
+        name: "non-fiction",
+        books: [])
+    static var tag1 = TagList.Tag(
+        name: "fantasy",
+        books: [])
+    static var tag2 = TagList.Tag(
+        name: "science-fiction",
+        books: [])
+    static var tag3 = TagList.Tag(
+        name: "mystery",
+        books: [])
+    static var tag4 = TagList.Tag(
+        name: "fantasy/contemporary",
+        books: [])
+    static var tagList = TagList(tags: [tag0, tag1, tag2, tag3, tag4])
+    static var env = Env(
+        user: Env.defaultEnv.user,
+        bookList: Env.defaultEnv.bookList,
+        seriesList: Env.defaultEnv.seriesList,
+        tagList: tagList,
+        tag: Env.defaultEnv.tag)
+    
     static var previews: some View {
         EditBookForm(showForm: $showForm, bookToEdit: bookToEdit, assignSeries: false, seriesIndex: 1, seriesPositionIndex: 1)
             .environmentObject(self.exampleBook)
+            .environmentObject(self.env)
     }
 }

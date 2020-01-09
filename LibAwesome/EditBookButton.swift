@@ -18,7 +18,13 @@ struct EditBookButton: View {
             EditIcon()
         }.sheet(isPresented: $showForm) {
             EditBookForm(showForm: self.$showForm,
-                         bookToEdit: BookList.Book(id: self.book.id, title: self.book.title, authors: self.book.authors),
+                         bookToEdit: BookList.Book(
+                            id: self.book.id,
+                            title: self.book.title,
+                            authors: self.book.authors,
+                            position: self.book.position,
+                            seriesId: self.book.seriesId,
+                            tags: self.book.tags),
                          assignSeries: (self.book.seriesId != nil),
                          seriesIndex: self.getSeriesIndex(),
                          seriesPositionIndex: self.book.position - 1)
