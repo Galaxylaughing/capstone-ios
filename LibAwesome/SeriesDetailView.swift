@@ -83,7 +83,7 @@ struct SeriesDetailView: View {
         }
         
         let uniqueAuthors = Set(contributers)
-        contributers = Array(uniqueAuthors).sorted(by: {$0 < $1}) // sort alphabetically
+        contributers = Alphabetical(Array(uniqueAuthors)) // sort alphabetically
         let contributersJoined = contributers.joined(separator: ", ")
         
         return contributersJoined

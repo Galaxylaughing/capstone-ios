@@ -211,7 +211,7 @@ struct APIHelper {
         authors: [String],
         position: Int? = nil,
         seriesId: Int? = nil,
-        tagIds: [Int] = []) -> [String:String] {
+        tags: [String] = []) -> [String:String] {
         
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
@@ -229,7 +229,7 @@ struct APIHelper {
         request.setValue(value, forHTTPHeaderField: "Authorization")
         
         // set body
-        let book = BookListService.Book(id: 0, title: title, authors: authors, position_in_series: position, series: seriesId, tags: tagIds)
+        let book = BookListService.Book(id: 0, title: title, authors: authors, position_in_series: position, series: seriesId, tags: tags)
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
 
@@ -356,7 +356,7 @@ struct APIHelper {
         authors: [String],
         position: Int? = nil,
         seriesId: Int? = nil,
-        tagIds: [Int] = []) -> [String:String] {
+        tags: [String] = []) -> [String:String] {
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
         
@@ -375,7 +375,7 @@ struct APIHelper {
         // set body
         print(position ?? "no position")
         print(seriesId ?? "no series")
-        let book = BookListService.Book(id: bookId, title: title, authors: authors, position_in_series: position, series: seriesId, tags: tagIds)
+        let book = BookListService.Book(id: bookId, title: title, authors: authors, position_in_series: position, series: seriesId, tags: tags)
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
 

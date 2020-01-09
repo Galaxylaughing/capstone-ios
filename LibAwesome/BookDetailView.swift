@@ -30,12 +30,28 @@ struct BookDetailView: View {
                 Text(book.authorNames())
                     .font(.headline)
                     .multilineTextAlignment(.center)
-                if book.seriesId != nil {
-                    Text("Number \(String(book.position)) in its series")
-                        .padding(.top)
-                }
-                if book.seriesId != nil {
-                    Text("Series: \(self.getSeriesName())")
+                
+                VStack(alignment: .leading) {
+                    Section() { // series, position in series
+                        if book.seriesId != nil {
+                            Text("# \(String(book.position)) | \(self.getSeriesName())")
+                        }
+                    }
+                    .padding([.top, .leading])
+                    
+                    Section() { // tags
+                        HStack {
+                            VStack(alignment: .leading) {
+                                ForEach(Alphabetical(self.book.tags), id: \.self) { tag in
+                                    TagBubble(text: tag)
+                                        .padding(.vertical, 4)
+                                }
+                            }
+                            .padding(.leading)
+                            Spacer()
+                        }
+                    }
+                    .padding(.top)
                 }
             }
             Spacer()
@@ -54,16 +70,29 @@ struct BookDetailView: View {
 }
 
 struct BookDetailView_Previews: PreviewProvider {
+    static var series1 = SeriesList.Series(
+        id: 1,
+        name: "Animorphs",
+        plannedCount: 10,
+        books: [1])
     static var exampleBook = BookList.Book(
         id: 1,
         title: "Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch",
         authors: [
             "Neil Gaiman",
             "Terry Pratchett",
-    ], position: 1)
+        ],
+        position: 1,
+        seriesId: 1,
+        tags: ["non-fiction", "fantasy", "science-fiction", "mystery", "fantasy/contemporary"])
+    
+    static var seriesList = SeriesList(series: [series1])
+    static var bookList = BookList(books: [exampleBook])
+    static var env = Env(user: Env.defaultEnv.user, bookList: bookList, seriesList: seriesList, tagList: Env.defaultEnv.tagList)
     
     static var previews: some View {
         BookDetailView()
+            .environmentObject(self.env)
             .environmentObject(self.exampleBook)
     }
 }

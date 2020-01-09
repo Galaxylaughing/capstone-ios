@@ -56,7 +56,6 @@ struct DrawerContent_Previews: PreviewProvider {
     @State static var parentView: AnyView = AnyView(BookListView())
     @State static var isOpen = true
     
-    
     static var tag0 = TagList.Tag(
         name: "non-fiction",
         books: [])
