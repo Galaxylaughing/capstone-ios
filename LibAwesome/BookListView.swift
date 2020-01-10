@@ -90,8 +90,13 @@ struct BookListView: View {
             if let indexToDelete = self.env.bookList.books.firstIndex(where: {$0.id == self.bookToDelete}) {
                 let bookList = self.env.bookList
                 bookList.books.remove(at: indexToDelete)
+                
+                // update authors
+                let updatedAuthorList = EncodingHelper.getAuthors(from: bookList)
+                
                 DispatchQueue.main.async {
                     self.env.bookList = bookList
+                    self.env.authorList = updatedAuthorList
                 }
             }
         } else if response["error"] != nil {

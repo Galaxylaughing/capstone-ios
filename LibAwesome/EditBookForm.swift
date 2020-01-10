@@ -258,6 +258,7 @@ struct EditBookForm: View {
                     let oldBook = bookList.books[index]
                     bookList.books[index] = newBook
                     
+                    // update the seriesList in the environment
                     if oldBook.seriesId != newBook.seriesId {
                         if let oldSeriesIndex = self.env.seriesList.series.firstIndex(where: {$0.id == oldBook.seriesId}) {
                             // remove newBook id from books list
@@ -272,14 +273,16 @@ struct EditBookForm: View {
                             self.env.seriesList.series[newSeriesIndex].books.append(newBook.id)
                         }
                     }
-                    
                     let seriesList = SeriesList(seriesList: self.env.seriesList)
+                    
+                    // update authors
+                    let updatedAuthorList = EncodingHelper.getAuthors(from: bookList)
                     
                     DispatchQueue.main.async {
                         // replace book at index
                         self.env.bookList = bookList
                         self.env.seriesList = seriesList
-                        // also need to update tagList
+                        self.env.authorList = updatedAuthorList
                     }
                     // update book in state
                     self.book.title = newBook.title

@@ -230,8 +230,13 @@ struct AddBookForm: View {
             if let newBook = EncodingHelper.makeBook(data: response["success"]!) {
                 let bookList = self.env.bookList
                 bookList.books.append(newBook)
+                
+                // update authors
+                let updatedAuthorList = EncodingHelper.getAuthors(from: bookList)
+                
                 DispatchQueue.main.async {
                     self.env.bookList = bookList
+                    self.env.authorList = updatedAuthorList
                 }
             }
             // should dismiss sheet if success
