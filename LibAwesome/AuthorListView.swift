@@ -17,7 +17,9 @@ struct AuthorListView: View {
                 List {
                     ForEach(self.env.authorList.authors) { author in
                         HStack {
-                            Text(author.name)
+                            NavigationLink(destination: AuthorDetailView().environmentObject(author)) {
+                                Text(author.name)
+                            }
                         }
                     }
                 }

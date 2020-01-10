@@ -18,6 +18,28 @@ class BookList: ObservableObject {
         @Published var position: Int
         @Published var seriesId: Int?
         @Published var tags: [String]
+        
+        func withAuthors(by main: String) -> String {
+            // returns a list of who else wrote a book in addition to the parameter
+            var names: [String] = []
+            for (_, author) in self.authors.enumerated() {
+                if author != main {
+                    names.append(author)
+                }
+            }
+            var withNames = ""
+            for (i, name) in names.enumerated() {
+                if withNames == "" {
+                    withNames += "with "
+                } else if i == names.count - 1 {
+                    withNames += " & "
+                } else if i < names.count - 1 {
+                    withNames += ", "
+                }
+                withNames += name
+            }
+            return withNames
+        }
 
         func authorNames() -> String {
             var names = ""

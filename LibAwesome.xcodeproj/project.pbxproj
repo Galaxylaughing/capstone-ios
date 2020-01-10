@@ -69,6 +69,7 @@
 		04E3125923C7CBDE00757B56 /* BookUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125823C7CBDE00757B56 /* BookUpdate.swift */; };
 		04E3125B23C8D93700757B56 /* AuthorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125A23C8D93700757B56 /* AuthorList.swift */; };
 		04E3125D23C8E7FA00757B56 /* AuthorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125C23C8E7FA00757B56 /* AuthorListView.swift */; };
+		04E3125F23C8EDFE00757B56 /* AuthorDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125E23C8EDFE00757B56 /* AuthorDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +158,7 @@
 		04E3125823C7CBDE00757B56 /* BookUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookUpdate.swift; sourceTree = "<group>"; };
 		04E3125A23C8D93700757B56 /* AuthorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorList.swift; sourceTree = "<group>"; };
 		04E3125C23C8E7FA00757B56 /* AuthorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorListView.swift; sourceTree = "<group>"; };
+		04E3125E23C8EDFE00757B56 /* AuthorDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +224,7 @@
 				0413024923C022B400FDF25B /* BookDetailView.swift */,
 				0413028923C5401E00FDF25B /* SeriesDetailView.swift */,
 				04E3124423C6C8A200757B56 /* TagDetailView.swift */,
+				04E3125E23C8EDFE00757B56 /* AuthorDetailView.swift */,
 				04E3125023C7AF4800757B56 /* TagUpdate.swift */,
 				04E3125823C7CBDE00757B56 /* BookUpdate.swift */,
 				04E3124A23C77A4E00757B56 /* CheckList.swift */,
@@ -509,6 +512,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04E3125F23C8EDFE00757B56 /* AuthorDetailView.swift in Sources */,
 				0413028423C5098300FDF25B /* EditSeriesForm.swift in Sources */,
 				0413025923C28E5000FDF25B /* EditBookForm.swift in Sources */,
 				04E3125523C7C77D00757B56 /* EditTagButton.swift in Sources */,
