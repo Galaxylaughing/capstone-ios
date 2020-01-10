@@ -10,6 +10,19 @@ import Foundation
 import SwiftUI
 
 struct EncodingHelper {
+    // TAGS
+    static func getTags(from source: BookList) -> TagList {
+        let newTagList = TagList(from: source)
+        print("\nRESULTING TAGS:")
+        for tag in newTagList.tags {
+            print(tag.name)
+            for book in tag.books {
+                print("-- \(book.title)")
+            }
+        }
+        return newTagList
+    }
+    
     // AUTHORS
     static func getAuthors(from source: BookList) -> AuthorList {
         let newAuthorList = AuthorList(from: source)
@@ -121,57 +134,6 @@ struct EncodingHelper {
             print("\nRESULTING Series:")
             print(seriesList.series[0])
             return seriesList.series[0]
-        }
-        // else
-        print("ERROR")
-        return nil
-    }
-    
-    // TAGS
-    static func decodeTagList(str: String) -> TagList? {
-        print("I'M DECODING THIS:")
-        print(str)
-        
-        let data: Data? = str.data(using: .utf8)
-        // create a decoder
-        let decoder = JSONDecoder()
-        // 'decode' the JSON into it's object equivalent
-        if let serviceTagList = try? decoder.decode(TagListService.self, from: data!) {
-            print("\nI DECODED SUCCESSFULLY INTO SERVICE:")
-            print(serviceTagList)
-            // map object-ified JSON to goal object
-            let tagList = TagList(from: serviceTagList)
-            print("\nI DECODED SUCCESSFULLY INTO OBJECT:")
-            print(tagList)
-            return tagList
-        } else {
-            print("I FAILED")
-        }
-        
-        print("I'M ABOUT TO RETURN")
-        return nil
-    }
-    
-    // turn JSON into a TagList object
-    static func makeTagList(data: String) -> TagList? {
-        if let tagList = decodeTagList(str: data) {
-            print("\nRESULTING TAGS:")
-            for tag in tagList.tags {
-                print(tag, tag.name)
-            }
-            return tagList
-        }
-        // else
-        print("makeTagList encountered an error")
-        return nil
-    }
-
-    // turn JSON into a Tag object
-    static func makeTag(data: String) -> TagList.Tag? {
-        if let tagList = decodeTagList(str: data) {
-            print("\nRESULTING TAGS:")
-            print(tagList.tags[0], tagList.tags[0].name)
-            return tagList.tags[0]
         }
         // else
         print("ERROR")

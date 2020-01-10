@@ -44,31 +44,16 @@ struct TagDetailView: View {
             .padding(.trailing)
             
             List {
-                ForEach(self.env.tag.books, id: \.self) { bookId in
+                ForEach(self.env.tag.books) { book in
                     VStack {
-                        if self.loadBookById(id: bookId) {
-                            NavigationLink(destination: BookDetailView().environmentObject(self.bookList.books[0])) {
-                                Text("\(self.bookList.books[0].title)")
-                            }
+                        NavigationLink(destination: BookDetailView().environmentObject(book)) {
+                            Text("\(book.title)")
                         }
                     }
                 }
             }
         }
         .navigationBarTitle("", displayMode: .inline)
-    }
-
-    func loadBookById(id: Int) -> Bool {
-        let testBook = self.env.bookList.books.first(where: {$0.id == id})
-        if testBook != nil {
-            self.bookList.books = [testBook!]
-            return true
-        }
-        return false
-    }
-
-    func findBookById(id: Int) -> BookList.Book {
-        return self.env.bookList.books.first(where: {$0.id == id})!
     }
 }
 
@@ -101,7 +86,7 @@ struct TagDetailView_Previews: PreviewProvider {
     
     static var tag = TagList.Tag(
         name: "fiction/science-fiction",
-        books: [1, 2, 3])
+        books: [book1, book2, book3])
     static var env = Env(
         user: Env.defaultEnv.user,
         bookList: bookList,

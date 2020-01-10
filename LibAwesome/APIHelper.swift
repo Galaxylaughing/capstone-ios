@@ -680,7 +680,9 @@ struct APIHelper {
         return returnData
     }
     
+    // UNUSED
     // TAGS - GET ALL
+    /*
     static func getTags(token: String?) -> [String:String] {
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
@@ -721,6 +723,7 @@ struct APIHelper {
         group.wait()
         return returnData
     }
+     */
     
     // TAGS - DELETE
     static func deleteTag(token: String?, tagName: String) -> [String:String] {

@@ -49,14 +49,12 @@ struct EditBookForm: View {
                 Form {
                     Section(header: Text("title")) {
                         HStack {
-//                            Text("Title:")
                             TextField("title", text: $bookToEdit.title)
                                 .lineLimit(nil) // if swiftui bug is fixed, will allow multiline textfield
                         }
                     }
                     
                     Section(header: Text("author(s)")) {
-                        // prevent view from assigning empty space when no authors
                         if bookToEdit.authors.count > 0 {
                             List {
                                 ForEach(bookToEdit.authors, id: \.self) { author in
@@ -72,7 +70,6 @@ struct EditBookForm: View {
                         }
                         
                         HStack {
-//                            Text("Author:")
                             TextField("add another author", text: $author)
                             Spacer()
                             Button(action: { self.addAuthor() } ) {
@@ -119,24 +116,6 @@ struct EditBookForm: View {
                             
                         }
                     }
-                    
-                    /*
-                    Section(header: Text("add tags")) { // tags
-                        HStack {
-                            TextField("add tag", text: $newTag)
-                                .autocapitalization(.none)
-                            Spacer()
-                            Button(action: { self.addTag() } ) {
-                                Image(systemName: "plus.circle")
-                            }.disabled(self.newTag == "")
-                        }
-                        
-                        VStack(alignment: .leading) {
-                            CheckList(list: self.$tagChecklist)
-                        }
-                    }
-                    */
-                    
                     TagUpdate(
                         tagChecklist: self.$tagChecklist,
                         newTag: self.$newTag,
@@ -246,9 +225,6 @@ struct EditBookForm: View {
             tags: self.bookToEdit.tags)
         
         if response["success"] != nil {
-            // update tags
-            CallAPI.updateTags(env: self.env)
-            
             // update book in environment
             if let newBook = EncodingHelper.makeBook(data: response["success"]!) {
                 // update book in environment's BookList

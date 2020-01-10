@@ -82,10 +82,7 @@ struct BookListView: View {
         // make DELETE request
         let response = APIHelper.deleteBook(token: self.env.user.token, bookId: self.bookToDelete)
         
-        if response["success"] != nil {
-            // update tags
-            CallAPI.updateTags(env: self.env)
-            
+        if response["success"] != nil {            
             // remove book from environment
             if let indexToDelete = self.env.bookList.books.firstIndex(where: {$0.id == self.bookToDelete}) {
                 let bookList = self.env.bookList
@@ -132,7 +129,6 @@ struct BookListView_Previews: PreviewProvider {
     
     static var previews: some View {
         BookListView()
-            .environmentObject(env)
-//            .environmentObject(bookList)
+        .environmentObject(env)
     }
 }

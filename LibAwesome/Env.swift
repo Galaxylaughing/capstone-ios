@@ -51,12 +51,13 @@ class Env: ObservableObject {
         let updatedAuthorList = EncodingHelper.getAuthors(from: newBookList)
         
         // update tags
+        let updatedTagList = EncodingHelper.getTags(from: newBookList)
         
         // set environment
         DispatchQueue.main.async {
             env.bookList = newBookList
             env.authorList = updatedAuthorList
-            // update tagList
+            env.tagList = updatedTagList
         }
     }
 }

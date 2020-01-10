@@ -9,24 +9,6 @@
 import Foundation
 
 struct CallAPI {
-    static func getTags(env: Env) {
-        print("I'm going to go get the tags")
-        
-        let response = APIHelper.getTags(token: env.user.token)
-        
-        if let data = response["success"] {
-            let apiTagList = EncodingHelper.makeTagList(data: data) ?? TagList(tags: [])
-            // update the environment variable
-            DispatchQueue.main.async {
-                env.tagList = apiTagList
-            }
-        } else if let errorData = response["error"] {
-            print(errorData)
-        } else {
-            print("other unknown error")
-        }
-    }
-        
     static func getSeries(env: Env) {
         let response = APIHelper.getSeries(token: env.user.token)
         
@@ -53,19 +35,20 @@ struct CallAPI {
             print("\nCallAPI.getBooks is about to call getAuthors")
             let authorList = EncodingHelper.getAuthors(from: apiBookList)
             
+            print("\nCallAPI.getBooks returned from calling getAuthors")
+            print("\nCallAPI.getBooks is about to call getTags")
+            let tagList = EncodingHelper.getTags(from: apiBookList)
+            
             // update the environment variable
             DispatchQueue.main.async {
                 env.bookList = apiBookList
                 env.authorList = authorList
+                env.tagList = tagList
             }
         } else if let errorData = response["error"] {
             print(errorData)
         } else {
             print("other unknown error")
         }
-    }
-    
-    static func updateTags(env: Env) {
-        CallAPI.getTags(env: env)
     }
 }

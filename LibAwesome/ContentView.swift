@@ -15,11 +15,10 @@ struct ContentView: View {
         HStack {
             if self.env.user.token != nil {
                 TabbedView()
-                    .onAppear {
-                        CallAPI.getBooks(env: self.env)
-                        CallAPI.getSeries(env: self.env)
-                        CallAPI.getTags(env: self.env)
-                    }
+                .onAppear {
+                    CallAPI.getBooks(env: self.env)
+                    CallAPI.getSeries(env: self.env)
+                }
             } else {
                 LoginForm()
             }

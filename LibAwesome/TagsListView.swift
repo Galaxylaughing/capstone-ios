@@ -97,9 +97,9 @@ struct TagsListView: View {
                     
                     // clears tag from environment if it's the one that's been deleted
                     // does not affect parent view if parent view is current tag's detail view
-                    if self.env.tag.name == self.tagToDelete {
-                        self.env.tag = Env.defaultEnv.tag
-                    }
+//                    if self.env.tag.name == self.tagToDelete {
+//                        self.env.tag = Env.defaultEnv.tag
+//                    }
                 }
             }
             

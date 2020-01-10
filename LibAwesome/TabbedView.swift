@@ -10,7 +10,6 @@ import SwiftUI
 
 struct TabbedView: View {
     @EnvironmentObject var env: Env
-//    @EnvironmentObject var bookList: BookList
     @State private var selection = 0
     
     var checklist = [
@@ -20,7 +19,6 @@ struct TabbedView: View {
     
     var body: some View {
         VStack {
-//            LogoutButton()
             TabView(selection: $selection){
                 LibraryView()
                     .font(.title)
@@ -66,7 +64,6 @@ struct TabbedView: View {
 struct TabbedView_Previews: PreviewProvider {
     static var previews: some View {
         TabbedView()
-            .environmentObject(Env.defaultEnv)
-            .environmentObject(BookList(books: []))
+        .environmentObject(Env.defaultEnv)
     }
 }

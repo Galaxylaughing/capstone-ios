@@ -52,16 +52,12 @@ struct AddBookForm: View {
                 Form {
                     Section(header: Text("title")) {
                         VStack(alignment: .leading) {
-//                            Text("Title *")
                             TextField("book title", text: $title)
                         }
                     }
                     
                     Section(header: Text("author(s)")) {
                         VStack(alignment: .leading) {
-//                            HStack {
-//                               Text("Author *")
-//                            }
                             HStack {
                                 TextField("author name", text: $author)
                                 Spacer()
@@ -223,9 +219,6 @@ struct AddBookForm: View {
             tags: self.tags)
     
         if response["success"] != nil {
-            // update tags
-            CallAPI.updateTags(env: self.env)
-            
             // add new book to environment BookList
             if let newBook = EncodingHelper.makeBook(data: response["success"]!) {
                 let bookList = self.env.bookList

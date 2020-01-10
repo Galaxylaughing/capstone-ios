@@ -374,9 +374,9 @@
 				04AA7C7A23BBB99E003706C6 /* User.swift */,
 				0413024723BFE91300FDF25B /* BookList.swift */,
 				0413027023C3AFA700FDF25B /* SeriesList.swift */,
+				04E3125A23C8D93700757B56 /* AuthorList.swift */,
 				04080F3B23C67716006E1523 /* TagList.swift */,
 				0413027A23C4308300FDF25B /* Env.swift */,
-				04E3125A23C8D93700757B56 /* AuthorList.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";

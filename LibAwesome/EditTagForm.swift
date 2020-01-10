@@ -63,7 +63,7 @@ struct EditTagForm: View {
         for book in self.env.bookList.books {
             // determine if they should be checked or not by comparing with tagToEdit's books
             var isChecked: Bool = false
-            if self.tagToEdit.books.contains(book.id) {
+            if self.tagToEdit.books.contains(book) {
                 isChecked = true
             }
             let checklistitem = CheckListItem(
@@ -83,79 +83,59 @@ struct EditTagForm: View {
         }
     }
     
-    func unBuildBookChecklist() {
-        // assign correct book ids to self.tagToEdit based on checklist
+    func unBuildBookChecklist() -> [Int] {
+        // assign correct book ids based on checklist
+        var bookIds = self.tagToEdit.bookIds()
         for book in self.bookChecklist {
-            
-            let alreadyOnTag = self.tagToEdit.books.contains(book.identifier!)
+            let alreadyOnTag = bookIds.contains(book.identifier!)
             
             if book.isChecked && !alreadyOnTag {
-                self.tagToEdit.books.append(book.identifier!)
+                bookIds.append(book.identifier!)
             } else if !book.isChecked {
                 // remove any unchecked books from tagToEdit
-                if let index = self.tagToEdit.books.firstIndex(of: book.identifier!) {
-                    self.tagToEdit.books.remove(at: index)
+                if let index = bookIds.firstIndex(of: book.identifier!) {
+                    bookIds.remove(at: index)
                 }
             }
         }
+        return bookIds
     }
     
     func editTag() {
         self.onChecklistSubmit() // should print current checklist values
-        self.unBuildBookChecklist()
-        print("TAG'S BOOKS:", self.tagToEdit.books)
+        let newBookIds = self.unBuildBookChecklist()
+        print("TAG'S BOOKS:", newBookIds)
         
         // make PUT to update tag
         let response = APIHelper.putTag(
             token: self.env.user.token,
             tagName: self.env.tag.name,
             newTagName: self.tagToEdit.name,
-            books: self.tagToEdit.books)
+            books: newBookIds)
         
-        let old_name = self.env.tag.name
         if response["success"] != nil {
-            if let newTag = EncodingHelper.makeTag(data: response["success"]!) {
-                print("I'M BACK WITH:", newTag, newTag.name, newTag.books)
-                            
-                // update tag in environment
-                DispatchQueue.main.async {
-                    self.env.tag = newTag
+            // build book list from book ids
+            var taggedBooks: [BookList.Book] = []
+            for bookId in newBookIds {
+                if let index = self.env.bookList.books.firstIndex(where: {$0.id == bookId}) {
+                    let foundBook = self.env.bookList.books[index]
+                    taggedBooks.append(foundBook)
                 }
-                
-                // find tag in main taglist
-                let tempTagList = self.env.tagList
-                if let index = self.env.tagList.tags.firstIndex(where: {$0.name == old_name}) {
-                    tempTagList.tags[index] = newTag
-                    DispatchQueue.main.async {
-                        self.env.tagList = tempTagList
-                    }
-                    
-                    let tempBookList = BookList(bookList: self.env.bookList)
-                    let updatedTagBooks = newTag.books
-                    for book in tempBookList.books {
-                        // if any of the books have the old tag name
-                        if let index = book.tags.firstIndex(where: {$0 == old_name}) {
-                            // is their id in the new tag's book list?
-                            // if yes, update the tag name
-                            if updatedTagBooks.contains(book.id) {
-                                book.tags[index] = newTag.name
-                            }
-                            // if not, remove the tag from the book
-                            else {
-                                book.tags.remove(at: index)
-                            }
-                        } else if newTag.books.contains(book.id) { // the un-tagged book is in the new tag's list
-                            // add the tag to this book
-                            book.tags.append(newTag.name)
-                        }
-                    }
-                    
-                    DispatchQueue.main.async {
-                        self.env.bookList = tempBookList
-                    }
-                }
-                
             }
+            
+            let newTag = TagList.Tag(name: self.tagToEdit.name, books: taggedBooks)
+            print("I'M BACK WITH:", newTag, newTag.name)
+            for book in newTag.books {
+                print("-- \(book.title)")
+            }
+                            
+            // update tag in environment
+            DispatchQueue.main.async {
+                self.env.tag = newTag
+            }
+            
+            Env.setEnv(in: self.env, to: self.env.bookList)
+
             // should dismiss sheet if success
             self.showForm = false
         } else if response["error"] != nil {
@@ -174,8 +154,8 @@ struct EditTagForm_Previews: PreviewProvider {
     
     static var tag1 = TagList.Tag(
         name: "fantasy",
-        books: [1])
-    static var tagToEdit = TagList.Tag(name: "fantasy", books: [1])
+        books: [exampleBook])
+    static var tagToEdit = TagList.Tag(name: "fantasy", books: [exampleBook])
     
     static var exampleBook = BookList.Book(
         id: 1,

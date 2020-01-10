@@ -8,16 +8,60 @@
 
 import Foundation
 
+
 class TagList: ObservableObject {
     @Published var tags: [Tag]
-
+    
+    init() {
+        self.tags = []
+    }
+    
+    init(tagList: TagList) {
+        self.tags = tagList.tags
+    }
+    
+    init(tags: [Tag]) {
+        self.tags = tags
+    }
+    
+    init(from source: BookList) {
+        var tempTags: [TagList.Tag] = []
+        var tagNames: [String] = []
+        // go through each book in booklist
+        for book in source.books {
+            // go through each of that book's tags
+            for tag in book.tags {
+                // is that tag in the name list?
+                if tagNames.contains(tag) {
+                    // find this tag in the temp list add this book to its list of books
+                    if let index = tempTags.firstIndex(where: {$0.name == tag}) {
+                        tempTags[index].books.append(book)
+                    }
+                } else {
+                    // add this tag to the list of names
+                    tagNames.append(tag)
+                    // add the tag to the temp list and add this book to its list of books
+                    let newTag = TagList.Tag(name: tag, books: [book])
+                    tempTags.append(newTag)
+                }
+            }
+        }
+        self.tags = tempTags
+    }
+    
     class Tag: Comparable, Identifiable, ObservableObject {
-        var id: String {
-            return name
+        @Published var name: String
+        @Published var books: [BookList.Book]
+        
+        init(tag: Tag) {
+            self.name = tag.name
+            self.books = tag.books
         }
         
-        @Published var name: String
-        @Published var books: [Int]
+        init(name: String, books: [BookList.Book]) {
+            self.name = name
+            self.books = books
+        }
         
         // conform to Comparable
         static func < (lhs: Tag, rhs: Tag) -> Bool {
@@ -26,49 +70,14 @@ class TagList: ObservableObject {
         static func == (lhs: Tag, rhs: Tag) -> Bool {
             return lhs.name == rhs.name
         }
-
-        // init
-        init(name: String, books: [Int]) {
-            self.name = name
-            self.books = books
-        }
-    }
-
-    init(tagList: TagList) {
-        self.tags = tagList.tags
-    }
-
-    init(tags: [Tag]) {
-        self.tags = tags
-    }
-
-    init(from service: TagListService) {
-        tags = []
-
-        let serviceTags = service.tags
-        for serviceTag in serviceTags {
-
-            var books: [Int] = []
-            for book_id in serviceTag.books {
-                books.append(book_id)
+        
+        // return list of book ids
+        func bookIds() -> [Int] {
+            var bookIds: [Int] = []
+            for book in self.books {
+                bookIds.append(book.id)
             }
-
-            let newTag = TagList.Tag(
-                name: serviceTag.tag_name,
-                books: books
-            )
-
-            tags.append(newTag)
+            return bookIds
         }
-    }
-}
-
-// an object to match the JSON structure
-struct TagListService: Decodable {
-    let tags: [Tag]
-    
-    struct Tag: Codable {
-        let tag_name: String
-        let books: [Int]
     }
 }
