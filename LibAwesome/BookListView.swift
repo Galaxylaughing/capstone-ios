@@ -91,13 +91,7 @@ struct BookListView: View {
                 let bookList = self.env.bookList
                 bookList.books.remove(at: indexToDelete)
                 
-                // update authors
-                let updatedAuthorList = EncodingHelper.getAuthors(from: bookList)
-                
-                DispatchQueue.main.async {
-                    self.env.bookList = bookList
-                    self.env.authorList = updatedAuthorList
-                }
+                Env.setEnv(in: self.env, to: bookList)
             }
         } else if response["error"] != nil {
             self.error = response["error"]!

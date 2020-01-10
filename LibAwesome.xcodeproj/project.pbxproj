@@ -68,6 +68,7 @@
 		04E3125723C7C80500757B56 /* EditTagForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125623C7C80500757B56 /* EditTagForm.swift */; };
 		04E3125923C7CBDE00757B56 /* BookUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125823C7CBDE00757B56 /* BookUpdate.swift */; };
 		04E3125B23C8D93700757B56 /* AuthorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125A23C8D93700757B56 /* AuthorList.swift */; };
+		04E3125D23C8E7FA00757B56 /* AuthorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125C23C8E7FA00757B56 /* AuthorListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,6 +156,7 @@
 		04E3125623C7C80500757B56 /* EditTagForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTagForm.swift; sourceTree = "<group>"; };
 		04E3125823C7CBDE00757B56 /* BookUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookUpdate.swift; sourceTree = "<group>"; };
 		04E3125A23C8D93700757B56 /* AuthorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorList.swift; sourceTree = "<group>"; };
+		04E3125C23C8E7FA00757B56 /* AuthorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +237,7 @@
 			children = (
 				0413026323C399D800FDF25B /* BookListView.swift */,
 				0413026923C3A28E00FDF25B /* SeriesListView.swift */,
+				04E3125C23C8E7FA00757B56 /* AuthorListView.swift */,
 			);
 			name = LibraryViews;
 			sourceTree = "<group>";
@@ -539,6 +542,7 @@
 				04E3124F23C78E0A00757B56 /* CallAPI.swift in Sources */,
 				04AA7C7F23BBC3AF003706C6 /* Constants.swift in Sources */,
 				0413024A23C022B400FDF25B /* BookDetailView.swift in Sources */,
+				04E3125D23C8E7FA00757B56 /* AuthorListView.swift in Sources */,
 				0413025B23C2EB6100FDF25B /* NavDrawer.swift in Sources */,
 				04AA7C7B23BBB99E003706C6 /* User.swift in Sources */,
 				0413027B23C4308300FDF25B /* Env.swift in Sources */,

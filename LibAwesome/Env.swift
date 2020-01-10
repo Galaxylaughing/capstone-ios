@@ -44,4 +44,19 @@ class Env: ObservableObject {
     }
     
     static let defaultEnv = Env()
+    
+    // functions
+    static func setEnv(in env: Env, to newBookList: BookList) {
+        // update authors
+        let updatedAuthorList = EncodingHelper.getAuthors(from: newBookList)
+        
+        // update tags
+        
+        // set environment
+        DispatchQueue.main.async {
+            env.bookList = newBookList
+            env.authorList = updatedAuthorList
+            // update tagList
+        }
+    }
 }

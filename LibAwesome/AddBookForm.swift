@@ -231,13 +231,7 @@ struct AddBookForm: View {
                 let bookList = self.env.bookList
                 bookList.books.append(newBook)
                 
-                // update authors
-                let updatedAuthorList = EncodingHelper.getAuthors(from: bookList)
-                
-                DispatchQueue.main.async {
-                    self.env.bookList = bookList
-                    self.env.authorList = updatedAuthorList
-                }
+                Env.setEnv(in: self.env, to: bookList)
             }
             // should dismiss sheet if success
             self.showForm = false

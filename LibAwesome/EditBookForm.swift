@@ -275,14 +275,10 @@ struct EditBookForm: View {
                     }
                     let seriesList = SeriesList(seriesList: self.env.seriesList)
                     
-                    // update authors
-                    let updatedAuthorList = EncodingHelper.getAuthors(from: bookList)
+                    Env.setEnv(in: self.env, to: bookList)
                     
                     DispatchQueue.main.async {
-                        // replace book at index
-                        self.env.bookList = bookList
                         self.env.seriesList = seriesList
-                        self.env.authorList = updatedAuthorList
                     }
                     // update book in state
                     self.book.title = newBook.title
