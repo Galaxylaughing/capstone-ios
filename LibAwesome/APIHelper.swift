@@ -722,4 +722,142 @@ struct APIHelper {
         return returnData
     }
     
+    // TAGS - DELETE
+    static func deleteTag(token: String?, tagName: String) -> [String:String] {
+        // return unknown error if no other code overwrites with the correct error or success message
+        var returnData: [String:String] = ["error": "unknown error"]
+        
+        // Prepare URL
+        let url = URL(string: API_HOST+"tags/\(tagName)/")
+        guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
+        
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "DELETE"
+        
+        //Prepare HTTP Request Header
+        let value = "Token \(token ?? "")"
+        request.setValue(value, forHTTPHeaderField: "Authorization")
+        
+        let group = DispatchGroup()
+        group.enter()
+        // Perform HTTP Request
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            defer { group.leave() }
+            
+            // Check for Error
+            if let error = error {
+                print("Error took place: \(error)")
+                returnData = ["error": "\(error)"]
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                print("Error took place")
+                returnData = ["error": "Unknown error communicating with server"]
+                return
+            }
+            
+            if httpResponse.statusCode == 400 {
+                print("Error took place: \(httpResponse.statusCode) Could not find any tags matching the name '\(tagName)'")
+                returnData = ["error": "Could not find any \(tagName) tags"]
+                return
+            }
+            
+            if !(200...299).contains(httpResponse.statusCode) {
+                print("Error took place: \(httpResponse.statusCode)")
+                returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
+                return
+            }
+            
+            // Convert HTTP Response Data to a String
+            if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                print("Response data string:\n \(dataString)")
+                
+                returnData = ["success": "\(dataString)"]
+            }
+        }
+        task.resume()
+        group.wait()
+        return returnData
+    }
+    
+    // TAG - PUT/UPDATE
+    static func putTag(
+        token: String?,
+        tagName: String,
+        newTagName: String,
+        books: [Int]) -> [String:String] {
+        // return unknown error if no other code overwrites with the correct error or success message
+        var returnData: [String:String] = ["error": "unknown error"]
+
+        // prepare URL
+        let url = URL(string: API_HOST+"tags/\(tagName)/")
+        guard let requestURL = url else { fatalError() } // unwraps the 'URL?' object
+
+        // prepare request
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+
+        // set header
+        let value = "Token \(token ?? "")"
+        request.setValue(value, forHTTPHeaderField: "Authorization")
+
+        // set body
+        struct TagToUpdate: Encodable {
+            let new_name: String
+            let books: [Int]
+        }
+        let tag = TagToUpdate(new_name: newTagName, books: books)
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+
+        if let jsonData = try? encoder.encode(tag) {
+            print(String(data: jsonData, encoding: .utf8)!)
+
+            request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+            request.httpBody = jsonData
+
+            let group = DispatchGroup()
+            group.enter()
+            // Perform HTTP Request
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                defer { group.leave() }
+
+                // Check for Error
+                if let error = error {
+                    print("Error took place: \(error)")
+                    returnData = ["error": "\(error)"]
+                    return
+                }
+
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    print("Error took place")
+                    returnData = ["error": "Unknown error communicating with server"]
+                    return
+                }
+
+                if !(200...299).contains(httpResponse.statusCode) {
+                    print("Error took place: \(httpResponse.statusCode)")
+                    returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
+                    return
+                }
+
+                // Convert HTTP Response Data to a String
+                if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                    print("Response data string:\n \(dataString)")
+                    returnData = ["success": "\(dataString)"]
+                }
+            }
+            task.resume()
+            group.wait()
+
+            return returnData
+
+        } else {
+            print("error occurred during JSON encoding")
+            return ["error": "Could not encode object to JSON"]
+        }
+    }
+    
 }

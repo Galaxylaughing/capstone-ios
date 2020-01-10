@@ -58,4 +58,8 @@ struct CallAPI {
             print("other unknown error")
         }
     }
+    
+    static func updateTags(env: Env) {
+        CallAPI.getTags(env: env)
+    }
 }

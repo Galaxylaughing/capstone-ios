@@ -14,23 +14,110 @@ struct TagsListView: View {
     @Binding var parentView: AnyView
     @Binding var isOpen: Bool
     
+    @State private var error: String?
+    @State private var showConfirm = false
+    @State private var tagToDelete: String = ""
+    
     var body: some View {
-        // sort alphabetically
-        ForEach(self.env.tagList.tags.sorted(by: {$0 < $1})) { tag in
-            
-            Button(action: {
-                self.env.tag = tag
-                self.parentView = AnyView(TagDetailView())
-                self.isOpen = false
-            }) {
-                 HStack {
-                   Text(tag.name)
-                   Spacer()
-                   if self.showCount { Text("\(tag.books.count)") }
+        Group {
+            if self.env.tagList.tags.count > 0 {
+                ForEach(self.env.tagList.tags.sorted(by: {$0 < $1})) { tag in  // sort alphabetically
+                    Button(action: {
+                        self.env.tag = tag
+                        self.parentView = AnyView(TagDetailView())
+                        self.isOpen = false
+                    }) {
+                        HStack {
+                            Text(tag.name)
+                            Spacer()
+                            if self.showCount { Text("\(tag.books.count)") }
+                        }
+                    }
+                }
+                .onDelete(perform: self.displayConfirm)
+                .alert(isPresented: self.$showConfirm) {
+                    if self.error == nil {
+                        return Alert(title: Text("Delete '\(self.tagToDelete)'"),
+                                     message: Text("Are you sure?"),
+                                     primaryButton: .destructive(Text("Delete")) {
+                                        self.swipeDeleteTag()
+                            },
+                                     secondaryButton: .cancel()
+                        )
+                    } else {
+                        return Alert(title: Text("Error"),
+                                     message: Text(error!),
+                                     dismissButton: Alert.Button.default(
+                                        Text("OK"), action: {
+                                            self.error = nil
+                                            self.showConfirm = false
+                                     }
+                            )
+                        )
+                    }
+                }
+            } else {
+                Text("You have no tags yet")
+                    .font(.caption)
+            }
+        }
+    }
+    
+    func displayConfirm(at offsets: IndexSet) {
+        print("confirming")
+        let tag = env.tagList.tags.sorted(by: {$0 < $1})[offsets.first!]
+        self.tagToDelete = tag.name
+        self.showConfirm = true
+    }
+    
+    func swipeDeleteTag() {
+        self.showConfirm = false
+        
+        // make DELETE request
+        let response = APIHelper.deleteTag(token: self.env.user.token, tagName: self.tagToDelete)
+
+        if response["success"] != nil {
+            // remove tag from any book that has that tag
+            let allBooks = self.env.bookList
+            for book in allBooks.books {
+                if let index = book.tags.firstIndex(of: self.tagToDelete) {
+                    book.tags.remove(at: index)
+                }
+            }
+            DispatchQueue.main.async {
+                self.env.bookList = allBooks
+            }
+
+            // remove tag from environment
+            if let indexToDelete = self.env.tagList.tags.firstIndex(where: {$0.name == self.tagToDelete}) {
+                let tagList = self.env.tagList
+                tagList.tags.remove(at: indexToDelete)
+                DispatchQueue.main.async {
+                    self.env.tagList = tagList
+                    
+                    // clears tag from environment if it's the one that's been deleted
+                    // does not affect parent view if parent view is current tag's detail view
+                    if self.env.tag.name == self.tagToDelete {
+                        self.env.tag = Env.defaultEnv.tag
+                    }
                 }
             }
             
+            // works but overcompensates; current tag is not cleared when nagivating away from a tag detail view
+            if (self.env.tag.name == self.tagToDelete) {
+                self.parentView = AnyView(BookListView())
+            }
             
+        } else if response["error"] != nil {
+            self.error = response["error"]!
+            DispatchQueue.main.async {
+                self.showConfirm = true
+            }
+        } else {
+            self.error = "Unknown error"
+            DispatchQueue.main.async {
+                self.showConfirm = true
+            }
         }
     }
 }

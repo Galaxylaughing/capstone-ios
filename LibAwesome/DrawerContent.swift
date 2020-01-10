@@ -41,7 +41,11 @@ struct DrawerContent: View {
                     }
                 }
                 
-                Section(header: HStack {Text("My Tags"); Spacer(); ShowTagCountButton(showCount: self.$showCount)}) {
+                Section(header: HStack {
+                    Text("My Tags");
+                    Spacer();
+                    ShowTagCountButton(showCount: self.$showCount)
+                }) {
                     TagsListView(showCount: self.$showCount, parentView: self.$parentView, isOpen: self.$isOpen)
                 }
                 

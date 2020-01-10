@@ -10,9 +10,6 @@ import SwiftUI
 
 struct AddBookForm: View {
     @EnvironmentObject var env: Env
-    //    @EnvironmentObject var currentUser: User
-    //    @EnvironmentObject var bookList: BookList
-    //    @EnvironmentObject var seriesList: SeriesList
     
     @State private var error: ErrorAlert?
     @Binding var showForm: Bool
@@ -26,6 +23,11 @@ struct AddBookForm: View {
     @State private var seriesIndex = 0
     @State private var seriesPositionIndex = 0
     let seriesPositions: [Int] = Array(1...100)
+    
+    @State var tagChecklist: [CheckListItem] = []
+    @State private var tags: [String] = []
+    @State private var newTag: String = ""
+    
     
     fileprivate func saveButton() -> some View {
         return Button(action: { self.createBook() }) {
@@ -48,18 +50,18 @@ struct AddBookForm: View {
         NavigationView {
             VStack {
                 Form {
-                    Section {
+                    Section(header: Text("title")) {
                         VStack(alignment: .leading) {
-                            Text("Title *")
+//                            Text("Title *")
                             TextField("book title", text: $title)
                         }
                     }
                     
-                    Section {
+                    Section(header: Text("author(s)")) {
                         VStack(alignment: .leading) {
-                            HStack {
-                                Text("Author *")
-                            }
+//                            HStack {
+//                               Text("Author *")
+//                            }
                             HStack {
                                 TextField("author name", text: $author)
                                 Spacer()
@@ -82,12 +84,13 @@ struct AddBookForm: View {
                         }
                     }
                     
-                    Section {
+                    Section(header: Text("add to series")) {
                         VStack(alignment: .leading) {
                             
                             Toggle(isOn: $assignSeries) {
                                 Text("Assign to Series")
                             }
+                            .disabled(!(self.env.seriesList.series.count > 0))
                             
                             if self.assignSeries {
                                 Text("").padding(.bottom)
@@ -122,11 +125,42 @@ struct AddBookForm: View {
                             
                         }
                     }
+                    
+                    TagUpdate(
+                        tagChecklist: self.$tagChecklist,
+                        newTag: self.$newTag,
+                        addTag: { self.addTag() }
+                    )
                 }
             }
             .navigationBarTitle("Add Book", displayMode: .inline)
             .navigationBarItems(leading: cancelButton(), trailing: saveButton())
         }
+        .onAppear(perform: {self.buildTagChecklist()})
+    }
+    
+    func addTag() {
+        // add tag to checklist
+        var checklist: [CheckListItem] = self.tagChecklist
+        let newChecklistItem = CheckListItem(isChecked: true, content: self.newTag)
+        checklist.append(newChecklistItem)
+        // sort checklist alphabetically
+        let alphaChecklist = checklist.sorted(by: {$0 < $1})
+        self.tagChecklist = alphaChecklist
+        // clear tag from field
+        self.newTag = ""
+    }
+
+    func buildTagChecklist() {
+        var checklist: [CheckListItem] = []
+        // convert env tags to checklist items
+        for tag in self.env.tagList.tags {
+            let checklistitem = CheckListItem(isChecked: false, content: tag.name)
+            checklist.append(checklistitem)
+        }
+        // sort checklist alphabetically
+        let alphaChecklist = checklist.sorted(by: {$0 < $1})
+        self.tagChecklist = alphaChecklist
     }
     
     // AUTHOR FORM FIELDS
@@ -151,8 +185,27 @@ struct AddBookForm: View {
         self.author = ""
     }
     
+    func onChecklistSubmit() {
+        for item in self.tagChecklist {
+            print(item.content, item.isChecked)
+        }
+    }
+
+    func unBuildTagChecklist() {
+        // assign correct tags to self.tags based on checklist
+        for item in self.tagChecklist {
+            if item.isChecked {
+                self.tags.append(item.content)
+            }
+        }
+    }
+    
     // SUBMIT FORM
     func createBook() {
+        self.onChecklistSubmit() // should print current checklist values
+        self.unBuildTagChecklist()
+        print("BOOK'S TAGS:", self.tags)
+        
         let seriesData = BookHelper.getSeriesId(
             seriesList: self.env.seriesList,
             assignSeries: self.assignSeries,
@@ -166,9 +219,13 @@ struct AddBookForm: View {
             title: self.title,
             authors: self.authors,
             position: seriesData["position"] ?? nil,
-            seriesId: seriesData["seriesId"] ?? nil)
-        
+            seriesId: seriesData["seriesId"] ?? nil,
+            tags: self.tags)
+    
         if response["success"] != nil {
+            // update tags
+            CallAPI.updateTags(env: self.env)
+            
             // add new book to environment BookList
             if let newBook = EncodingHelper.makeBook(data: response["success"]!) {
                 let bookList = self.env.bookList
@@ -214,8 +271,25 @@ struct AddBookForm_Previews: PreviewProvider {
         plannedCount: 6,
         books: [])
     static var seriesList = SeriesList(series: [series1, series2, series3, series4])
-    static var env = Env(user: Env.defaultEnv.user, bookList: Env.defaultEnv.bookList, seriesList: seriesList, tagList: Env.defaultEnv.tagList, tag: Env.defaultEnv.tag
-)
+    
+    static var tag0 = TagList.Tag(
+        name: "non-fiction",
+        books: [])
+    static var tag1 = TagList.Tag(
+        name: "fantasy",
+        books: [])
+    static var tag2 = TagList.Tag(
+        name: "science-fiction",
+        books: [])
+    static var tag3 = TagList.Tag(
+        name: "mystery",
+        books: [])
+    static var tag4 = TagList.Tag(
+        name: "fantasy/contemporary",
+        books: [])
+    static var tagList = TagList(tags: [tag0, tag1, tag2, tag3, tag4])
+    
+    static var env = Env(user: Env.defaultEnv.user, bookList: Env.defaultEnv.bookList, seriesList: seriesList, tagList: tagList, tag: Env.defaultEnv.tag)
     
     static var previews: some View {
         AddBookForm(showForm: $showForm)

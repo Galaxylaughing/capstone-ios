@@ -10,9 +10,6 @@ import SwiftUI
 
 struct BookListView: View {
     @EnvironmentObject var env: Env
-//    @EnvironmentObject var currentUser: User
-//    @EnvironmentObject var bookList: BookList
-//    @EnvironmentObject var seriesList: SeriesList
     
     @State private var error: String?
     @State private var showConfirm = false
@@ -86,6 +83,9 @@ struct BookListView: View {
         let response = APIHelper.deleteBook(token: self.env.user.token, bookId: self.bookToDelete)
         
         if response["success"] != nil {
+            // update tags
+            CallAPI.updateTags(env: self.env)
+            
             // remove book from environment
             if let indexToDelete = self.env.bookList.books.firstIndex(where: {$0.id == self.bookToDelete}) {
                 let bookList = self.env.bookList

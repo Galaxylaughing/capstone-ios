@@ -39,6 +39,7 @@ struct LoginForm: View {
                         Text("password")
                         SecureField("password", text: $password)
                             .textContentType(.password)
+                            .autocapitalization(.none)
                     }
                     
                     Button(action: { self.loginUser() }) {

@@ -11,11 +11,37 @@ import SwiftUI
 struct TagDetailView: View {
     @EnvironmentObject var env: Env
     
-    private var bookList = BookList(books: [])
+    @State private var bookList = BookList(books: [])
+    @State private var showMenu: Bool = false
     
     var body: some View {
-        VStack {
-            Text(self.env.tag.name)
+        VStack(alignment: .leading) {
+            HStack {
+                Text(self.env.tag.name)
+                    .font(.title)
+                    .fontWeight(.semibold)
+                Spacer()
+                Button(action: { self.showMenu.toggle() } ) {
+                    if showMenu {
+                        Image(systemName: "chevron.down")
+                    } else {
+                        Image(systemName: "chevron.right")
+                    }
+                }
+            }
+            .padding([.top, .leading, .trailing])
+            
+            HStack {
+                if showMenu {
+                    Spacer()
+                    HStack {
+                        DeleteIcon()
+                        Text(" ")
+                        EditTagButton()
+                    }
+                }
+            }
+            .padding(.trailing)
             
             List {
                 ForEach(self.env.tag.books, id: \.self) { bookId in
@@ -29,6 +55,7 @@ struct TagDetailView: View {
                 }
             }
         }
+        .navigationBarTitle("", displayMode: .inline)
     }
 
     func loadBookById(id: Int) -> Bool {
@@ -73,14 +100,14 @@ struct TagDetailView_Previews: PreviewProvider {
     static var bookList = BookList(books: [book1, book2, book3])
     
     static var tag = TagList.Tag(
-        name: "science-fiction",
+        name: "fiction/science-fiction",
         books: [1, 2, 3])
     static var env = Env(
         user: Env.defaultEnv.user,
         bookList: bookList,
         seriesList: Env.defaultEnv.seriesList,
         tagList: Env.defaultEnv.tagList,
-        tag: Env.defaultEnv.tag
+        tag: tag
         )
     
     static var previews: some View {

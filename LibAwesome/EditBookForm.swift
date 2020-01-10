@@ -120,6 +120,7 @@ struct EditBookForm: View {
                         }
                     }
                     
+                    /*
                     Section(header: Text("add tags")) { // tags
                         HStack {
                             TextField("add tag", text: $newTag)
@@ -134,6 +135,14 @@ struct EditBookForm: View {
                             CheckList(list: self.$tagChecklist)
                         }
                     }
+                    */
+                    
+                    TagUpdate(
+                        tagChecklist: self.$tagChecklist,
+                        newTag: self.$newTag,
+                        addTag: { self.addTag() }
+                    )
+                    
                 }
             }
             .navigationBarTitle("Update Book", displayMode: .inline)
@@ -214,10 +223,6 @@ struct EditBookForm: View {
         }
     }
     
-    func updateTags() {
-        CallAPI.getTags(env: self.env)
-    }
-    
     func editBook() {
         self.onChecklistSubmit() // should print current checklist values
         self.unBuildTagChecklist()
@@ -240,10 +245,10 @@ struct EditBookForm: View {
             seriesId: seriesData["seriesId"] ?? nil,
             tags: self.bookToEdit.tags)
         
-        // update environment's taglist
-        self.updateTags()
-        
         if response["success"] != nil {
+            // update tags
+            CallAPI.updateTags(env: self.env)
+            
             // update book in environment
             if let newBook = EncodingHelper.makeBook(data: response["success"]!) {
                 // update book in environment's BookList

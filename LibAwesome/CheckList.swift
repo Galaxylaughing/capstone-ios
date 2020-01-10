@@ -38,10 +38,12 @@ class CheckListItem: Identifiable, Comparable {
     }
     var isChecked: Bool
     var content: String
+    var identifier: Int?
     
-    init(isChecked: Bool = false, content: String) {
+    init(isChecked: Bool = false, content: String, identifier: Int? = nil) {
         self.isChecked = isChecked
         self.content = content
+        self.identifier = identifier
     }
     
     // conform to Comparable

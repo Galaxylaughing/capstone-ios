@@ -62,6 +62,11 @@
 		04E3124523C6C8A200757B56 /* TagDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3124423C6C8A200757B56 /* TagDetailView.swift */; };
 		04E3124B23C77A4E00757B56 /* CheckList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3124A23C77A4E00757B56 /* CheckList.swift */; };
 		04E3124F23C78E0A00757B56 /* CallAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3124E23C78E0A00757B56 /* CallAPI.swift */; };
+		04E3125123C7AF4800757B56 /* TagUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125023C7AF4800757B56 /* TagUpdate.swift */; };
+		04E3125323C7C4FD00757B56 /* DeleteIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125223C7C4FD00757B56 /* DeleteIcon.swift */; };
+		04E3125523C7C77D00757B56 /* EditTagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125423C7C77D00757B56 /* EditTagButton.swift */; };
+		04E3125723C7C80500757B56 /* EditTagForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125623C7C80500757B56 /* EditTagForm.swift */; };
+		04E3125923C7CBDE00757B56 /* BookUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125823C7CBDE00757B56 /* BookUpdate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +148,11 @@
 		04E3124423C6C8A200757B56 /* TagDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailView.swift; sourceTree = "<group>"; };
 		04E3124A23C77A4E00757B56 /* CheckList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckList.swift; sourceTree = "<group>"; };
 		04E3124E23C78E0A00757B56 /* CallAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallAPI.swift; sourceTree = "<group>"; };
+		04E3125023C7AF4800757B56 /* TagUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagUpdate.swift; sourceTree = "<group>"; };
+		04E3125223C7C4FD00757B56 /* DeleteIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteIcon.swift; sourceTree = "<group>"; };
+		04E3125423C7C77D00757B56 /* EditTagButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTagButton.swift; sourceTree = "<group>"; };
+		04E3125623C7C80500757B56 /* EditTagForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTagForm.swift; sourceTree = "<group>"; };
+		04E3125823C7CBDE00757B56 /* BookUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookUpdate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +218,9 @@
 				0413024923C022B400FDF25B /* BookDetailView.swift */,
 				0413028923C5401E00FDF25B /* SeriesDetailView.swift */,
 				04E3124423C6C8A200757B56 /* TagDetailView.swift */,
+				04E3125023C7AF4800757B56 /* TagUpdate.swift */,
+				04E3125823C7CBDE00757B56 /* BookUpdate.swift */,
+				04E3124A23C77A4E00757B56 /* CheckList.swift */,
 				04E3124023C6C03200757B56 /* TagBubble.swift */,
 				0413026723C39BCF00FDF25B /* Forms */,
 				0413026823C39BD900FDF25B /* Navigation */,
@@ -229,7 +242,7 @@
 			children = (
 				0413024E23C0613F00FDF25B /* AddBookForm.swift */,
 				0413025823C28E5000FDF25B /* EditBookForm.swift */,
-				04E3124A23C77A4E00757B56 /* CheckList.swift */,
+				04E3125623C7C80500757B56 /* EditTagForm.swift */,
 				0413027223C3DD8600FDF25B /* AddSeriesForm.swift */,
 				0413028323C5098300FDF25B /* EditSeriesForm.swift */,
 				0413028123C502CE00FDF25B /* SeriesForm.swift */,
@@ -327,9 +340,11 @@
 				0413026523C39B5500FDF25B /* AddBookIcon.swift */,
 				0413027623C3DFA400FDF25B /* AddIcon.swift */,
 				0413028723C5120600FDF25B /* EditIcon.swift */,
+				04E3125223C7C4FD00757B56 /* DeleteIcon.swift */,
 				0413025623C28E1900FDF25B /* EditBookButton.swift */,
 				0413027423C3DDF900FDF25B /* AddSeriesButton.swift */,
 				0413028523C5118700FDF25B /* EditSeriesButton.swift */,
+				04E3125423C7C77D00757B56 /* EditTagButton.swift */,
 				04080F3D23C690AC006E1523 /* ShowTagCountButton.swift */,
 			);
 			name = Buttons;
@@ -490,6 +505,7 @@
 			files = (
 				0413028423C5098300FDF25B /* EditSeriesForm.swift in Sources */,
 				0413025923C28E5000FDF25B /* EditBookForm.swift in Sources */,
+				04E3125523C7C77D00757B56 /* EditTagButton.swift in Sources */,
 				0413023423BE624600FDF25B /* AlertHelper.swift in Sources */,
 				04AA7C7523BBB158003706C6 /* SignUpForm.swift in Sources */,
 				04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */,
@@ -508,10 +524,12 @@
 				0413026123C2F40E00FDF25B /* DrawerBackDrop.swift in Sources */,
 				04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */,
 				0413025D23C2EB9C00FDF25B /* DrawerContent.swift in Sources */,
+				04E3125923C7CBDE00757B56 /* BookUpdate.swift in Sources */,
 				04E3124B23C77A4E00757B56 /* CheckList.swift in Sources */,
 				04E3124323C6C2C900757B56 /* Alphabetical.swift in Sources */,
 				0413028623C5118700FDF25B /* EditSeriesButton.swift in Sources */,
 				0413023123BE5ABB00FDF25B /* LogoutButton.swift in Sources */,
+				04E3125323C7C4FD00757B56 /* DeleteIcon.swift in Sources */,
 				0413028A23C5401E00FDF25B /* SeriesDetailView.swift in Sources */,
 				04D4006423BBF982009D256C /* ErrorAlert.swift in Sources */,
 				04E3124F23C78E0A00757B56 /* CallAPI.swift in Sources */,
@@ -529,9 +547,11 @@
 				0413027123C3AFA700FDF25B /* SeriesList.swift in Sources */,
 				0413024823BFE91300FDF25B /* BookList.swift in Sources */,
 				0413024F23C0613F00FDF25B /* AddBookForm.swift in Sources */,
+				04E3125123C7AF4800757B56 /* TagUpdate.swift in Sources */,
 				0413026A23C3A28E00FDF25B /* SeriesListView.swift in Sources */,
 				0413023723BE633400FDF25B /* TokenHelper.swift in Sources */,
 				0413025723C28E1900FDF25B /* EditBookButton.swift in Sources */,
+				04E3125723C7C80500757B56 /* EditTagForm.swift in Sources */,
 				04AA7C7123BBADF8003706C6 /* LoginForm.swift in Sources */,
 				04AA7C6D23BBAC53003706C6 /* LoginIconView.swift in Sources */,
 				04E3124123C6C03200757B56 /* TagBubble.swift in Sources */,
