@@ -9,13 +9,41 @@
 import SwiftUI
 
 struct AuthorListView: View {
+    @EnvironmentObject var env: Env
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Section {
+                List {
+                    ForEach(self.env.authorList.authors) { author in
+                        HStack {
+                            Text(author.name)
+                        }
+                    }
+                }
+            }
+        }
+        .navigationBarTitle("Authors", displayMode: .large)
     }
 }
 
 struct AuthorListView_Previews: PreviewProvider {
+    static var authors: [AuthorList.Author] = [
+        AuthorList.Author(name: "Fakey Fake", books: []),
+        AuthorList.Author(name: "Daley Fake", books: []),
+        AuthorList.Author(name: "Elizabeth Dunn", books: [])
+    ]
+    static var authorList: AuthorList = AuthorList(authors: authors)
+    static var env = Env(
+        user: Env.defaultEnv.user,
+        bookList: Env.defaultEnv.bookList,
+        authorList: authorList,
+        seriesList: Env.defaultEnv.seriesList,
+        tagList: Env.defaultEnv.tagList,
+        tag: Env.defaultEnv.tag)
+    
     static var previews: some View {
         AuthorListView()
+        .environmentObject(self.env)
     }
 }

@@ -29,6 +29,18 @@ struct DrawerContent: View {
                             // Image(systemName: "checkmark")
                         }
                     }
+                    
+                    Button(action: {
+                        self.parentView = AnyView(AuthorListView())
+                        self.isOpen = false
+                    }) {
+                        HStack {
+                            Text("Authors")
+                            // Spacer()
+                            // Image(systemName: "checkmark")
+                        }
+                    }
+                    
                     Button(action: {
                         self.parentView = AnyView(SeriesListView())
                         self.isOpen = false
@@ -60,6 +72,13 @@ struct DrawerContent_Previews: PreviewProvider {
     @State static var parentView: AnyView = AnyView(BookListView())
     @State static var isOpen = true
     
+    static var authors: [AuthorList.Author] = [
+        AuthorList.Author(name: "Fakey Fake", books: []),
+        AuthorList.Author(name: "Daley Fake", books: []),
+        AuthorList.Author(name: "Elizabeth Dunn", books: [])
+    ]
+    static var authorList: AuthorList = AuthorList(authors: authors)
+    
     static var tag0 = TagList.Tag(
         name: "non-fiction",
         books: [])
@@ -79,11 +98,10 @@ struct DrawerContent_Previews: PreviewProvider {
     static var env = Env(
         user: Env.defaultEnv.user,
         bookList: Env.defaultEnv.bookList,
-        authorList: Env.defaultEnv.authorList,
+        authorList: authorList,
         seriesList: Env.defaultEnv.seriesList,
         tagList: tagList,
-        tag: Env.defaultEnv.tag
-)
+        tag: Env.defaultEnv.tag)
     
     static var previews: some View {
         DrawerContent(parentView: self.$parentView, isOpen: $isOpen)

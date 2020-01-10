@@ -9,11 +9,6 @@
 import SwiftUI
 
 struct LibraryView: View {
-//    @EnvironmentObject var env: Env
-//    @EnvironmentObject var currentUser: User
-//    @EnvironmentObject var bookList: BookList
-//    @EnvironmentObject var seriesList: SeriesList
-    
     // from krebera's answer about AnyView: https://forums.developer.apple.com/thread/122440
     @State var view: AnyView = AnyView(BookListView())
     
@@ -48,23 +43,7 @@ struct LibraryView: View {
 }
 
 struct LibraryView_Previews: PreviewProvider {
-//    static var exampleBook1 = BookList.Book(
-//        id: 1,
-//        title: "Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch",
-//        authors: [
-//            "Neil Gaiman",
-//            "Terry Pratchett",
-//    ])
-//    static var exampleBook2 = BookList.Book(
-//        id: 2,
-//        title: "A Great and Terrible Beauty",
-//        authors: [
-//            "Libba Bray"
-//    ])
-//    static var bookList = BookList(books: [exampleBook1, exampleBook2])
-    
     static var previews: some View {
         LibraryView()
-//            .environmentObject(bookList)
     }
 }
