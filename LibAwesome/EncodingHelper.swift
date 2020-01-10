@@ -10,6 +10,19 @@ import Foundation
 import SwiftUI
 
 struct EncodingHelper {
+    // AUTHORS
+    static func getAuthors(from source: BookList) -> AuthorList {
+        let newAuthorList = AuthorList(from: source)
+        print("\nRESULTING AUTHORS:")
+        for author in newAuthorList.authors {
+            print(author.name)
+            for book in author.books {
+                print("-- \(book.title)")
+            }
+        }
+        return newAuthorList
+    }
+    
     // BOOKS
     // parsing JSON example: https://dev.to/jaumevn/parsing-json-with-swift-5-2m40
     static func decodeBookList(str: String) -> BookList? {
@@ -26,7 +39,7 @@ struct EncodingHelper {
             // map object-ified JSON to goal object
             let bookList = BookList(from: serviceBookList)
             print("\nI DECODED SUCCESSFULLY INTO OBJECT:")
-            print(bookList)
+            print(bookList)            
             return bookList
         } else {
             print("I FAILED")

@@ -289,7 +289,13 @@ struct AddBookForm_Previews: PreviewProvider {
         books: [])
     static var tagList = TagList(tags: [tag0, tag1, tag2, tag3, tag4])
     
-    static var env = Env(user: Env.defaultEnv.user, bookList: Env.defaultEnv.bookList, seriesList: seriesList, tagList: tagList, tag: Env.defaultEnv.tag)
+    static var env = Env(
+        user: Env.defaultEnv.user,
+        bookList: Env.defaultEnv.bookList,
+        authorList: Env.defaultEnv.authorList,
+        seriesList: seriesList,
+        tagList: tagList,
+        tag: Env.defaultEnv.tag)
     
     static var previews: some View {
         AddBookForm(showForm: $showForm)

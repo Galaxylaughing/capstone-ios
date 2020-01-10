@@ -105,6 +105,7 @@ struct TagDetailView_Previews: PreviewProvider {
     static var env = Env(
         user: Env.defaultEnv.user,
         bookList: bookList,
+        authorList: Env.defaultEnv.authorList,
         seriesList: Env.defaultEnv.seriesList,
         tagList: Env.defaultEnv.tagList,
         tag: tag

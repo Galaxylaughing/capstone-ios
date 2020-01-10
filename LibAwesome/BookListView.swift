@@ -123,8 +123,13 @@ struct BookListView_Previews: PreviewProvider {
             "Libba Bray"
     ])
     static var bookList = BookList(books: [exampleBook1, exampleBook2])
-    static var env = Env(user: Env.defaultEnv.user, bookList: bookList, seriesList: Env.defaultEnv.seriesList, tagList: Env.defaultEnv.tagList, tag: Env.defaultEnv.tag
-)
+    static var env = Env(
+        user: Env.defaultEnv.user,
+        bookList: bookList,
+        authorList: Env.defaultEnv.authorList,
+        seriesList: Env.defaultEnv.seriesList,
+        tagList: Env.defaultEnv.tagList,
+        tag: Env.defaultEnv.tag)
     
     static var previews: some View {
         BookListView()

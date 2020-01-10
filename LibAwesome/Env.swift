@@ -11,13 +11,15 @@ import Foundation
 class Env: ObservableObject {
     @Published var user: User
     @Published var bookList: BookList
+    @Published var authorList: AuthorList
     @Published var seriesList: SeriesList
     @Published var tagList: TagList
     @Published var tag: TagList.Tag
     
-    init(user: User, bookList: BookList, seriesList: SeriesList, tagList: TagList, tag: TagList.Tag) {
+    init(user: User, bookList: BookList, authorList: AuthorList, seriesList: SeriesList, tagList: TagList, tag: TagList.Tag) {
         self.user = user
         self.bookList = bookList
+        self.authorList = authorList
         self.seriesList = seriesList
         self.tagList = tagList
         self.tag = tag
@@ -26,6 +28,7 @@ class Env: ObservableObject {
     init(env: Env) {
         self.user = env.user
         self.bookList = env.bookList
+        self.authorList = env.authorList
         self.seriesList = env.seriesList
         self.tagList = env.tagList
         self.tag = env.tag
@@ -34,6 +37,7 @@ class Env: ObservableObject {
     init() {
         self.user = User()
         self.bookList = BookList(books: [])
+        self.authorList = AuthorList()
         self.seriesList = SeriesList(series: [])
         self.tagList = TagList(tags: [])
         self.tag = TagList.Tag(name: "", books: [])

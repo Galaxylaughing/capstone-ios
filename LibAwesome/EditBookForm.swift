@@ -330,6 +330,7 @@ struct EditBookForm_Previews: PreviewProvider {
     static var env = Env(
         user: Env.defaultEnv.user,
         bookList: Env.defaultEnv.bookList,
+        authorList: Env.defaultEnv.authorList,
         seriesList: Env.defaultEnv.seriesList,
         tagList: tagList,
         tag: Env.defaultEnv.tag)

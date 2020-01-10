@@ -67,6 +67,7 @@
 		04E3125523C7C77D00757B56 /* EditTagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125423C7C77D00757B56 /* EditTagButton.swift */; };
 		04E3125723C7C80500757B56 /* EditTagForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125623C7C80500757B56 /* EditTagForm.swift */; };
 		04E3125923C7CBDE00757B56 /* BookUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125823C7CBDE00757B56 /* BookUpdate.swift */; };
+		04E3125B23C8D93700757B56 /* AuthorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125A23C8D93700757B56 /* AuthorList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,6 +154,7 @@
 		04E3125423C7C77D00757B56 /* EditTagButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTagButton.swift; sourceTree = "<group>"; };
 		04E3125623C7C80500757B56 /* EditTagForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTagForm.swift; sourceTree = "<group>"; };
 		04E3125823C7CBDE00757B56 /* BookUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookUpdate.swift; sourceTree = "<group>"; };
+		04E3125A23C8D93700757B56 /* AuthorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -368,6 +370,7 @@
 				0413027023C3AFA700FDF25B /* SeriesList.swift */,
 				04080F3B23C67716006E1523 /* TagList.swift */,
 				0413027A23C4308300FDF25B /* Env.swift */,
+				04E3125A23C8D93700757B56 /* AuthorList.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -511,6 +514,7 @@
 				04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */,
 				0413028023C4F4C400FDF25B /* BookHelper.swift in Sources */,
 				0413028823C5120600FDF25B /* EditIcon.swift in Sources */,
+				04E3125B23C8D93700757B56 /* AuthorList.swift in Sources */,
 				0413027523C3DDF900FDF25B /* AddSeriesButton.swift in Sources */,
 				04080F3C23C67716006E1523 /* TagList.swift in Sources */,
 				0413023923BE63BF00FDF25B /* APIHelper.swift in Sources */,

@@ -48,9 +48,15 @@ struct CallAPI {
         
         if let data = response["success"] {
             let apiBookList = EncodingHelper.makeBookList(data: data) ?? BookList(books: [])
+            
+            print("\nCallAPI.getBooks returned from calling makeBookList")
+            print("\nCallAPI.getBooks is about to call getAuthors")
+            let authorList = EncodingHelper.getAuthors(from: apiBookList)
+            
             // update the environment variable
             DispatchQueue.main.async {
                 env.bookList = apiBookList
+                env.authorList = authorList
             }
         } else if let errorData = response["error"] {
             print(errorData)
