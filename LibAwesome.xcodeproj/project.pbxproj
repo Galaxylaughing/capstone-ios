@@ -223,38 +223,12 @@
 			name = HelperModels;
 			sourceTree = "<group>";
 		};
-		0413024023BE94CE00FDF25B /* TabbedViews */ = {
-			isa = PBXGroup;
-			children = (
-				0413024B23C022C500FDF25B /* AuxiliaryViews */,
-			);
-			name = TabbedViews;
-			sourceTree = "<group>";
-		};
 		0413024B23C022C500FDF25B /* AuxiliaryViews */ = {
 			isa = PBXGroup;
 			children = (
-				04E3125023C7AF4800757B56 /* TagUpdate.swift */,
-				04E3125823C7CBDE00757B56 /* BookUpdate.swift */,
 				04E3124A23C77A4E00757B56 /* CheckList.swift */,
-				04E3124023C6C03200757B56 /* TagBubble.swift */,
-				0413026723C39BCF00FDF25B /* Forms */,
-				0413026823C39BD900FDF25B /* Navigation */,
 			);
 			name = AuxiliaryViews;
-			sourceTree = "<group>";
-		};
-		0413026723C39BCF00FDF25B /* Forms */ = {
-			isa = PBXGroup;
-			children = (
-				0413024E23C0613F00FDF25B /* AddBookForm.swift */,
-				0413025823C28E5000FDF25B /* EditBookForm.swift */,
-				04E3125623C7C80500757B56 /* EditTagForm.swift */,
-				0413027223C3DD8600FDF25B /* AddSeriesForm.swift */,
-				0413028323C5098300FDF25B /* EditSeriesForm.swift */,
-				0413028123C502CE00FDF25B /* SeriesForm.swift */,
-			);
-			name = Forms;
 			sourceTree = "<group>";
 		};
 		0413026823C39BD900FDF25B /* Navigation */ = {
@@ -304,7 +278,7 @@
 				04E3127423CA879800757B56 /* Series */,
 				04E3127523CA879F00757B56 /* Authors */,
 				04AA7C6B23BBAA67003706C6 /* LoginViews */,
-				0413024023BE94CE00FDF25B /* TabbedViews */,
+				0413024B23C022C500FDF25B /* AuxiliaryViews */,
 				04AA7C6923BBAA06003706C6 /* Buttons */,
 				0413023223BE621700FDF25B /* HelperFunctions */,
 				04AA7C7923BBB98A003706C6 /* Models */,
@@ -388,6 +362,8 @@
 		04E3126A23CA6E5C00757B56 /* potential-delete */ = {
 			isa = PBXGroup;
 			children = (
+				0413028123C502CE00FDF25B /* SeriesForm.swift */,
+				0413026823C39BD900FDF25B /* Navigation */,
 				0413024123BE94DE00FDF25B /* LibraryView.swift */,
 				04AA7C3623BBA43B003706C6 /* TabbedView.swift */,
 			);
@@ -397,6 +373,7 @@
 		04E3126D23CA738500757B56 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				04E3124023C6C03200757B56 /* TagBubble.swift */,
 				0413026523C39B5500FDF25B /* AddBookIcon.swift */,
 				04E3127023CA7A9C00757B56 /* ArrowRight.swift */,
 				0413027623C3DFA400FDF25B /* AddIcon.swift */,
@@ -411,6 +388,8 @@
 			children = (
 				04E3126E23CA73BB00757B56 /* TagListView.swift */,
 				04E3124423C6C8A200757B56 /* TagDetailView.swift */,
+				04E3125623C7C80500757B56 /* EditTagForm.swift */,
+				04E3125823C7CBDE00757B56 /* BookUpdate.swift */,
 			);
 			name = Tags;
 			sourceTree = "<group>";
@@ -420,6 +399,9 @@
 			children = (
 				0413026323C399D800FDF25B /* BookListView.swift */,
 				0413024923C022B400FDF25B /* BookDetailView.swift */,
+				0413024E23C0613F00FDF25B /* AddBookForm.swift */,
+				0413025823C28E5000FDF25B /* EditBookForm.swift */,
+				04E3125023C7AF4800757B56 /* TagUpdate.swift */,
 			);
 			name = Books;
 			sourceTree = "<group>";
@@ -429,6 +411,8 @@
 			children = (
 				0413026923C3A28E00FDF25B /* SeriesListView.swift */,
 				0413028923C5401E00FDF25B /* SeriesDetailView.swift */,
+				0413027223C3DD8600FDF25B /* AddSeriesForm.swift */,
+				0413028323C5098300FDF25B /* EditSeriesForm.swift */,
 			);
 			name = Series;
 			sourceTree = "<group>";

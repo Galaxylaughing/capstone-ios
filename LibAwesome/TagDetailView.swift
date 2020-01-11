@@ -12,52 +12,20 @@ struct TagDetailView: View {
     @EnvironmentObject var env: Env
     
     @State private var bookList = BookList(books: [])
-    @State private var showMenu: Bool = false
     static var showEditButtons: Bool = true
 
     var body: some View {
         VStack(alignment: .leading) {
-            
-            if TagDetailView.showEditButtons {
-                HStack {
-                    Text(self.env.tag.name)
-                        .font(.title)
-                        .fontWeight(.semibold)
-                    Spacer()
-                    Button(action: { self.showMenu.toggle() } ) {
-                        if showMenu {
-                            Image(systemName: "chevron.down")
-                        } else {
-                            Image(systemName: "chevron.right")
-                        }
-                    }
-                }
-                .padding([.top, .leading, .trailing])
-            } else {
-                HStack {
-                    Text(self.env.tag.name)
-                        .font(.title)
-                        .fontWeight(.semibold)
-                }
-                .padding([.top, .leading, .trailing])
-            }
-            
             HStack {
-                if showMenu && TagDetailView.showEditButtons {
-                    Spacer()
-                    HStack {
-                        DeleteIcon()
-                        Text(" ")
-                        EditTagButton()
-                    }
-                }
+                Text(self.env.tag.name)
+                    .font(.title)
+                    .fontWeight(.semibold)
             }
-            .padding(.trailing)
+            .padding([.top, .leading, .trailing])
             
             List {
                 ForEach(self.env.tag.books.sorted(by: {$0.title < $1.title})) { book in
                     VStack {
-//                        NavigationLink(destination: BookDetailView().environmentObject(book)) {
                         Button(action: {
                             BookDetailView.book = book
                             self.env.topView = .bookdetail
@@ -116,7 +84,7 @@ struct TagDetailView_Previews: PreviewProvider {
         )
     
     static var previews: some View {
-        TagDetailView(/*showEditButtons: false*/)
+        TagDetailView()
             .environmentObject(self.env)
     }
 }

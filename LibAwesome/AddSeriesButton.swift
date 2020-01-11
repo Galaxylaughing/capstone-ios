@@ -13,11 +13,6 @@ struct AddSeriesButton: View {
     @State var showForm: Bool = false
     @State var showLabel: Bool = false
     
-//    var saveAction = {
-//        print("REACHED ADD SERIES BUTTON VIEW")
-//        print("SAVING")
-//    }
-    
     var body: some View {
         Button(action: { self.showForm.toggle() }) {
             if self.showLabel {
@@ -28,8 +23,6 @@ struct AddSeriesButton: View {
         }.sheet(isPresented: $showForm) {
             AddSeriesForm(showForm: self.$showForm)
                 .environmentObject(self.env)
-//            SeriesForm(showForm: self.$showForm, header: "Test Header", submitMessage: "Test", saveAction: self.saveAction)
-//                .environmentObject(self.env)
         }
     }
 }
