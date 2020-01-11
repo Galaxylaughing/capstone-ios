@@ -17,11 +17,11 @@ class TagList: ObservableObject {
     }
     
     init(tagList: TagList) {
-        self.tags = tagList.tags
+        self.tags = TagList.sortTags(tags: tagList.tags)
     }
     
     init(tags: [Tag]) {
-        self.tags = tags
+        self.tags = TagList.sortTags(tags: tags)
     }
     
     init(from source: BookList) {
@@ -46,21 +46,32 @@ class TagList: ObservableObject {
                 }
             }
         }
-        self.tags = tempTags
+        self.tags = TagList.sortTags(tags: tempTags)
+    }
+    
+    static func sortTags(tags: [Tag]) -> [Tag] {
+        return tags.sorted(by: {$0 < $1})
     }
     
     class Tag: Comparable, Identifiable, ObservableObject {
         @Published var name: String
         @Published var books: [BookList.Book]
+        @Published var subtags: [Substring]
         
         init(tag: Tag) {
             self.name = tag.name
             self.books = tag.books
+            self.subtags = Tag.getSubTags(tag: tag.name)
         }
         
         init(name: String, books: [BookList.Book]) {
             self.name = name
             self.books = books
+            self.subtags = Tag.getSubTags(tag: name)
+        }
+        
+        static func getSubTags(tag: String) -> [Substring] {
+            return tag.split(separator: "/")
         }
         
         // conform to Comparable

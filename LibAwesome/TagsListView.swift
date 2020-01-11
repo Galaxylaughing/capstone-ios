@@ -18,21 +18,65 @@ struct TagsListView: View {
     @State private var showConfirm = false
     @State private var tagToDelete: String = ""
     
+    
+    func tagCount(list: [TagList.Tag], tagindex: Int, subtagindex: Int) -> Int {
+        var tagCount: Int = 0
+        
+        let subtagCount = list[tagindex].subtags.count
+        
+        if subtagCount == (subtagindex + 1) {
+            tagCount = list[tagindex].books.count
+        }
+        
+       return tagCount
+    }
+    
+    func showTag(list: [TagList.Tag], tagindex: Int, subtagindex: Int) -> Bool {
+        var showTag: Bool = true
+        if tagindex != 0 {
+            
+            let currTag = list[tagindex]
+            let prevTag = list[tagindex - 1]
+            
+            if prevTag.subtags.count > subtagindex {
+                if currTag.subtags[subtagindex] == prevTag.subtags[subtagindex] {
+                    showTag = false
+                }
+            }
+        }
+        return showTag
+    }
+    
     var body: some View {
         Group {
             if self.env.tagList.tags.count > 0 {
-                ForEach(self.env.tagList.tags.sorted(by: {$0 < $1})) { tag in  // sort alphabetically
-                    Button(action: {
-                        self.env.tag = tag
-                        self.parentView = AnyView(TagDetailView())
-                        self.isOpen = false
-                    }) {
-                        HStack {
-                            Text(tag.name)
-                            Spacer()
-                            if self.showCount { Text("\(tag.books.count)") }
+                ForEach(0 ..< self.env.tagList.tags.count) { tagIndex in
+                    Group {
+                        ForEach(0 ..< self.env.tagList.tags[tagIndex].subtags.count) { subtagIndex in
+                            Group {
+                                if self.showTag(list: self.env.tagList.tags, tagindex: tagIndex, subtagindex: subtagIndex) {
+                                    
+                                    Button(action: {
+                                        self.env.tag = self.env.tagList.tags[tagIndex]
+                                        self.parentView = AnyView(TagDetailView())
+                                        self.isOpen = false
+                                    }) {
+                                        HStack {
+                                            Text(self.env.tagList.tags[tagIndex].subtags[subtagIndex].description)
+                                            .offset(x: CGFloat(integerLiteral: subtagIndex * 20))
+                                            Spacer()
+                                            if self.showCount {
+                                                Text("\(self.tagCount(list: self.env.tagList.tags, tagindex: tagIndex, subtagindex: subtagIndex))")
+                                            }
+                                        }
+                                    }
+                                .disabled(self.tagCount(list: self.env.tagList.tags, tagindex: tagIndex, subtagindex: subtagIndex) == 0)
+                                    
+                                }
+                            }
                         }
                     }
+                    
                 }
                 .onDelete(perform: self.displayConfirm)
                 .alert(isPresented: self.$showConfirm) {
