@@ -10,9 +10,6 @@ import SwiftUI
 
 struct SeriesListView: View {
     @EnvironmentObject var env: Env
-//    @EnvironmentObject var currentUser: User
-//    @EnvironmentObject var bookList: BookList
-//    @EnvironmentObject var seriesList: SeriesList
     
     @State private var error: String?
     @State private var showConfirm = false
@@ -24,13 +21,21 @@ struct SeriesListView: View {
             VStack {
                 List {
                     ForEach(env.seriesList.series.sorted(by: {$0 < $1})) { series in
-                        NavigationLink(destination: SeriesDetailView().environmentObject(series)) {
-                            VStack(alignment: .leading) {
-                                Text(series.name)
-                                if series.plannedCount > 0 {
-                                    Text("\(series.plannedCount) books planned")
-                                        .font(.caption)
+//                        NavigationLink(destination: SeriesDetailView().environmentObject(series)) {
+                        Button(action: {
+                            SeriesDetailView.series = series
+                            self.env.topView = .seriesdetail
+                        }) {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(series.name)
+                                    if series.plannedCount > 0 {
+                                        Text("\(series.plannedCount) books planned")
+                                            .font(.caption)
+                                    }
                                 }
+                                Spacer()
+                                ArrowRight()
                             }
                         }
                     }.onDelete(perform: self.displayConfirm)

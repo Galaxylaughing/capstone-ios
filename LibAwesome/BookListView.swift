@@ -21,11 +21,19 @@ struct BookListView: View {
             VStack {
                 List {
                     ForEach(env.bookList.books.sorted(by: {$0 < $1})) { book in
-                        NavigationLink(destination: BookDetailView().environmentObject(book)) {
-                            VStack(alignment: .leading) {
-                                Text(book.title)
-                                Text(book.authorNames())
-                                    .font(.caption)
+//                        NavigationLink(destination: BookDetailView().environmentObject(book)) {
+                        Button(action: {
+                            BookDetailView.book = book
+                            self.env.topView = .bookdetail
+                        }) {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(book.title)
+                                    Text(book.authorNames())
+                                        .font(.caption)
+                                }
+                                Spacer()
+                                ArrowRight()
                             }
                         }
                     }.onDelete(perform: self.displayConfirm)

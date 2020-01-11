@@ -10,19 +10,20 @@ import SwiftUI
 
 struct SeriesDetailView: View {
     @EnvironmentObject var env: Env
-    @EnvironmentObject var series: SeriesList.Series
+//    @EnvironmentObject var series: SeriesList.Series
+    static var series: SeriesList.Series = SeriesList.Series()
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(series.name)
+            Text(SeriesDetailView.series.name)
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .padding()
             
             Section {
                 VStack(alignment: .leading) {
-                    if series.plannedCount > 0 {
-                        Text("\(series.plannedCount) books in series")
+                    if SeriesDetailView.series.plannedCount > 0 {
+                        Text("\(SeriesDetailView.series.plannedCount) books in series")
                             .font(.caption)
                     }
                     Text("Contributers: \(self.getContributers())")
@@ -37,7 +38,11 @@ struct SeriesDetailView: View {
                         .padding(.top)
                     List {
                         ForEach(self.getBooks().sorted(by: {$0.position < $1.position})) { book in
-                            NavigationLink(destination: BookDetailView().environmentObject(book)) {
+//                            NavigationLink(destination: BookDetailView().environmentObject(book)) {
+                            Button(action: {
+                                BookDetailView.book = book
+                                self.env.topView = .bookdetail
+                            }) {
                                 HStack {
                                     Text("\(book.position)")
                                     VStack(alignment: .leading) {
@@ -45,6 +50,8 @@ struct SeriesDetailView: View {
                                         Text(book.authorNames())
                                             .font(.caption)
                                     }
+                                    Spacer()
+                                    ArrowRight()
                                 }
                             }
                         }
@@ -53,8 +60,8 @@ struct SeriesDetailView: View {
             }
             
         }
-        .navigationBarTitle("Series", displayMode: .inline)
-        .navigationBarItems(trailing: EditSeriesButton().environmentObject(self.series))
+//        .navigationBarTitle("Series", displayMode: .inline)
+//        .navigationBarItems(trailing: EditSeriesButton().environmentObject(self.series))
     }
     
     func getBooks() -> [BookList.Book] {
@@ -62,7 +69,7 @@ struct SeriesDetailView: View {
         // loop through env.booklist, checking each book's id
         for book in self.env.bookList.books {
             // if that id is present in series.books,
-            if let _ = self.series.books.first(where: { $0 == book.id }) {
+            if let _ = SeriesDetailView.series.books.first(where: { $0 == book.id }) {
                 // add that book to a list to be returned
                 booksInSeries.append(book)
             }
@@ -132,7 +139,7 @@ struct SeriesDetailView_Previews: PreviewProvider {
     
     static var previews: some View {
         SeriesDetailView()
-            .environmentObject(series)
+//            .environmentObject(series)
             .environmentObject(env)
     }
 }

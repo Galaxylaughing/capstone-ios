@@ -10,12 +10,13 @@ import SwiftUI
 
 struct AuthorDetailView: View {
     @EnvironmentObject var env: Env
-    @EnvironmentObject var author: AuthorList.Author
+//    @EnvironmentObject var author: AuthorList.Author
+    static var author: AuthorList.Author = AuthorList.Author()
     
     var body: some View {
         VStack(alignment: .leading) {
             Section {
-                Text(self.author.name)
+                Text(AuthorDetailView.author.name)
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .padding()
@@ -28,15 +29,23 @@ struct AuthorDetailView: View {
                     .padding(.top)
                     
                     List {
-                        ForEach(self.author.books.sorted(by: {$0.title < $1.title})) { book in
-                            NavigationLink(destination: BookDetailView().environmentObject(book)) {
-                                VStack(alignment: .leading) {
-                                    Text(book.title)
-                                    
-                                    if book.authors.count > 1 {
-                                        Text(book.withAuthors(by: self.author.name))
-                                        .font(.caption)
+                        ForEach(AuthorDetailView.author.books.sorted(by: {$0.title < $1.title})) { book in
+//                            NavigationLink(destination: BookDetailView().environmentObject(book)) {
+                            Button(action: {
+                                BookDetailView.book = book
+                                self.env.topView = .bookdetail
+                            }) {
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text(book.title)
+                                        
+                                        if book.authors.count > 1 {
+                                            Text(book.withAuthors(by: AuthorDetailView.author.name))
+                                            .font(.caption)
+                                        }
                                     }
+                                    Spacer()
+                                    ArrowRight()
                                 }
                             }
                         }
@@ -44,7 +53,7 @@ struct AuthorDetailView: View {
                 }
             }
         }
-        .navigationBarTitle("Author", displayMode: .inline)
+//        .navigationBarTitle("Author", displayMode: .inline)
 //        .navigationBarItems(trailing: EditSeriesButton().environmentObject(self.series))
     }
 }

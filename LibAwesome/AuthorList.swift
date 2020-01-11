@@ -52,6 +52,11 @@ class AuthorList: ObservableObject {
         @Published var name: String
         @Published var books: [BookList.Book]
         
+        init() {
+            self.name = ""
+            self.books = []
+        }
+        
         init(author: Author) {
             self.name = author.name
             self.books = author.books

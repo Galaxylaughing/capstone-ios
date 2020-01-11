@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
         HStack {
             if self.env.user.token != nil {
-                TabbedView()
+                NavView()
                 .onAppear {
                     CallAPI.getBooks(env: self.env)
                     CallAPI.getSeries(env: self.env)

@@ -11,9 +11,9 @@ import SwiftUI
 struct DeleteIcon: View {
     var body: some View {
         HStack {
-            Text("delete")
-                .font(.caption)
-            Image(systemName: "trash.circle")
+//            Text("delete")
+//                .font(.caption)
+            Image(systemName: "trash")
         }
     }
 }

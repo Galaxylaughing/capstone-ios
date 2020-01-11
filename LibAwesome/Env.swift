@@ -9,6 +9,7 @@
 import Foundation
 
 class Env: ObservableObject {
+    @Published var topView: TopViews = .home
     @Published var user: User
     @Published var bookList: BookList
     @Published var authorList: AuthorList

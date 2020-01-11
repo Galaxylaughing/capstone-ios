@@ -17,15 +17,23 @@ struct AuthorListView: View {
                 List {
                     ForEach(self.env.authorList.authors) { author in
                         HStack {
-                            NavigationLink(destination: AuthorDetailView().environmentObject(author)) {
-                                Text(author.name)
+//                            NavigationLink(destination: AuthorDetailView().environmentObject(author)) {
+                            Button(action: {
+                                AuthorDetailView.author = author
+                                self.env.topView = .authordetail
+                            }) {
+                                HStack {
+                                    Text(author.name)
+                                    Spacer()
+                                    ArrowRight()
+                                }
                             }
                         }
                     }
                 }
             }
         }
-        .navigationBarTitle("Authors", displayMode: .large)
+//        .navigationBarTitle("Authors", displayMode: .large)
     }
 }
 

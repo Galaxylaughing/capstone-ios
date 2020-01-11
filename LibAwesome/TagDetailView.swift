@@ -13,7 +13,6 @@ struct TagDetailView: View {
     
     @State private var bookList = BookList(books: [])
     @State private var showMenu: Bool = false
-//    @State var showEditButtons: Bool
     static var showEditButtons: Bool = true
 
     var body: some View {
@@ -58,8 +57,16 @@ struct TagDetailView: View {
             List {
                 ForEach(self.env.tag.books.sorted(by: {$0.title < $1.title})) { book in
                     VStack {
-                        NavigationLink(destination: BookDetailView().environmentObject(book)) {
-                            Text("\(book.title)")
+//                        NavigationLink(destination: BookDetailView().environmentObject(book)) {
+                        Button(action: {
+                            BookDetailView.book = book
+                            self.env.topView = .bookdetail
+                        }) {
+                            HStack {
+                                Text("\(book.title)")
+                                Spacer()
+                                ArrowRight()
+                            }
                         }
                     }
                 }

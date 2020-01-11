@@ -13,7 +13,6 @@ struct LogoutButton: View {
     
     var body: some View {
         HStack {
-            Spacer()
             Button(action: { self.logout() }) {
                 HStack {
                     Text("logout")
@@ -25,9 +24,9 @@ struct LogoutButton: View {
     
     func logout() {
              // from https://stackoverflow.com/questions/57798050/updating-published-variable-of-an-observableobject-inside-child-view
-            // Clear the currentUser on the main thread
             DispatchQueue.main.async {
                 let env = Env()
+                self.env.topView = .home
                 self.env.user = env.user
                 self.env.bookList = env.bookList
                 self.env.seriesList = env.seriesList

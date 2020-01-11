@@ -25,6 +25,13 @@ class SeriesList: ObservableObject {
             return lhs.name == rhs.name
         }
         
+        init() {
+            self.id = 0
+            self.name = ""
+            self.plannedCount = 0
+            self.books = []
+        }
+        
         // init
         init(id: Int, name: String, plannedCount: Int, books: [Int]) {
             self.id = id

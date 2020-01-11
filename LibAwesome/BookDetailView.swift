@@ -10,15 +10,16 @@ import SwiftUI
 
 struct BookDetailView: View {
     @EnvironmentObject var env: Env
-    @EnvironmentObject var book: BookList.Book
+//    @EnvironmentObject var book: BookList.Book
+    static var book: BookList.Book = BookList.Book()
     
     var body: some View {
         VStack {
             VStack { // title and author
-                ForEach(book.findComponents(), id: \.self) { component in
+                ForEach(BookDetailView.book.findComponents(), id: \.self) { component in
                     VStack {
-                        if component == self.book.getMainTitle() {
-                            Text(self.book.getMainTitle())
+                        if component == BookDetailView.book.getMainTitle() {
+                            Text(BookDetailView.book.getMainTitle())
                                 .font(.largeTitle)
                                 .multilineTextAlignment(.center)
                         } else {
@@ -27,14 +28,14 @@ struct BookDetailView: View {
                         }
                     }
                 }
-                Text(book.authorNames())
+                Text(BookDetailView.book.authorNames())
                     .font(.headline)
                     .multilineTextAlignment(.center)
                 
                 VStack(alignment: .leading) {
                     Section() { // series, position in series
-                        if book.seriesId != nil {
-                            Text("# \(String(book.position)) | \(self.getSeriesName())")
+                        if BookDetailView.book.seriesId != nil {
+                            Text("# \(String(BookDetailView.book.position)) | \(self.getSeriesName())")
                         }
                     }
                     .padding([.top, .leading])
@@ -42,7 +43,7 @@ struct BookDetailView: View {
                     Section() { // tags
                         HStack {
                             VStack(alignment: .leading) {
-                                ForEach(Alphabetical(self.book.tags), id: \.self) { tag in
+                                ForEach(Alphabetical(BookDetailView.book.tags), id: \.self) { tag in
                                     TagBubble(text: tag)
                                         .padding(.vertical, 4)
                                 }
@@ -56,12 +57,12 @@ struct BookDetailView: View {
             }
             Spacer()
         }
-        .navigationBarTitle(Text(book.getMainTitle()), displayMode: .inline)
-        .navigationBarItems(trailing: EditBookButton().environmentObject(self.book))
+//        .navigationBarTitle(Text(BookDetailView.book.getMainTitle()), displayMode: .inline)
+//        .navigationBarItems(trailing: EditBookButton().environmentObject(BookDetailView.book))
     }
     
     func getSeriesName() -> String {
-        if let series = self.env.seriesList.series.first(where: {$0.id == book.seriesId}) {
+        if let series = self.env.seriesList.series.first(where: {$0.id == BookDetailView.book.seriesId}) {
             return series.name
         }
         return "[unknown]"
@@ -99,6 +100,6 @@ struct BookDetailView_Previews: PreviewProvider {
     static var previews: some View {
         BookDetailView()
             .environmentObject(self.env)
-            .environmentObject(self.exampleBook)
+//            .environmentObject(self.exampleBook)
     }
 }

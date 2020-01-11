@@ -74,6 +74,15 @@ class BookList: ObservableObject {
             hasher.combine(id)
         }
         
+        init() {
+            self.id = 0
+            self.title = ""
+            self.authors = []
+            self.position = 0
+            self.seriesId = nil
+            self.tags = []
+        }
+        
         // init
         init(id: Int, title: String, authors: [String], position: Int = 1, seriesId: Int? = nil, tags: [String] = []) {
             self.id = id
