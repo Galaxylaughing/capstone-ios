@@ -29,15 +29,16 @@ struct LibraryView: View {
                         },
                         trailing: LogoutButton())
             }
-            DrawerBackDrop(isOpen: self.isDrawerOpen)
-                .onTapGesture {
-                    if self.isDrawerOpen {
-                        self.isDrawerOpen.toggle()
+            if (self.isDrawerOpen) {
+                DrawerBackDrop(isOpen: self.isDrawerOpen)
+                    .onTapGesture {
+                        if self.isDrawerOpen {
+                            self.isDrawerOpen.toggle()
+                        }
                     }
-                }
-            NavDrawer(isOpen: self.$isDrawerOpen, parentView: self.$view)
+                NavDrawer(isOpen: self.$isDrawerOpen, parentView: self.$view)
 //                .overlay( NavDrawer(isOpen: self.isDrawerOpen, parentView: self.$view) )
-        }
+            }}
     }
     
 }

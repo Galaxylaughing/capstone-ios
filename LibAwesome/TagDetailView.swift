@@ -13,26 +13,38 @@ struct TagDetailView: View {
     
     @State private var bookList = BookList(books: [])
     @State private var showMenu: Bool = false
-    
+//    @State var showEditButtons: Bool
+    static var showEditButtons: Bool = true
+
     var body: some View {
         VStack(alignment: .leading) {
-            HStack {
-                Text(self.env.tag.name)
-                    .font(.title)
-                    .fontWeight(.semibold)
-                Spacer()
-                Button(action: { self.showMenu.toggle() } ) {
-                    if showMenu {
-                        Image(systemName: "chevron.down")
-                    } else {
-                        Image(systemName: "chevron.right")
+            
+            if TagDetailView.showEditButtons {
+                HStack {
+                    Text(self.env.tag.name)
+                        .font(.title)
+                        .fontWeight(.semibold)
+                    Spacer()
+                    Button(action: { self.showMenu.toggle() } ) {
+                        if showMenu {
+                            Image(systemName: "chevron.down")
+                        } else {
+                            Image(systemName: "chevron.right")
+                        }
                     }
                 }
+                .padding([.top, .leading, .trailing])
+            } else {
+                HStack {
+                    Text(self.env.tag.name)
+                        .font(.title)
+                        .fontWeight(.semibold)
+                }
+                .padding([.top, .leading, .trailing])
             }
-            .padding([.top, .leading, .trailing])
             
             HStack {
-                if showMenu {
+                if showMenu && TagDetailView.showEditButtons {
                     Spacer()
                     HStack {
                         DeleteIcon()
@@ -44,7 +56,7 @@ struct TagDetailView: View {
             .padding(.trailing)
             
             List {
-                ForEach(self.env.tag.books) { book in
+                ForEach(self.env.tag.books.sorted(by: {$0.title < $1.title})) { book in
                     VStack {
                         NavigationLink(destination: BookDetailView().environmentObject(book)) {
                             Text("\(book.title)")
@@ -97,7 +109,7 @@ struct TagDetailView_Previews: PreviewProvider {
         )
     
     static var previews: some View {
-        TagDetailView()
+        TagDetailView(/*showEditButtons: false*/)
             .environmentObject(self.env)
     }
 }

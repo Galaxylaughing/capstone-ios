@@ -11,7 +11,7 @@ import Foundation
 class BookList: ObservableObject {
     @Published var books: [Book]
     
-    class Book: Comparable, Identifiable, ObservableObject {
+    class Book: Comparable, Identifiable, ObservableObject, Hashable {
         var id: Int
         @Published var title: String
         @Published var authors: [String]
@@ -68,6 +68,10 @@ class BookList: ObservableObject {
         }
         static func == (lhs: Book, rhs: Book) -> Bool {
             return lhs.title == rhs.title
+        }
+        // conform to Hashable
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
         }
         
         // init

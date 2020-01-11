@@ -70,6 +70,7 @@
 		04E3125B23C8D93700757B56 /* AuthorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125A23C8D93700757B56 /* AuthorList.swift */; };
 		04E3125D23C8E7FA00757B56 /* AuthorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125C23C8E7FA00757B56 /* AuthorListView.swift */; };
 		04E3125F23C8EDFE00757B56 /* AuthorDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3125E23C8EDFE00757B56 /* AuthorDetailView.swift */; };
+		04E3126323C9942400757B56 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3126223C9942400757B56 /* Debug.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -159,6 +160,7 @@
 		04E3125A23C8D93700757B56 /* AuthorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorList.swift; sourceTree = "<group>"; };
 		04E3125C23C8E7FA00757B56 /* AuthorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorListView.swift; sourceTree = "<group>"; };
 		04E3125E23C8EDFE00757B56 /* AuthorDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorDetailView.swift; sourceTree = "<group>"; };
+		04E3126223C9942400757B56 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +198,7 @@
 				0413027F23C4F4C400FDF25B /* BookHelper.swift */,
 				04E3124E23C78E0A00757B56 /* CallAPI.swift */,
 				04E3124223C6C2C900757B56 /* Alphabetical.swift */,
+				04E3126223C9942400757B56 /* Debug.swift */,
 			);
 			name = HelperFunctions;
 			sourceTree = "<group>";
@@ -557,6 +560,7 @@
 				0413024223BE94DE00FDF25B /* LibraryView.swift in Sources */,
 				0413026623C39B5500FDF25B /* AddBookIcon.swift in Sources */,
 				0413027123C3AFA700FDF25B /* SeriesList.swift in Sources */,
+				04E3126323C9942400757B56 /* Debug.swift in Sources */,
 				0413024823BFE91300FDF25B /* BookList.swift in Sources */,
 				0413024F23C0613F00FDF25B /* AddBookForm.swift in Sources */,
 				04E3125123C7AF4800757B56 /* TagUpdate.swift in Sources */,

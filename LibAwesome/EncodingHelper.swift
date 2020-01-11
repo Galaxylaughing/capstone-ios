@@ -13,11 +13,11 @@ struct EncodingHelper {
     // TAGS
     static func getTags(from source: BookList) -> TagList {
         let newTagList = TagList(from: source)
-        print("\nRESULTING TAGS:")
+        Debug.debug(msg: "\nRESULTING TAGS:", level: .debug)
         for tag in newTagList.tags {
-            print(tag.name)
+            Debug.debug(msg: tag.name, level: .debug)
             for book in tag.books {
-                print("-- \(book.title)")
+                Debug.debug(msg: "-- \(book.title)")
             }
         }
         return newTagList
@@ -26,11 +26,11 @@ struct EncodingHelper {
     // AUTHORS
     static func getAuthors(from source: BookList) -> AuthorList {
         let newAuthorList = AuthorList(from: source)
-        print("\nRESULTING AUTHORS:")
+        Debug.debug(msg: "\nRESULTING AUTHORS:")
         for author in newAuthorList.authors {
-            print(author.name)
+            Debug.debug(msg: author.name)
             for book in author.books {
-                print("-- \(book.title)")
+                Debug.debug(msg: "-- \(book.title)")
             }
         }
         return newAuthorList
@@ -39,104 +39,104 @@ struct EncodingHelper {
     // BOOKS
     // parsing JSON example: https://dev.to/jaumevn/parsing-json-with-swift-5-2m40
     static func decodeBookList(str: String) -> BookList? {
-        print("I'M DECODING THIS:")
-        print(str)
+        Debug.debug(msg: "I'M DECODING THIS:")
+        Debug.debug(msg: str)
         
         let data: Data? = str.data(using: .utf8)
         // create a decoder
         let decoder = JSONDecoder()
         // 'decode' the JSON into it's object equivalent
         if let serviceBookList = try? decoder.decode(BookListService.self, from: data!) {
-            print("\nI DECODED SUCCESSFULLY INTO SERVICE:")
-            print(serviceBookList)
+            Debug.debug(msg: "\nI DECODED SUCCESSFULLY INTO SERVICE:")
+            Debug.debug(msg: "\(serviceBookList)")
             // map object-ified JSON to goal object
             let bookList = BookList(from: serviceBookList)
-            print("\nI DECODED SUCCESSFULLY INTO OBJECT:")
-            print(bookList)            
+            Debug.debug(msg: "\nI DECODED SUCCESSFULLY INTO OBJECT:")
+            Debug.debug(msg: "\(bookList)")
             return bookList
         } else {
-            print("I FAILED")
+            Debug.debug(msg: "I FAILED in decodeBookList", level: .error)
         }
         
-        print("I'M ABOUT TO RETURN")
+        Debug.debug(msg: "I'M ABOUT TO RETURN")
         return nil
     }
     
     // turn JSON into a BookList object
     static func makeBookList(data: String) -> BookList? {
         if let bookList = decodeBookList(str: data) {
-            print("\nRESULTING BOOKS:")
+            Debug.debug(msg: "\nRESULTING BOOKS:")
             for book in bookList.books {
-                print(book, book.title)
+                Debug.debug(msg: "\(book) \(book.title)")
             }
             return bookList
         }
         // else
-        print("ERROR")
+        Debug.debug(msg: "ERROR")
         return nil
     }
     
     // turn JSON into a Book object
     static func makeBook(data: String) -> BookList.Book? {
         if let bookList = decodeBookList(str: data) {
-            print("\nRESULTING BOOK:")
-            print(bookList.books[0])
+            Debug.debug(msg: "\nRESULTING BOOK:")
+            Debug.debug(msg: "\(bookList.books[0])")
             return bookList.books[0]
         }
         // else
-        print("ERROR")
+        Debug.debug(msg: "ERROR")
         return nil
     }
     
     
     // SERIES
     static func decodeSeriesList(str: String) -> SeriesList? {
-        print("I'M DECODING THIS:")
-        print(str)
+        Debug.debug(msg: "I'M DECODING THIS:")
+        Debug.debug(msg: str)
         
         let data: Data? = str.data(using: .utf8)
         // create a decoder
         let decoder = JSONDecoder()
         // 'decode' the JSON into it's object equivalent
         if let serviceSeriesList = try? decoder.decode(SeriesListService.self, from: data!) {
-            print("\nI DECODED SUCCESSFULLY INTO SERVICE:")
-            print(serviceSeriesList)
+            Debug.debug(msg: "\nI DECODED SUCCESSFULLY INTO SERVICE:")
+            Debug.debug(msg: "\(serviceSeriesList)")
             // map object-ified JSON to goal object
             let seriesList = SeriesList(from: serviceSeriesList)
-            print("\nI DECODED SUCCESSFULLY INTO OBJECT:")
-            print(seriesList)
+            Debug.debug(msg: "\nI DECODED SUCCESSFULLY INTO OBJECT:")
+            Debug.debug(msg: "\(seriesList)")
             return seriesList
         } else {
-            print("I FAILED")
+            Debug.debug(msg: "I FAILED")
         }
         
-        print("I'M ABOUT TO RETURN")
+        Debug.debug(msg: "I'M ABOUT TO RETURN")
         return nil
     }
     
     // turn JSON into a SeriesList object
     static func makeSeriesList(data: String) -> SeriesList? {
         if let seriesList = decodeSeriesList(str: data) {
-            print("\nRESULTING SERIES:")
+            Debug.debug(msg: "\nRESULTING SERIES:")
             for series in seriesList.series {
-                print(series, series.name)
+                Debug.debug(msg: "\(series) \(series.name)")
             }
             return seriesList
         }
         // else
-        print("makeSeriesList encountered an error")
+        Debug.debug(msg: "makeSeriesList encountered an error")
         return nil
     }
 
     // turn JSON into a Series object
     static func makeSeries(data: String) -> SeriesList.Series? {
         if let seriesList = decodeSeriesList(str: data) {
-            print("\nRESULTING Series:")
-            print(seriesList.series[0])
+            Debug.debug(msg: "\nRESULTING Series:")
+            Debug.debug(msg: "\(seriesList.series[0])")
             return seriesList.series[0]
         }
         // else
-        print("ERROR")
+        Debug.debug(msg: "ERROR")
         return nil
     }
 }

@@ -18,17 +18,20 @@ struct TagsListView: View {
     @State private var showConfirm = false
     @State private var tagToDelete: String = ""
     
-    
-    func tagCount(list: [TagList.Tag], tagindex: Int, subtagindex: Int) -> Int {
-        var tagCount: Int = 0
-        
-        let subtagCount = list[tagindex].subtags.count
-        
-        if subtagCount == (subtagindex + 1) {
-            tagCount = list[tagindex].books.count
+    func isFullTag(list: [TagList.Tag], tagIndex: Int, subtagIndex: Int) -> Bool {
+        var isTag = false
+        let subtagCount = list[tagIndex].subtags.count
+        Debug.debug(msg: "isFullTag --> subtags: \(subtagCount)")
+        Debug.debug(msg: "isFullTag --> matches: \(subtagCount == (subtagIndex + 1))")
+        if subtagCount == (subtagIndex + 1) {
+            isTag = true
         }
-        
-       return tagCount
+        Debug.debug(msg: "isFullTag --> isTag: \(isTag)")
+        return isTag
+    }
+    
+    func tagCount(list: [TagList.Tag], tagIndex: Int, subtagIndex: Int) -> Int {
+        return self.matchingPrefixes(list: self.env.tagList.tags, tagIndex: tagIndex, subtagIndex: subtagIndex).count
     }
     
     func showTag(list: [TagList.Tag], tagindex: Int, subtagindex: Int) -> Bool {
@@ -47,6 +50,41 @@ struct TagsListView: View {
         return showTag
     }
     
+    func constructTagName(list: [TagList.Tag], tagIndex: Int, subtagIndex: Int) -> String {
+        let tagName = list[tagIndex].subtags[0 ... subtagIndex].joined(separator: "/")
+        return tagName
+    }
+    
+    func matchingPrefixes(list: [TagList.Tag], tagIndex: Int, subtagIndex: Int) -> [BookList.Book] {
+        // find all tags that start with tagame and add their books to a list
+        var matchingBooks: Set<BookList.Book> = []
+        let tagName = self.constructTagName(list: list, tagIndex: tagIndex, subtagIndex: subtagIndex) + "/"
+        Debug.debug(msg: "FINDING books for tag \(tagName)")
+        
+        let subtagCount = list[tagIndex].subtags.count
+        Debug.debug(msg: "  subtagCount \(subtagCount)")
+        
+        var i = tagIndex
+        for tag in list[tagIndex ..< list.count] {
+            Debug.debug(msg: "  TAG at index \(i) \(tag.name)")
+            if (list[tagIndex] == tag && subtagCount == (subtagIndex + 1))
+                || tag.name.hasPrefix(tagName) {
+                Debug.debug(msg: "  matched \(tagName)")
+                // add its books to matchingBooks
+                for book in tag.books {
+                    Debug.debug(msg: "    adding book \(book.title)")
+                    matchingBooks.insert(book)
+                }
+            } else {
+                Debug.debug(msg: "  breaking index \(i)")
+                break
+            }
+            i += 1
+        }
+        Debug.debug(msg: "RETURN")
+        return Array(matchingBooks)
+    }
+    
     var body: some View {
         Group {
             if self.env.tagList.tags.count > 0 {
@@ -57,7 +95,12 @@ struct TagsListView: View {
                                 if self.showTag(list: self.env.tagList.tags, tagindex: tagIndex, subtagindex: subtagIndex) {
                                     
                                     Button(action: {
-                                        self.env.tag = self.env.tagList.tags[tagIndex]
+                                        // new tag with name of tag at current index, and books = result of starts with
+                                        let newTag = TagList.Tag(
+                                            name: self.constructTagName(list: self.env.tagList.tags, tagIndex: tagIndex, subtagIndex: subtagIndex),
+                                            books: self.matchingPrefixes(list: self.env.tagList.tags, tagIndex: tagIndex, subtagIndex: subtagIndex))
+                                        self.env.tag = newTag
+                                        TagDetailView.showEditButtons = self.isFullTag(list: self.env.tagList.tags, tagIndex: tagIndex, subtagIndex: subtagIndex)
                                         self.parentView = AnyView(TagDetailView())
                                         self.isOpen = false
                                     }) {
@@ -66,12 +109,10 @@ struct TagsListView: View {
                                             .offset(x: CGFloat(integerLiteral: subtagIndex * 20))
                                             Spacer()
                                             if self.showCount {
-                                                Text("\(self.tagCount(list: self.env.tagList.tags, tagindex: tagIndex, subtagindex: subtagIndex))")
+                                                Text("\(self.tagCount(list: self.env.tagList.tags, tagIndex: tagIndex, subtagIndex: subtagIndex))")
                                             }
                                         }
                                     }
-                                .disabled(self.tagCount(list: self.env.tagList.tags, tagindex: tagIndex, subtagindex: subtagIndex) == 0)
-                                    
                                 }
                             }
                         }
@@ -108,7 +149,6 @@ struct TagsListView: View {
     }
     
     func displayConfirm(at offsets: IndexSet) {
-        print("confirming")
         let tag = env.tagList.tags.sorted(by: {$0 < $1})[offsets.first!]
         self.tagToDelete = tag.name
         self.showConfirm = true
