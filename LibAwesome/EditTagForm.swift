@@ -183,6 +183,10 @@ struct EditTagForm: View {
             DispatchQueue.main.async {
                 self.env.tagToEdit = newTagToEdit
                 self.env.tag = newTag
+                
+                if newTag.books.count == 0 {
+                    NavView.goBack(env: self.env)
+                }
             }
             // update taglist in the environment
             Env.setEnv(in: self.env, to: self.env.bookList)

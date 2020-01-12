@@ -28,15 +28,19 @@ struct NavView: View {
     
     @State var showBackButton = false
     static var stack: [TopViews] = [ .home ]
+    
+    static func goBack(env: Env) {
+        // pop twice because we want to go to the previous view (and last is the current view)
+        var prevView = NavView.stack.popLast() ?? .home
+        prevView = NavView.stack.last ?? .home
+        env.topView = prevView
+    }
 
     var leadingView: some View {
          HStack {
             if (self.showBackButton && NavView.stack.count > 1) {
                 Button(action: {
-                    // pop twice because we want to go to the previous view (and last is the current view)
-                    var prevView = NavView.stack.popLast() ?? .home
-                    prevView = NavView.stack.last ?? .home
-                    self.env.topView = prevView
+                    NavView.goBack(env: self.env)
                 }) {
                     Image(systemName: "chevron.left.circle")
                 }
