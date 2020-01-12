@@ -71,7 +71,7 @@ struct NavView: View {
                 && (self.env.topView != .tagdetail || TagDetailView.showEditButtons) {
                 
                 if self.env.topView == .bookdetail {
-//                    EditBookButton().environmentObject(BookDetailView.book)
+                    DeleteBookButton()
                 } else if self.env.topView == .seriesdetail {
 //                    EditSeriesButton().environmentObject(SeriesDetailView.series)
                 } else if self.env.topView == .tagdetail && TagDetailView.showEditButtons {

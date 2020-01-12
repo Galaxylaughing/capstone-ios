@@ -78,6 +78,7 @@
 		04E3127123CA7A9C00757B56 /* ArrowRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3127023CA7A9C00757B56 /* ArrowRight.swift */; };
 		04E3127723CA88ED00757B56 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3127623CA88ED00757B56 /* SettingsView.swift */; };
 		04E3127923CABD2A00757B56 /* DeleteTagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3127823CABD2A00757B56 /* DeleteTagButton.swift */; };
+		04E3127B23CAC0CF00757B56 /* DeleteBookButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3127A23CAC0CF00757B56 /* DeleteBookButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,6 +176,7 @@
 		04E3127023CA7A9C00757B56 /* ArrowRight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowRight.swift; sourceTree = "<group>"; };
 		04E3127623CA88ED00757B56 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		04E3127823CABD2A00757B56 /* DeleteTagButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteTagButton.swift; sourceTree = "<group>"; };
+		04E3127A23CAC0CF00757B56 /* DeleteBookButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBookButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -329,6 +331,7 @@
 				0413023023BE5ABB00FDF25B /* LogoutButton.swift */,
 				0413024C23C0566E00FDF25B /* AddButton.swift */,
 				0413025623C28E1900FDF25B /* EditBookButton.swift */,
+				04E3127A23CAC0CF00757B56 /* DeleteBookButton.swift */,
 				0413027423C3DDF900FDF25B /* AddSeriesButton.swift */,
 				0413028523C5118700FDF25B /* EditSeriesButton.swift */,
 				04E3125423C7C77D00757B56 /* EditTagButton.swift */,
@@ -571,6 +574,7 @@
 				04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */,
 				0413028023C4F4C400FDF25B /* BookHelper.swift in Sources */,
 				0413028823C5120600FDF25B /* EditIcon.swift in Sources */,
+				04E3127B23CAC0CF00757B56 /* DeleteBookButton.swift in Sources */,
 				04E3125B23C8D93700757B56 /* AuthorList.swift in Sources */,
 				0413027523C3DDF900FDF25B /* AddSeriesButton.swift in Sources */,
 				04080F3C23C67716006E1523 /* TagList.swift in Sources */,
