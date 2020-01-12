@@ -10,7 +10,6 @@ import SwiftUI
 
 struct SeriesDetailView: View {
     @EnvironmentObject var env: Env
-//    @EnvironmentObject var series: SeriesList.Series
     static var series: SeriesList.Series = SeriesList.Series()
     
     var body: some View {

@@ -79,6 +79,7 @@
 		04E3127723CA88ED00757B56 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3127623CA88ED00757B56 /* SettingsView.swift */; };
 		04E3127923CABD2A00757B56 /* DeleteTagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3127823CABD2A00757B56 /* DeleteTagButton.swift */; };
 		04E3127B23CAC0CF00757B56 /* DeleteBookButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3127A23CAC0CF00757B56 /* DeleteBookButton.swift */; };
+		04E3127D23CAC2CE00757B56 /* DeleteSeriesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3127C23CAC2CE00757B56 /* DeleteSeriesButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -177,6 +178,7 @@
 		04E3127623CA88ED00757B56 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		04E3127823CABD2A00757B56 /* DeleteTagButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteTagButton.swift; sourceTree = "<group>"; };
 		04E3127A23CAC0CF00757B56 /* DeleteBookButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBookButton.swift; sourceTree = "<group>"; };
+		04E3127C23CAC2CE00757B56 /* DeleteSeriesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteSeriesButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -334,6 +336,7 @@
 				04E3127A23CAC0CF00757B56 /* DeleteBookButton.swift */,
 				0413027423C3DDF900FDF25B /* AddSeriesButton.swift */,
 				0413028523C5118700FDF25B /* EditSeriesButton.swift */,
+				04E3127C23CAC2CE00757B56 /* DeleteSeriesButton.swift */,
 				04E3125423C7C77D00757B56 /* EditTagButton.swift */,
 				04E3127823CABD2A00757B56 /* DeleteTagButton.swift */,
 				04080F3D23C690AC006E1523 /* ShowTagCountButton.swift */,
@@ -612,6 +615,7 @@
 				0413024D23C0566E00FDF25B /* AddButton.swift in Sources */,
 				0413027323C3DD8600FDF25B /* AddSeriesForm.swift in Sources */,
 				0413024223BE94DE00FDF25B /* LibraryView.swift in Sources */,
+				04E3127D23CAC2CE00757B56 /* DeleteSeriesButton.swift in Sources */,
 				0413026623C39B5500FDF25B /* AddBookIcon.swift in Sources */,
 				0413027123C3AFA700FDF25B /* SeriesList.swift in Sources */,
 				04E3126323C9942400757B56 /* Debug.swift in Sources */,

@@ -69,17 +69,6 @@ struct SeriesListView: View {
         .navigationBarTitle("Series", displayMode: .large)
     }
     
-    
-//    func displayConfirm(at id: Int) {
-//        for book in env.bookList.books {
-//            if book.id == id {
-//                self.bookTitleToDelete = book.title
-//            }
-//        }
-//        self.bookToDelete = id
-//        self.showConfirm = true
-//    }
-    
     func displayConfirm(at offsets: IndexSet) {
         let series = env.seriesList.series.sorted(by: {$0 < $1})[offsets.first!]
         self.seriesToDelete = series.id
@@ -89,17 +78,25 @@ struct SeriesListView: View {
     
     func swipeDeleteSeries() {
         self.showConfirm = false
-        
         // make DELETE request
         let response = APIHelper.deleteSeries(token: self.env.user.token, seriesId: self.seriesToDelete)
-        
         if response["success"] != nil {
-            // remove book from environment
-            if let indexToDelete = self.env.seriesList.series.firstIndex(where: {$0.id == self.seriesToDelete}) {
+            // remove series from environment
+            if let indexToDelete = self.env.seriesList.series.firstIndex(where: {$0.id == SeriesDetailView.series.id}) {
+                let seriesToDelete = self.env.seriesList.series[indexToDelete]
+                // find all books in series and set their seriesIds and positions to nil/0
+                let bookList = self.env.bookList
+                for bookId in seriesToDelete.books {
+                    if let book = bookList.books.first(where: {$0.id == bookId}) {
+                        book.position = 0
+                        book.seriesId = nil
+                    }
+                }
                 let seriesList = self.env.seriesList
                 seriesList.series.remove(at: indexToDelete)
                 DispatchQueue.main.async {
                     self.env.seriesList = seriesList
+                    self.env.bookList = bookList
                 }
             }
         } else if response["error"] != nil {
@@ -113,13 +110,6 @@ struct SeriesListView: View {
                 self.showConfirm = true
             }
         }
-    }
-    
-    
-    
-    func getSeries() {
-//        let response = APIHelper.getSeries(token: self.currentUser.token)
-//        print("RESPONSE", response)
     }
 }
 

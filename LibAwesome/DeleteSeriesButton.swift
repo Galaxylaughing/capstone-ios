@@ -1,5 +1,5 @@
 //
-//  DeleteBookButton.swift
+//  DeleteSeriesButton.swift
 //  LibAwesome
 //
 //  Created by Sabrina on 1/11/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct DeleteBookButton: View {
+struct DeleteSeriesButton: View {
     @EnvironmentObject var env: Env
     
     @State private var error: String?
@@ -20,10 +20,10 @@ struct DeleteBookButton: View {
         }
         .alert(isPresented: self.$showConfirm) {
             if self.error == nil {
-                return Alert(title: Text("Delete '\(BookDetailView.book.title)'"),
+                return Alert(title: Text("Delete '\(SeriesDetailView.series.name)'"),
                              message: Text("Are you sure?"),
                              primaryButton: .destructive(Text("Delete")) {
-                                self.deleteBook()
+                                self.deleteSeries()
                     },
                              secondaryButton: .cancel()
                 )
@@ -41,22 +41,35 @@ struct DeleteBookButton: View {
         }
     }
     
+    
     func displayConfirm() {
         self.showConfirm = true
     }
     
-    func deleteBook() {
+    func deleteSeries() {
         self.showConfirm = false
         // make DELETE request
-        let response = APIHelper.deleteBook(token: self.env.user.token, bookId: BookDetailView.book.id)
+        let response = APIHelper.deleteSeries(token: self.env.user.token, seriesId: SeriesDetailView.series.id)
         if response["success"] != nil {
-            // remove book from environment
-            if let indexToDelete = self.env.bookList.books.firstIndex(where: {$0.id == BookDetailView.book.id}) {
+            // remove series from environment
+            if let indexToDelete = self.env.seriesList.series.firstIndex(where: {$0.id == SeriesDetailView.series.id}) {
+                let seriesToDelete = self.env.seriesList.series[indexToDelete]
+                // find all books in series and set their seriesIds and positions to nil/0
                 let bookList = self.env.bookList
-                bookList.books.remove(at: indexToDelete)
-                Env.setEnv(in: self.env, to: bookList)
-                // return the view to previous position
-                NavView.goBack(env: self.env)
+                for bookId in seriesToDelete.books {
+                    if let book = bookList.books.first(where: {$0.id == bookId}) {
+                        book.position = 0
+                        book.seriesId = nil
+                    }
+                }
+                let seriesList = self.env.seriesList
+                seriesList.series.remove(at: indexToDelete)
+                DispatchQueue.main.async {
+                    self.env.seriesList = seriesList
+                    self.env.bookList = bookList
+                    // return the view to previous position
+                    NavView.goBack(env: self.env)
+                }
             }
         } else if response["error"] != nil {
             self.error = response["error"]!
@@ -72,8 +85,8 @@ struct DeleteBookButton: View {
     }
 }
 
-struct DeleteBookButton_Previews: PreviewProvider {
+struct DeleteSeriesButton_Previews: PreviewProvider {
     static var previews: some View {
-        DeleteBookButton()
+        DeleteSeriesButton()
     }
 }
