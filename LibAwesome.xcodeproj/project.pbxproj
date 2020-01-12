@@ -77,6 +77,7 @@
 		04E3126F23CA73BB00757B56 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3126E23CA73BB00757B56 /* TagListView.swift */; };
 		04E3127123CA7A9C00757B56 /* ArrowRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3127023CA7A9C00757B56 /* ArrowRight.swift */; };
 		04E3127723CA88ED00757B56 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3127623CA88ED00757B56 /* SettingsView.swift */; };
+		04E3127923CABD2A00757B56 /* DeleteTagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3127823CABD2A00757B56 /* DeleteTagButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -173,6 +174,7 @@
 		04E3126E23CA73BB00757B56 /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
 		04E3127023CA7A9C00757B56 /* ArrowRight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowRight.swift; sourceTree = "<group>"; };
 		04E3127623CA88ED00757B56 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		04E3127823CABD2A00757B56 /* DeleteTagButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteTagButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,6 +332,7 @@
 				0413027423C3DDF900FDF25B /* AddSeriesButton.swift */,
 				0413028523C5118700FDF25B /* EditSeriesButton.swift */,
 				04E3125423C7C77D00757B56 /* EditTagButton.swift */,
+				04E3127823CABD2A00757B56 /* DeleteTagButton.swift */,
 				04080F3D23C690AC006E1523 /* ShowTagCountButton.swift */,
 				04E3126D23CA738500757B56 /* Icons */,
 			);
@@ -617,6 +620,7 @@
 				04E3126F23CA73BB00757B56 /* TagListView.swift in Sources */,
 				04E3125723C7C80500757B56 /* EditTagForm.swift in Sources */,
 				04AA7C7123BBADF8003706C6 /* LoginForm.swift in Sources */,
+				04E3127923CABD2A00757B56 /* DeleteTagButton.swift in Sources */,
 				04AA7C6D23BBAC53003706C6 /* LoginIconView.swift in Sources */,
 				04E3124123C6C03200757B56 /* TagBubble.swift in Sources */,
 			);

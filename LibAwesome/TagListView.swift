@@ -25,9 +25,6 @@ struct TagListView: View {
     @EnvironmentObject var env: Env
     
     @State private var showCount: Bool = true
-    @State private var error: String?
-    @State private var showConfirm = false
-    @State private var tagToDelete: String = ""
     
     func isFullTag(list: [TagList.Tag], tagIndex: Int, subtagIndex: Int) -> Bool {
         var isTag = false
@@ -51,6 +48,9 @@ struct TagListView: View {
             
             let currTag = list[tagindex]
             let prevTag = list[tagindex - 1]
+            
+            print("current tag \(currTag.name)")
+            print("previous tag \(prevTag.name)")
             
             if prevTag.subtags.count > subtagindex {
                 if currTag.subtags[subtagindex] == prevTag.subtags[subtagindex] {
@@ -105,15 +105,13 @@ struct TagListView: View {
             }) {
                 Group {
                     if self.env.tagList.tags.count > 0 {
-                        ForEach(0 ..< self.env.tagList.tags.count) { tagIndex in
+                        ForEach(0 ..< self.env.tagList.tags.count, id: \.self) { tagIndex in
                             Group {
-                                ForEach(0 ..< self.env.tagList.tags[tagIndex].subtags.count) { subtagIndex in
+                                ForEach(0 ..< self.env.tagList.tags[tagIndex].subtags.count, id: \.self) { subtagIndex in
                                     Group {
                                         if self.showTag(list: self.env.tagList.tags, tagindex: tagIndex, subtagindex: subtagIndex) {
-                                            
                                             Button(action: {
                                                 self.env.tagToEdit = self.env.tagList.tags[tagIndex]
-                                                
                                                 // new tag with name of tag at current index, and books = result of starts with
                                                 let newTag = TagList.Tag(
                                                     name: self.constructTagName(list: self.env.tagList.tags, tagIndex: tagIndex, subtagIndex: subtagIndex),
@@ -135,29 +133,6 @@ struct TagListView: View {
                                     }
                                 }
                             }
-                            
-                        }
-                        .onDelete(perform: self.displayConfirm)
-                        .alert(isPresented: self.$showConfirm) {
-                            if self.error == nil {
-                                return Alert(title: Text("Delete '\(self.tagToDelete)'"),
-                                             message: Text("Are you sure?"),
-                                             primaryButton: .destructive(Text("Delete")) {
-                                                self.swipeDeleteTag()
-                                    },
-                                             secondaryButton: .cancel()
-                                )
-                            } else {
-                                return Alert(title: Text("Error"),
-                                             message: Text(error!),
-                                             dismissButton: Alert.Button.default(
-                                                Text("OK"), action: {
-                                                    self.error = nil
-                                                    self.showConfirm = false
-                                             }
-                                    )
-                                )
-                            }
                         }
                     } else {
                         Text("You have no tags yet")
@@ -168,63 +143,6 @@ struct TagListView: View {
         }
         .listStyle(GroupedListStyle())
         .environment(\.horizontalSizeClass, .regular)
-    }
-    
-    func displayConfirm(at offsets: IndexSet) {
-        let tag = env.tagList.tags.sorted(by: {$0 < $1})[offsets.first!]
-        self.tagToDelete = tag.name
-        self.showConfirm = true
-    }
-    
-    func swipeDeleteTag() {
-        self.showConfirm = false
-        
-        // make DELETE request
-        let response = APIHelper.deleteTag(token: self.env.user.token, tagName: self.tagToDelete)
-
-        if response["success"] != nil {
-            // remove tag from any book that has that tag
-            let allBooks = self.env.bookList
-            for book in allBooks.books {
-                if let index = book.tags.firstIndex(of: self.tagToDelete) {
-                    book.tags.remove(at: index)
-                }
-            }
-            DispatchQueue.main.async {
-                self.env.bookList = allBooks
-            }
-
-            // remove tag from environment
-            if let indexToDelete = self.env.tagList.tags.firstIndex(where: {$0.name == self.tagToDelete}) {
-                let tagList = self.env.tagList
-                tagList.tags.remove(at: indexToDelete)
-                DispatchQueue.main.async {
-                    self.env.tagList = tagList
-                    
-                    // clears tag from environment if it's the one that's been deleted
-                    // does not affect parent view if parent view is current tag's detail view
-//                    if self.env.tag.name == self.tagToDelete {
-//                        self.env.tag = Env.defaultEnv.tag
-//                    }
-                }
-            }
-            
-            // works but overcompensates // TODO
-            if (self.env.tag.name == self.tagToDelete) {
-                self.env.topView = .booklist
-            }
-            
-        } else if response["error"] != nil {
-            self.error = response["error"]!
-            DispatchQueue.main.async {
-                self.showConfirm = true
-            }
-        } else {
-            self.error = "Unknown error"
-            DispatchQueue.main.async {
-                self.showConfirm = true
-            }
-        }
     }
 }
 

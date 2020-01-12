@@ -57,6 +57,7 @@ struct NavView: View {
     
     var detailsTrailingView: some View {
         HStack {
+            // Edit Button
             if self.env.topView == .bookdetail {
                 EditBookButton().environmentObject(BookDetailView.book)
             } else if self.env.topView == .seriesdetail {
@@ -64,11 +65,19 @@ struct NavView: View {
             } else if self.env.topView == .tagdetail && TagDetailView.showEditButtons {
                 EditTagButton()
             }
+            
+            // Delete Button
             if self.env.topView != .authordetail
                 && (self.env.topView != .tagdetail || TagDetailView.showEditButtons) {
-                Button(action: {}) {
-                    DeleteIcon()
+                
+                if self.env.topView == .bookdetail {
+//                    EditBookButton().environmentObject(BookDetailView.book)
+                } else if self.env.topView == .seriesdetail {
+//                    EditSeriesButton().environmentObject(SeriesDetailView.series)
+                } else if self.env.topView == .tagdetail && TagDetailView.showEditButtons {
+                    DeleteTagButton()
                 }
+                
             }
         }
     }
