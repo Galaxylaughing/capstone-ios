@@ -375,7 +375,14 @@ struct APIHelper {
         // set body
         print(position ?? "no position")
         print(seriesId ?? "no series")
-        let book = BookListService.Book(id: bookId, title: title, authors: authors, position_in_series: position, series: seriesId, tags: tags)
+        
+        let finalPosition = position ?? -1
+        let finalSeriesId = seriesId ?? -1
+        
+        print(finalPosition)
+        print(finalSeriesId)
+        
+        let book = BookListService.Book(id: bookId, title: title, authors: authors, position_in_series: finalPosition, series: finalSeriesId, tags: tags)
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
 

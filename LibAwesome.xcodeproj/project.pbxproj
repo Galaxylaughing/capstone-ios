@@ -331,15 +331,6 @@
 			children = (
 				04E3126623CA6BB600757B56 /* NavButton.swift */,
 				0413023023BE5ABB00FDF25B /* LogoutButton.swift */,
-				0413024C23C0566E00FDF25B /* AddButton.swift */,
-				0413025623C28E1900FDF25B /* EditBookButton.swift */,
-				04E3127A23CAC0CF00757B56 /* DeleteBookButton.swift */,
-				0413027423C3DDF900FDF25B /* AddSeriesButton.swift */,
-				0413028523C5118700FDF25B /* EditSeriesButton.swift */,
-				04E3127C23CAC2CE00757B56 /* DeleteSeriesButton.swift */,
-				04E3125423C7C77D00757B56 /* EditTagButton.swift */,
-				04E3127823CABD2A00757B56 /* DeleteTagButton.swift */,
-				04080F3D23C690AC006E1523 /* ShowTagCountButton.swift */,
 				04E3126D23CA738500757B56 /* Icons */,
 			);
 			name = Buttons;
@@ -399,6 +390,9 @@
 				04E3124423C6C8A200757B56 /* TagDetailView.swift */,
 				04E3125623C7C80500757B56 /* EditTagForm.swift */,
 				04E3125823C7CBDE00757B56 /* BookUpdate.swift */,
+				04E3125423C7C77D00757B56 /* EditTagButton.swift */,
+				04E3127823CABD2A00757B56 /* DeleteTagButton.swift */,
+				04080F3D23C690AC006E1523 /* ShowTagCountButton.swift */,
 			);
 			name = Tags;
 			sourceTree = "<group>";
@@ -411,6 +405,9 @@
 				0413024E23C0613F00FDF25B /* AddBookForm.swift */,
 				0413025823C28E5000FDF25B /* EditBookForm.swift */,
 				04E3125023C7AF4800757B56 /* TagUpdate.swift */,
+				0413024C23C0566E00FDF25B /* AddButton.swift */,
+				0413025623C28E1900FDF25B /* EditBookButton.swift */,
+				04E3127A23CAC0CF00757B56 /* DeleteBookButton.swift */,
 			);
 			name = Books;
 			sourceTree = "<group>";
@@ -422,6 +419,9 @@
 				0413028923C5401E00FDF25B /* SeriesDetailView.swift */,
 				0413027223C3DD8600FDF25B /* AddSeriesForm.swift */,
 				0413028323C5098300FDF25B /* EditSeriesForm.swift */,
+				0413027423C3DDF900FDF25B /* AddSeriesButton.swift */,
+				0413028523C5118700FDF25B /* EditSeriesButton.swift */,
+				04E3127C23CAC2CE00757B56 /* DeleteSeriesButton.swift */,
 			);
 			name = Series;
 			sourceTree = "<group>";

@@ -214,6 +214,12 @@ struct EditBookForm: View {
             seriesPositionIndex: self.seriesPositionIndex,
             seriesIndex: self.seriesIndex)
         
+        if (seriesData["seriesId"] == nil) {
+            print("no series id")
+        } else {
+            print("seriesData to go to API: \(seriesData["seriesId"]! ?? 0)")
+        }
+        
         // make PUT to update book
         let response = APIHelper.putBook(
             token: self.env.user.token,
@@ -253,8 +259,20 @@ struct EditBookForm: View {
                     
                     Env.setEnv(in: self.env, to: bookList)
                     
+                    let currentTag = self.env.tag
+                    for book in currentTag.books {
+                        if book.id == newBook.id && !newBook.tags.contains(currentTag.name) {
+                            // remove book from currentTag
+                            if let index = currentTag.books.firstIndex(where: {$0.id == book.id}) {
+                                currentTag.books.remove(at: index)
+                            }
+                            
+                        }
+                    }
+                    
                     DispatchQueue.main.async {
                         self.env.seriesList = seriesList
+                        self.env.tag = TagList.Tag(name: currentTag.name, books: currentTag.books)
                     }
                     // update book in state
                     self.book.title = newBook.title

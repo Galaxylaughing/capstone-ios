@@ -33,6 +33,13 @@ struct NavView: View {
         // pop twice because we want to go to the previous view (and last is the current view)
         var prevView = NavView.stack.popLast() ?? .home
         prevView = NavView.stack.last ?? .home
+        
+        if (prevView == .tagdetail && env.tag.books.count == 0)
+            || (prevView == .authordetail && !BookDetailView.book.authors.contains(AuthorDetailView.author.name)) {
+            prevView = NavView.stack.popLast() ?? .home
+            prevView = NavView.stack.last ?? .home
+        }
+        
         env.topView = prevView
     }
 

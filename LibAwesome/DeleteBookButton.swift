@@ -54,7 +54,32 @@ struct DeleteBookButton: View {
             if let indexToDelete = self.env.bookList.books.firstIndex(where: {$0.id == BookDetailView.book.id}) {
                 let bookList = self.env.bookList
                 bookList.books.remove(at: indexToDelete)
+
+                let currentTags = BookDetailView.book.tags
+                for currentTag in currentTags {
+                    // remove book from tag
+                    if let tag = self.env.tagList.tags.first(where: {$0.name == currentTag}) {
+                        if let index = tag.books.firstIndex(where: {$0.id == BookDetailView.book.id}) {
+                            tag.books.remove(at: index)
+                        }
+                    }
+                }
+                
+                let envTag = self.env.tag
+                for book in envTag.books {
+                    if book.id == BookDetailView.book.id {
+                        // remove book from envTag
+                        if let index = envTag.books.firstIndex(where: {$0.id == book.id}) {
+                            envTag.books.remove(at: index)
+                        }
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.env.tag = TagList.Tag(name: envTag.name, books: envTag.books)
+                }
+                
                 Env.setEnv(in: self.env, to: bookList)
+                
                 // return the view to previous position
                 NavView.goBack(env: self.env)
             }
