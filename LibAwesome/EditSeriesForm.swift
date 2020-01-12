@@ -55,9 +55,11 @@ struct EditSeriesForm: View {
                         VStack(alignment: .leading) {
                             Toggle(isOn: $showCounts) {
                                 Text("Assign Number of Books Planned")
-                            }.toggleStyle(DefaultToggleStyle())
+                            }
+                            .toggleStyle(DefaultToggleStyle())
                             
                             if self.showCounts {
+                                Text("").padding(1) // if you delete this, you won't be able to toggle the toggle off
                                 VStack {
                                     Picker("Number of Books Planned:", selection: self.$formSeries.plannedCount) {
                                         Group {

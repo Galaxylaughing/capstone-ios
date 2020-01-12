@@ -66,8 +66,10 @@ struct AddSeriesForm: View {
                             Toggle(isOn: $showCounts) {
                                 Text("Assign Number of Books Planned")
                             }
+                            .toggleStyle(DefaultToggleStyle())
                             
                             if self.showCounts {
+                                Text("").padding(1) // if you delete this, you won't be able to toggle the toggle off
                                 VStack {
                                     Picker("Number of Books Planned:", selection: $plannedCountIndex) {
                                         ForEach(0 ..< self.plannedCounts.count) {

@@ -223,7 +223,6 @@ struct AddBookForm: View {
             if let newBook = EncodingHelper.makeBook(data: response["success"]!) {
                 let bookList = self.env.bookList
                 bookList.books.append(newBook)
-                
                 // set series if there is one
                 if newBook.seriesId != nil {
                     if let index = self.env.seriesList.series.firstIndex(where: {$0.id == newBook.seriesId}) {
@@ -238,50 +237,6 @@ struct AddBookForm: View {
                 
                 Env.setEnv(in: self.env, to: bookList)
             }
-            
-            
-            // update book in environment
-//           if let newBook = EncodingHelper.makeBook(data: response["success"]!) {
-//               // update book in environment's BookList
-//               // find book in booklist with the newBook's id
-//               if let index = self.env.bookList.books.firstIndex(where: { $0.id == newBook.id }) {
-//                   let bookList = self.env.bookList
-//                   let oldBook = bookList.books[index]
-//                   bookList.books[index] = newBook
-//
-//                   // update the seriesList in the environment
-//                   if oldBook.seriesId != newBook.seriesId {
-//                       if let oldSeriesIndex = self.env.seriesList.series.firstIndex(where: {$0.id == oldBook.seriesId}) {
-//                           // remove newBook id from books list
-//                           var tempBooks = self.env.seriesList.series[oldSeriesIndex].books
-//                           if let index = tempBooks.firstIndex(of: newBook.id) {
-//                               tempBooks.remove(at: index)
-//                           }
-//                           self.env.seriesList.series[oldSeriesIndex].books = tempBooks
-//                       }
-//                       if let newSeriesIndex = self.env.seriesList.series.firstIndex(where: {$0.id == newBook.seriesId}) {
-//                           // add newBook id to books list
-//                           self.env.seriesList.series[newSeriesIndex].books.append(newBook.id)
-//                       }
-//                   }
-//                   let seriesList = SeriesList(seriesList: self.env.seriesList)
-//
-//                   Env.setEnv(in: self.env, to: bookList)
-//
-//                   DispatchQueue.main.async {
-//                       self.env.seriesList = seriesList
-//                   }
-//                   // update book in state
-//                   self.book.title = newBook.title
-//                   self.book.authors = newBook.authors
-//                   self.book.position = newBook.position
-//                   self.book.seriesId = newBook.seriesId
-//                   self.book.tags = newBook.tags
-//               }
-//           }
-            
-            
-            
             // should dismiss sheet if success
             self.showForm = false
         } else if response["error"] != nil {
