@@ -287,7 +287,8 @@ struct AddBookForm_Previews: PreviewProvider {
         authorList: Env.defaultEnv.authorList,
         seriesList: seriesList,
         tagList: tagList,
-        tag: Env.defaultEnv.tag)
+        tag: Env.defaultEnv.tag,
+        tagToEdit: Env.defaultEnv.tagToEdit)
     
     static var previews: some View {
         AddBookForm(showForm: $showForm)

@@ -58,6 +58,12 @@ class TagList: ObservableObject {
         @Published var books: [BookList.Book]
         @Published var subtags: [Substring]
         
+        init() {
+            self.name = ""
+            self.books = []
+            self.subtags = []
+        }
+        
         init(tag: Tag) {
             self.name = tag.name
             self.books = tag.books

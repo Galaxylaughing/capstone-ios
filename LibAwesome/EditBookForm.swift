@@ -308,7 +308,8 @@ struct EditBookForm_Previews: PreviewProvider {
         authorList: Env.defaultEnv.authorList,
         seriesList: Env.defaultEnv.seriesList,
         tagList: tagList,
-        tag: Env.defaultEnv.tag)
+        tag: Env.defaultEnv.tag,
+        tagToEdit: Env.defaultEnv.tagToEdit)
     
     static var previews: some View {
         EditBookForm(showForm: $showForm, bookToEdit: bookToEdit, assignSeries: false, seriesIndex: 1, seriesPositionIndex: 1)

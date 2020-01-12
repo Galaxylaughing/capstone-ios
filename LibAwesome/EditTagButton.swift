@@ -18,8 +18,8 @@ struct EditTagButton: View {
         }.sheet(isPresented: $showForm) {
             EditTagForm(showForm: self.$showForm,
                          tagToEdit: TagList.Tag(
-                            name: self.env.tag.name,
-                            books: self.env.tag.books))
+                            name: self.env.tagToEdit.name,
+                            books: self.env.tagToEdit.books))
                 .environmentObject(self.env)
         }
     }

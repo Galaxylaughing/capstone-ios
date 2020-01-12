@@ -77,7 +77,8 @@ struct AuthorDetailView_Previews: PreviewProvider {
         authorList: authorList,
         seriesList: Env.defaultEnv.seriesList,
         tagList: Env.defaultEnv.tagList,
-        tag: Env.defaultEnv.tag)
+        tag: Env.defaultEnv.tag,
+        tagToEdit: Env.defaultEnv.tagToEdit)
     
     static var previews: some View {
         AuthorDetailView()

@@ -112,6 +112,8 @@ struct TagListView: View {
                                         if self.showTag(list: self.env.tagList.tags, tagindex: tagIndex, subtagindex: subtagIndex) {
                                             
                                             Button(action: {
+                                                self.env.tagToEdit = self.env.tagList.tags[tagIndex]
+                                                
                                                 // new tag with name of tag at current index, and books = result of starts with
                                                 let newTag = TagList.Tag(
                                                     name: self.constructTagName(list: self.env.tagList.tags, tagIndex: tagIndex, subtagIndex: subtagIndex),
@@ -252,7 +254,8 @@ struct TagListView_Previews: PreviewProvider {
         authorList: Env.defaultEnv.authorList,
         seriesList: Env.defaultEnv.seriesList,
         tagList: tagList,
-        tag: Env.defaultEnv.tag)
+        tag: Env.defaultEnv.tag,
+        tagToEdit: Env.defaultEnv.tagToEdit)
     
     static var previews: some View {
         VStack {

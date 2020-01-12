@@ -232,7 +232,8 @@ struct TagsListView_Previews: PreviewProvider {
         authorList: Env.defaultEnv.authorList,
         seriesList: Env.defaultEnv.seriesList,
         tagList: tagList,
-        tag: Env.defaultEnv.tag)
+        tag: Env.defaultEnv.tag,
+        tagToEdit: Env.defaultEnv.tagToEdit)
     
     static var previews: some View {
         VStack {

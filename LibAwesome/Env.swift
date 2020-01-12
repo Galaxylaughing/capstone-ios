@@ -16,14 +16,16 @@ class Env: ObservableObject {
     @Published var seriesList: SeriesList
     @Published var tagList: TagList
     @Published var tag: TagList.Tag
+    @Published var tagToEdit: TagList.Tag
     
-    init(user: User, bookList: BookList, authorList: AuthorList, seriesList: SeriesList, tagList: TagList, tag: TagList.Tag) {
+    init(user: User, bookList: BookList, authorList: AuthorList, seriesList: SeriesList, tagList: TagList, tag: TagList.Tag, tagToEdit: TagList.Tag) {
         self.user = user
         self.bookList = bookList
         self.authorList = authorList
         self.seriesList = seriesList
         self.tagList = tagList
         self.tag = tag
+        self.tagToEdit = tagToEdit
     }
     
     init(env: Env) {
@@ -33,6 +35,7 @@ class Env: ObservableObject {
         self.seriesList = env.seriesList
         self.tagList = env.tagList
         self.tag = env.tag
+        self.tagToEdit = env.tagToEdit
     }
     
     init() {
@@ -42,6 +45,7 @@ class Env: ObservableObject {
         self.seriesList = SeriesList(series: [])
         self.tagList = TagList(tags: [])
         self.tag = TagList.Tag(name: "", books: [])
+        self.tagToEdit = TagList.Tag(name: "", books: [])
     }
     
     static let defaultEnv = Env()

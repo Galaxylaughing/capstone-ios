@@ -109,31 +109,82 @@ struct EditTagForm: View {
         // make PUT to update tag
         let response = APIHelper.putTag(
             token: self.env.user.token,
-            tagName: self.env.tag.name,
+            tagName: self.env.tagToEdit.name,
             newTagName: self.tagToEdit.name,
             books: newBookIds)
         
         if response["success"] != nil {
-            // build book list from book ids
+            
+            // ensure all the books have the correct tags
+            let newTagName = self.tagToEdit.name
+            // check all the books that had the old tag
+            let oldTaggedBooks = self.env.tagToEdit.books
+            let oldTagName = self.env.tagToEdit.name
+            // go through old tagged books
+            for tagBook in oldTaggedBooks {
+                if let book = self.env.bookList.books.first(where: {$0.id == tagBook.id}) {
+                    // is the book's id in new book ids?
+                    if let index = book.tags.firstIndex(where: { $0 == oldTagName }) {
+                        if newBookIds.contains(book.id) {
+                            // if it is, update the name of the tag on the book
+                            book.tags[index] = newTagName
+                        } else {
+                            // if it isn't, remove the tag from the book
+                            book.tags.remove(at: index)
+                        }
+                    }
+                }
+            }
+            // check the books that need to have the tag
+            // build tag's book list from book ids
             var taggedBooks: [BookList.Book] = []
             for bookId in newBookIds {
                 if let index = self.env.bookList.books.firstIndex(where: {$0.id == bookId}) {
                     let foundBook = self.env.bookList.books[index]
+                    if !foundBook.tags.contains(newTagName) {
+                        foundBook.tags.append(newTagName)
+                    }
                     taggedBooks.append(foundBook)
                 }
             }
-            
-            let newTag = TagList.Tag(name: self.tagToEdit.name, books: taggedBooks)
-            print("I'M BACK WITH:", newTag, newTag.name)
-            for book in newTag.books {
+            let newTagToEdit = TagList.Tag(name: self.tagToEdit.name, books: taggedBooks)
+            print("I'M BACK WITH: \(newTagToEdit) \(newTagToEdit.name)")
+            for book in newTagToEdit.books {
                 print("-- \(book.title)")
             }
+            
+            var currentBookList = self.env.tag.books
+            for book in taggedBooks {
+                if !currentBookList.contains(book) {
+                    currentBookList.append(book)
+                }
+            }
+            for (index, book) in currentBookList.enumerated() {
+                if !taggedBooks.contains(book) {
+                    // potentially could be deleted
+                    var hasPrefix: Bool = false
+                    for tag in book.tags {
+                        // does the tag have the prefix
+                        let prefix = newTagName + "/"
+                        if tag.hasPrefix(prefix) {
+                            hasPrefix = true
+                            break
+                        }
+                    }
+                    if !hasPrefix {
+                        // remove book from current book list
+                        currentBookList.remove(at: index)
+                    }
+                }
+            }
+            let newTag = TagList.Tag(name: self.tagToEdit.name, books: currentBookList)
                             
             // update tag in environment
             DispatchQueue.main.async {
+                self.env.tagToEdit = newTagToEdit
                 self.env.tag = newTag
             }
-            
+            // update taglist in the environment
             Env.setEnv(in: self.env, to: self.env.bookList)
 
             // should dismiss sheet if success
@@ -171,7 +222,8 @@ struct EditTagForm_Previews: PreviewProvider {
         authorList: Env.defaultEnv.authorList,
         seriesList: Env.defaultEnv.seriesList,
         tagList: tagList,
-        tag: tag1)
+        tag: tag1,
+        tagToEdit: Env.defaultEnv.tagToEdit)
     
     static var previews: some View {
         EditTagForm(showForm: self.$showForm, tagToEdit: self.tagToEdit)

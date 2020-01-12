@@ -80,8 +80,8 @@ struct TagDetailView_Previews: PreviewProvider {
         authorList: Env.defaultEnv.authorList,
         seriesList: Env.defaultEnv.seriesList,
         tagList: Env.defaultEnv.tagList,
-        tag: tag
-        )
+        tag: tag,
+        tagToEdit: Env.defaultEnv.tagToEdit)
     
     static var previews: some View {
         TagDetailView()
