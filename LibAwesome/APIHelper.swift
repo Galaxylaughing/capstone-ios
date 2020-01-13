@@ -37,15 +37,15 @@ struct APIHelper {
             defer { group.leave() }
             // Check for Error
             if let error = error {
-                print("Error took place: \(error)")
-                
+                Debug.debug(msg: "Error took place: \(error)", level: .error)
                 returnData = ["error": "\(error)"]
             }
             // Convert HTTP Response Data to a String
             if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                print("Response data string:\n \(dataString)")
+                Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                 
                 guard let userToken = TokenHelper.getToken(json: data) else {
+                    Debug.debug(msg: "Error: invalid username or password", level: .error)
                     returnData = ["error": "Invalid username or password"]
                     return
                 }
@@ -84,34 +84,33 @@ struct APIHelper {
             
             // Check for Error
             if let error = error {
-                print("Error took place: \(error)")
+                Debug.debug(msg: "Error took place: \(error)", level: .error)
                 
                 returnData = ["error": "\(error)"]
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse else {
-                print("Error took place")
+                Debug.debug(msg: "Error took place", level: .error)
                 returnData = ["error": "Unknown error communicating with server"]
                 return
             }
             
             if httpResponse.statusCode == 403 {
-                print("Error took place: \(httpResponse.statusCode) Account already exists")
+                Debug.debug(msg: "Error took place: \(httpResponse.statusCode) Account already exists", level: .error)
                 returnData = ["error": "Username already exists"]
                 return
             }
             
             if !(200...299).contains(httpResponse.statusCode) {
-                print("Error took place: \(httpResponse.statusCode)")
+                Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .error)
                 returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
                 return
             }
             
             // Convert HTTP Response Data to a String
             if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                print("Response data string:\n \(dataString)")
-                
+                Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                 returnData = ["success": "success"]
             }
         }
@@ -119,48 +118,6 @@ struct APIHelper {
         group.wait()
         return returnData
     }
-    
-    /*
-    static func logout(token: String?) -> [String:String] {
-        // return unknown error if no other code overwrites with the correct error or success message
-        var returnData: [String:String] = ["error": "unknown error"]
-        
-        // Prepare URL
-        let url = URL(string: API_HOST+"logout/")
-        guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
-        
-        // Prepare URL Request Object
-        var request = URLRequest(url: requestUrl)
-        request.httpMethod = "GET"
-        
-        //Prepare HTTP Request Header
-        let value = "Token \(token ?? "")"
-        request.setValue(value, forHTTPHeaderField: "Authorization")
-        
-        let group = DispatchGroup()
-        group.enter()
-        // Perform HTTP Request
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            defer { group.leave() }
-            
-            // Check for Error
-            if let error = error {
-                print("Error took place: \(error)")
-                returnData = ["error": "\(error)"]
-                return
-            }
-            // Convert HTTP Response Data to a String
-            if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                print("Response data string:\n \(dataString)")
-                
-                returnData = ["success": "\(dataString)"]
-            }
-        }
-        task.resume()
-        group.wait()
-        return returnData
-    }
-    */
     
     // BOOK - GET ALL
     static func getBooks(token: String?) -> [String:String] {
@@ -187,15 +144,14 @@ struct APIHelper {
             
             // Check for Error
             if let error = error {
-                print("Error took place: \(error)")
+                Debug.debug(msg: "Error took place: \(error)", level: .error)
                 returnData = ["error": "\(error)"]
                 return
             }
             
             // Convert HTTP Response Data to a String
             if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                print("Response data string:\n \(dataString)")
-                
+                Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                 returnData = ["success": "\(dataString)"]
             }
         }
@@ -211,6 +167,12 @@ struct APIHelper {
         authors: [String],
         position: Int? = nil,
         seriesId: Int? = nil,
+        publisher: String? = nil,
+        publicationDate: String? = nil,
+        isbn10: String? = nil,
+        isbn13: String? = nil,
+        pageCount: Int? = nil,
+        description: String? = nil,
         tags: [String] = []) -> [String:String] {
         
         // return unknown error if no other code overwrites with the correct error or success message
@@ -229,12 +191,24 @@ struct APIHelper {
         request.setValue(value, forHTTPHeaderField: "Authorization")
         
         // set body
-        let book = BookListService.Book(id: 0, title: title, authors: authors, position_in_series: position, series: seriesId, tags: tags)
+        let book = BookListService.Book(
+            id: 0,
+            title: title,
+            authors: authors,
+            position_in_series: position,
+            series: seriesId,
+            publisher: publisher,               // TODO
+            publication_date: publicationDate,  // TODO
+            isbn_10: isbn10,                    // TODO
+            isbn_13: isbn13,                    // TODO
+            page_count: pageCount,              // TODO
+            description: description,           // TODO
+            tags: tags)
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
 
         if let jsonData = try? encoder.encode(book) {
-            print(String(data: jsonData, encoding: .utf8)!)
+            Debug.debug(msg: String(data: jsonData, encoding: .utf8)!, level: .verbose)
             
             request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
             request.httpBody = jsonData
@@ -247,34 +221,32 @@ struct APIHelper {
                 
                 // Check for Error
                 if let error = error {
-                    print("Error took place: \(error)")
-                    
+                    Debug.debug(msg: "Error took place: \(error)", level: .error)
                     returnData = ["error": "\(error)"]
                     return
                 }
                 
                 guard let httpResponse = response as? HTTPURLResponse else {
-                    print("Error took place")
+                    Debug.debug(msg: "Error took place", level: .error)
                     returnData = ["error": "Unknown error communicating with server"]
                     return
                 }
                 
                 if httpResponse.statusCode == 400 {
-                    print("Error took place: \(httpResponse.statusCode) Invalid book parameters")
+                    Debug.debug(msg: "Error took place: \(httpResponse.statusCode) Invalid book parameters", level: .error)
                     returnData = ["error": "Invalid book information"]
                     return
                 }
                 
                 if !(200...299).contains(httpResponse.statusCode) {
-                    print("Error took place: \(httpResponse.statusCode)")
+                    Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .error)
                     returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
                     return
                 }
                 
                 // Convert HTTP Response Data to a String
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                    print("Response data string:\n \(dataString)")
-                    
+                    Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                     returnData = ["success": "\(dataString)"]
                 }
             }
@@ -283,7 +255,7 @@ struct APIHelper {
             return returnData
             
         } else {
-            print("error occurred during JSON encoding")
+            Debug.debug(msg: "error occurred during JSON encoding", level: .error)
             return ["error": "Could not encode object to JSON"]
         }
     }
@@ -313,33 +285,32 @@ struct APIHelper {
             
             // Check for Error
             if let error = error {
-                print("Error took place: \(error)")
+                Debug.debug(msg: "Error took place: \(error)", level: .error)
                 returnData = ["error": "\(error)"]
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse else {
-                print("Error took place")
+                Debug.debug(msg: "Error took place", level: .error)
                 returnData = ["error": "Unknown error communicating with server"]
                 return
             }
             
             if httpResponse.statusCode == 400 {
-                print("Error took place: \(httpResponse.statusCode) Could not find book with ID: \(bookId)")
+                Debug.debug(msg: "Error took place: \(httpResponse.statusCode) Could not find book with ID: \(bookId)", level: .error)
                 returnData = ["error": "Could not find book with ID: \(bookId)"]
                 return
             }
             
             if !(200...299).contains(httpResponse.statusCode) {
-                print("Error took place: \(httpResponse.statusCode)")
+                Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .error)
                 returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
                 return
             }
             
             // Convert HTTP Response Data to a String
             if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                print("Response data string:\n \(dataString)")
-                
+                Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                 returnData = ["success": "\(dataString)"]
             }
         }
@@ -356,6 +327,12 @@ struct APIHelper {
         authors: [String],
         position: Int? = nil,
         seriesId: Int? = nil,
+        publisher: String? = nil,
+        publicationDate: String? = nil,
+        isbn10: String? = nil,
+        isbn13: String? = nil,
+        pageCount: Int? = nil,
+        description: String? = nil,
         tags: [String] = []) -> [String:String] {
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
@@ -373,21 +350,27 @@ struct APIHelper {
         request.setValue(value, forHTTPHeaderField: "Authorization")
         
         // set body
-        print(position ?? "no position")
-        print(seriesId ?? "no series")
-        
         let finalPosition = position ?? -1
         let finalSeriesId = seriesId ?? -1
-        
-        print(finalPosition)
-        print(finalSeriesId)
-        
-        let book = BookListService.Book(id: bookId, title: title, authors: authors, position_in_series: finalPosition, series: finalSeriesId, tags: tags)
+        let finalPageCount = pageCount ?? -1
+        let book = BookListService.Book(
+            id: bookId,
+            title: title,
+            authors: authors,
+            position_in_series: finalPosition,
+            series: finalSeriesId,
+            publisher: publisher,               // TODO
+            publication_date: publicationDate,  // TODO
+            isbn_10: isbn10,                    // TODO
+            isbn_13: isbn13,                    // TODO
+            page_count: finalPageCount,         // TODO
+            description: description,           // TODO
+            tags: tags)
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
 
         if let jsonData = try? encoder.encode(book) {
-            print(String(data: jsonData, encoding: .utf8)!)
+            Debug.debug(msg: String(data: jsonData, encoding: .utf8)!, level: .verbose)
             
             request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
             request.httpBody = jsonData
@@ -400,26 +383,26 @@ struct APIHelper {
                 
                 // Check for Error
                 if let error = error {
-                    print("Error took place: \(error)")
+                    Debug.debug(msg: "Error took place: \(error)", level: .error)
                     returnData = ["error": "\(error)"]
                     return
                 }
                 
                 guard let httpResponse = response as? HTTPURLResponse else {
-                    print("Error took place")
+                    Debug.debug(msg: "Error took place", level: .error)
                     returnData = ["error": "Unknown error communicating with server"]
                     return
                 }
                 
                 if !(200...299).contains(httpResponse.statusCode) {
-                    print("Error took place: \(httpResponse.statusCode)")
+                    Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .error)
                     returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
                     return
                 }
                 
                 // Convert HTTP Response Data to a String
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                    print("Response data string:\n \(dataString)")
+                    Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                     returnData = ["success": "\(dataString)"]
                 }
             }
@@ -429,7 +412,7 @@ struct APIHelper {
             return returnData
             
         } else {
-            print("error occurred during JSON encoding")
+            Debug.debug(msg: "error occurred during JSON encoding", level: .error)
             return ["error": "Could not encode object to JSON"]
         }
     }
@@ -459,14 +442,14 @@ struct APIHelper {
             
             // Check for Error
             if let error = error {
-                print("Error took place: \(error)")
+                Debug.debug(msg: "Error took place: \(error)", level: .error)
                 returnData = ["error": "\(error)"]
                 return
             }
             
             // Convert HTTP Response Data to a String
             if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                print("Response data string:\n \(dataString)")
+                Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                 
                 returnData = ["success": "\(dataString)"]
             }
@@ -499,7 +482,7 @@ struct APIHelper {
         encoder.outputFormatting = .prettyPrinted
 
         if let jsonData = try? encoder.encode(series) {
-            print(String(data: jsonData, encoding: .utf8)!)
+            Debug.debug(msg: String(data: jsonData, encoding: .utf8)!, level: .verbose)
             
             request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
             request.httpBody = jsonData
@@ -512,32 +495,32 @@ struct APIHelper {
                 
                 // Check for Error
                 if let error = error {
-                    print("Error took place: \(error)")
+                    Debug.debug(msg: "Error took place: \(error)", level: .error)
                     returnData = ["error": "\(error)"]
                     return
                 }
                 
                 guard let httpResponse = response as? HTTPURLResponse else {
-                    print("Error took place")
+                    Debug.debug(msg: "Error took place", level: .error)
                     returnData = ["error": "Unknown error communicating with server"]
                     return
                 }
                 
                 if httpResponse.statusCode == 400 {
-                    print("Error took place: \(httpResponse.statusCode) Invalid series parameters")
+                    Debug.debug(msg: "Error took place: \(httpResponse.statusCode) Invalid series parameters", level: .error)
                     returnData = ["error": "Invalid series information"]
                     return
                 }
                 
                 if !(200...299).contains(httpResponse.statusCode) {
-                    print("Error took place: \(httpResponse.statusCode)")
+                    Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .error)
                     returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
                     return
                 }
                 
                 // Convert HTTP Response Data to a String
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                    print("Response data string:\n \(dataString)")
+                    Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                     
                     returnData = ["success": "\(dataString)"]
                 }
@@ -547,7 +530,7 @@ struct APIHelper {
             return returnData
             
         } else {
-            print("error occurred during JSON encoding")
+            Debug.debug(msg: "error occurred during JSON encoding", level: .error)
             return ["error": "Could not encode object to JSON"]
         }
     }
@@ -580,7 +563,7 @@ struct APIHelper {
         encoder.outputFormatting = .prettyPrinted
 
         if let jsonData = try? encoder.encode(series) {
-            print(String(data: jsonData, encoding: .utf8)!)
+            Debug.debug(msg: String(data: jsonData, encoding: .utf8)!, level: .verbose)
 
             request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
             request.httpBody = jsonData
@@ -593,26 +576,26 @@ struct APIHelper {
 
                 // Check for Error
                 if let error = error {
-                    print("Error took place: \(error)")
+                    Debug.debug(msg: "Error took place: \(error)", level: .error)
                     returnData = ["error": "\(error)"]
                     return
                 }
 
                 guard let httpResponse = response as? HTTPURLResponse else {
-                    print("Error took place")
+                    Debug.debug(msg: "Error took place", level: .error)
                     returnData = ["error": "Unknown error communicating with server"]
                     return
                 }
 
                 if !(200...299).contains(httpResponse.statusCode) {
-                    print("Error took place: \(httpResponse.statusCode)")
+                    Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .error)
                     returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
                     return
                 }
 
                 // Convert HTTP Response Data to a String
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                    print("Response data string:\n \(dataString)")
+                    Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                     returnData = ["success": "\(dataString)"]
                 }
             }
@@ -622,7 +605,7 @@ struct APIHelper {
             return returnData
 
         } else {
-            print("error occurred during JSON encoding")
+            Debug.debug(msg: "error occurred during JSON encoding", level: .error)
             return ["error": "Could not encode object to JSON"]
         }
     }
@@ -652,32 +635,32 @@ struct APIHelper {
             
             // Check for Error
             if let error = error {
-                print("Error took place: \(error)")
+                Debug.debug(msg: "Error took place: \(error)", level: .error)
                 returnData = ["error": "\(error)"]
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse else {
-                print("Error took place")
+                Debug.debug(msg: "Error took place", level: .error)
                 returnData = ["error": "Unknown error communicating with server"]
                 return
             }
             
             if httpResponse.statusCode == 400 {
-                print("Error took place: \(httpResponse.statusCode) Could not find series with ID: \(seriesId)")
+                Debug.debug(msg: "Error took place: \(httpResponse.statusCode) Could not find series with ID: \(seriesId)", level: .error)
                 returnData = ["error": "Could not find series with ID: \(seriesId)"]
                 return
             }
             
             if !(200...299).contains(httpResponse.statusCode) {
-                print("Error took place: \(httpResponse.statusCode)")
+                Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .error)
                 returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
                 return
             }
             
             // Convert HTTP Response Data to a String
             if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                print("Response data string:\n \(dataString)")
+                Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                 
                 returnData = ["success": "\(dataString)"]
             }
@@ -686,51 +669,6 @@ struct APIHelper {
         group.wait()
         return returnData
     }
-    
-    // UNUSED
-    // TAGS - GET ALL
-    /*
-    static func getTags(token: String?) -> [String:String] {
-        // return unknown error if no other code overwrites with the correct error or success message
-        var returnData: [String:String] = ["error": "unknown error"]
-        
-        // Prepare URL
-        let url = URL(string: API_HOST+"tags/")
-        guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
-        
-        // Prepare URL Request Object
-        var request = URLRequest(url: requestUrl)
-        request.httpMethod = "GET"
-        
-        //Prepare HTTP Request Header
-        let value = "Token \(token ?? "")"
-        request.setValue(value, forHTTPHeaderField: "Authorization")
-        
-        let group = DispatchGroup()
-        group.enter()
-        // Perform HTTP Request
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            defer { group.leave() }
-            
-            // Check for Error
-            if let error = error {
-                print("Error took place: \(error)")
-                returnData = ["error": "\(error)"]
-                return
-            }
-            
-            // Convert HTTP Response Data to a String
-            if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                print("Response data string:\n \(dataString)")
-                
-                returnData = ["success": "\(dataString)"]
-            }
-        }
-        task.resume()
-        group.wait()
-        return returnData
-    }
-     */
     
     // TAGS - DELETE
     static func deleteTag(token: String?, tagName: String) -> [String:String] {
@@ -757,33 +695,32 @@ struct APIHelper {
             
             // Check for Error
             if let error = error {
-                print("Error took place: \(error)")
+                Debug.debug(msg: "Error took place: \(error)", level: .error)
                 returnData = ["error": "\(error)"]
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse else {
-                print("Error took place")
+                Debug.debug(msg: "Error took place", level: .error)
                 returnData = ["error": "Unknown error communicating with server"]
                 return
             }
             
             if httpResponse.statusCode == 400 {
-                print("Error took place: \(httpResponse.statusCode) Could not find any tags matching the name '\(tagName)'")
+                Debug.debug(msg: "Error took place: \(httpResponse.statusCode) Could not find any tags matching the name '\(tagName)'", level: .error)
                 returnData = ["error": "Could not find any \(tagName) tags"]
                 return
             }
             
             if !(200...299).contains(httpResponse.statusCode) {
-                print("Error took place: \(httpResponse.statusCode)")
+                Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .error)
                 returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
                 return
             }
             
             // Convert HTTP Response Data to a String
             if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                print("Response data string:\n \(dataString)")
-                
+                Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                 returnData = ["success": "\(dataString)"]
             }
         }
@@ -823,7 +760,7 @@ struct APIHelper {
         encoder.outputFormatting = .prettyPrinted
 
         if let jsonData = try? encoder.encode(tag) {
-            print(String(data: jsonData, encoding: .utf8)!)
+            Debug.debug(msg: String(data: jsonData, encoding: .utf8)!, level: .verbose)
 
             request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
             request.httpBody = jsonData
@@ -836,26 +773,26 @@ struct APIHelper {
 
                 // Check for Error
                 if let error = error {
-                    print("Error took place: \(error)")
+                    Debug.debug(msg: "Error took place: \(error)", level: .error)
                     returnData = ["error": "\(error)"]
                     return
                 }
 
                 guard let httpResponse = response as? HTTPURLResponse else {
-                    print("Error took place")
+                    Debug.debug(msg: "Error took place", level: .error)
                     returnData = ["error": "Unknown error communicating with server"]
                     return
                 }
 
                 if !(200...299).contains(httpResponse.statusCode) {
-                    print("Error took place: \(httpResponse.statusCode)")
+                    Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .error)
                     returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
                     return
                 }
 
                 // Convert HTTP Response Data to a String
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                    print("Response data string:\n \(dataString)")
+                    Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                     returnData = ["success": "\(dataString)"]
                 }
             }
@@ -865,9 +802,59 @@ struct APIHelper {
             return returnData
 
         } else {
-            print("error occurred during JSON encoding")
+            Debug.debug(msg: "error occurred during JSON encoding", level: .error)
             return ["error": "Could not encode object to JSON"]
         }
+    }
+    
+//  EX: https://www.googleapis.com/books/v1/volumes?q=isbn:1429967943
+    static func getBookByISBN(isbn: String) -> [String:String] {
+        // return unknown error if no other code overwrites with the correct error or success message
+        var returnData: [String:String] = ["error": "unknown error"]
+        
+        // Prepare URL
+        let url = URL(string: GOOGLE_BOOKS+"isbn:"+isbn)
+        guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
+        
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "GET"
+        
+        let group = DispatchGroup()
+        group.enter()
+        // Perform HTTP Request
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            defer { group.leave() }
+            
+            // Check for Error
+            if let error = error {
+                Debug.debug(msg: "Error took place: \(error)", level: .verbose)
+                returnData = ["error": "\(error)"]
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                Debug.debug(msg: "Error took place", level: .verbose)
+                returnData = ["error": "Unknown error communicating with server"]
+                return
+            }
+            
+            if !(200...299).contains(httpResponse.statusCode) {
+                Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .verbose)
+                returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
+                return
+            }
+            
+            // Convert HTTP Response Data to a String
+            if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
+                
+                returnData = ["success": "\(dataString)"]
+            }
+        }
+        task.resume()
+        group.wait()
+        return returnData
     }
     
 }

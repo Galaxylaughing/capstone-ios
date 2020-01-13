@@ -49,8 +49,8 @@ struct TagListView: View {
             let currTag = list[tagindex]
             let prevTag = list[tagindex - 1]
             
-            print("current tag \(currTag.name)")
-            print("previous tag \(prevTag.name)")
+            Debug.debug(msg: "current tag \(currTag.name)", level: .verbose)
+            Debug.debug(msg: "previous tag \(prevTag.name)", level: .verbose)
             
             if prevTag.subtags.count > subtagindex {
                 if currTag.subtags[subtagindex] == prevTag.subtags[subtagindex] {

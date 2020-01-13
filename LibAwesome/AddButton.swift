@@ -24,6 +24,9 @@ struct AddButton: View {
             AddBookForm(showForm: self.$showForm)
                 .environmentObject(self.env)
         }
+        .contextMenu() {
+            AddByISBNButton()
+        }
     }
 }
 

@@ -228,6 +228,7 @@ struct EditBookForm: View {
             authors: self.bookToEdit.authors,
             position: seriesData["position"] ?? nil,
             seriesId: seriesData["seriesId"] ?? nil,
+            // TODO: add other fields
             tags: self.bookToEdit.tags)
         
         if response["success"] != nil {

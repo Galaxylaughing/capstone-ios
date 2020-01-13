@@ -13,11 +13,11 @@ struct EncodingHelper {
     // TAGS
     static func getTags(from source: BookList) -> TagList {
         let newTagList = TagList(from: source)
-        Debug.debug(msg: "\nRESULTING TAGS:", level: .debug)
+        Debug.debug(msg: "\nRESULTING TAGS:", level: .verbose)
         for tag in newTagList.tags {
-            Debug.debug(msg: tag.name, level: .debug)
+            Debug.debug(msg: tag.name, level: .verbose)
             for book in tag.books {
-                Debug.debug(msg: "-- \(book.title)")
+                Debug.debug(msg: "-- \(book.title)", level: .verbose)
             }
         }
         return newTagList

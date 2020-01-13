@@ -216,6 +216,7 @@ struct AddBookForm: View {
             authors: self.authors,
             position: seriesData["position"] ?? nil,
             seriesId: seriesData["seriesId"] ?? nil,
+            // TODO: add other fields
             tags: self.tags)
     
         if response["success"] != nil {
