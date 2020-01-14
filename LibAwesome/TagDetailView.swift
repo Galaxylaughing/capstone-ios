@@ -27,7 +27,7 @@ struct TagDetailView: View {
                 ForEach(self.env.tag.books.sorted(by: {$0.title < $1.title})) { book in
                     VStack {
                         Button(action: {
-                            BookDetailView.book = book
+                            self.env.book = book
                             self.env.topView = .bookdetail
                         }) {
                             HStack {

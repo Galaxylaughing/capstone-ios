@@ -82,7 +82,6 @@ struct AddBookForm: View {
                     
                     Section(header: Text("add to series")) {
                         VStack(alignment: .leading) {
-                            
                             Toggle(isOn: $assignSeries) {
                                 Text("Assign to Series")
                             }
@@ -90,7 +89,6 @@ struct AddBookForm: View {
                             
                             if self.assignSeries {
                                 Text("").padding(.bottom)
-                                
                                 // side-by-side picker frames from  https://stackoverflow.com/questions/56961550/swiftui-placing-two-pickers-side-by-side-in-hstack-does-not-resize-pickers
                                 HStack {
                                     VStack {

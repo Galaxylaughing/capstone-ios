@@ -20,7 +20,7 @@ struct DeleteBookButton: View {
         }
         .alert(isPresented: self.$showConfirm) {
             if self.error == nil {
-                return Alert(title: Text("Delete '\(BookDetailView.book.title)'"),
+                return Alert(title: Text("Delete '\(self.env.book.title)'"),
                              message: Text("Are you sure?"),
                              primaryButton: .destructive(Text("Delete")) {
                                 self.deleteBook()
@@ -48,18 +48,18 @@ struct DeleteBookButton: View {
     func deleteBook() {
         self.showConfirm = false
         // make DELETE request
-        let response = APIHelper.deleteBook(token: self.env.user.token, bookId: BookDetailView.book.id)
+        let response = APIHelper.deleteBook(token: self.env.user.token, bookId: self.env.book.id)
         if response["success"] != nil {
             // remove book from environment
-            if let indexToDelete = self.env.bookList.books.firstIndex(where: {$0.id == BookDetailView.book.id}) {
+            if let indexToDelete = self.env.bookList.books.firstIndex(where: {$0.id == self.env.book.id}) {
                 let bookList = self.env.bookList
                 bookList.books.remove(at: indexToDelete)
 
-                let currentTags = BookDetailView.book.tags
+                let currentTags = self.env.book.tags
                 for currentTag in currentTags {
                     // remove book from tag
                     if let tag = self.env.tagList.tags.first(where: {$0.name == currentTag}) {
-                        if let index = tag.books.firstIndex(where: {$0.id == BookDetailView.book.id}) {
+                        if let index = tag.books.firstIndex(where: {$0.id == self.env.book.id}) {
                             tag.books.remove(at: index)
                         }
                     }
@@ -67,7 +67,7 @@ struct DeleteBookButton: View {
                 
                 let envTag = self.env.tag
                 for book in envTag.books {
-                    if book.id == BookDetailView.book.id {
+                    if book.id == self.env.book.id {
                         // remove book from envTag
                         if let index = envTag.books.firstIndex(where: {$0.id == book.id}) {
                             envTag.books.remove(at: index)

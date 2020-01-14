@@ -10,7 +10,6 @@ import SwiftUI
 
 struct EditBookButton: View {
     @EnvironmentObject var env: Env
-    @EnvironmentObject var book: BookList.Book
     @State var showForm: Bool = false
     
     var body: some View {
@@ -19,24 +18,23 @@ struct EditBookButton: View {
         }.sheet(isPresented: $showForm) {
             EditBookForm(showForm: self.$showForm,
                          bookToEdit: BookList.Book(
-                            id: self.book.id,
-                            title: self.book.title,
-                            authors: self.book.authors,
-                            position: self.book.position,
-                            seriesId: self.book.seriesId,
-                            tags: self.book.tags),
-                         assignSeries: (self.book.seriesId != nil),
+                            id: self.env.book.id,
+                            title: self.env.book.title,
+                            authors: self.env.book.authors,
+                            position: self.env.book.position,
+                            seriesId: self.env.book.seriesId,
+                            tags: self.env.book.tags),
+                         assignSeries: (self.env.book.seriesId != nil),
                          seriesIndex: self.getSeriesIndex(),
-                         seriesPositionIndex: self.book.position - 1)
+                         seriesPositionIndex: self.env.book.position - 1)
                 .environmentObject(self.env)
-                .environmentObject(self.book)
         }
     }
     
     func getSeriesIndex() -> Int {
         var seriesIndex = 0
         let seriesList = self.env.seriesList.series
-        if let index = seriesList.firstIndex(where: {$0.id == self.book.seriesId}) {
+        if let index = seriesList.firstIndex(where: {$0.id == self.env.book.seriesId}) {
             seriesIndex = index
         }
         return seriesIndex
@@ -54,6 +52,5 @@ struct EditBookButton_Previews: PreviewProvider {
     
     static var previews: some View {
         EditBookButton()
-            .environmentObject(self.exampleBook)
     }
 }

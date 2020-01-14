@@ -35,7 +35,7 @@ struct NavView: View {
         prevView = NavView.stack.last ?? .home
         
         if (prevView == .tagdetail && env.tag.books.count == 0)
-            || (prevView == .authordetail && !BookDetailView.book.authors.contains(AuthorDetailView.author.name)) {
+        || (prevView == .authordetail && !env.book.authors.contains(AuthorDetailView.author.name)) {
             prevView = NavView.stack.popLast() ?? .home
             prevView = NavView.stack.last ?? .home
         }
@@ -66,7 +66,7 @@ struct NavView: View {
         HStack {
             // Edit Button
             if self.env.topView == .bookdetail {
-                EditBookButton().environmentObject(BookDetailView.book)
+                EditBookButton()
             } else if self.env.topView == .seriesdetail {
                 EditSeriesButton().environmentObject(SeriesDetailView.series)
             } else if self.env.topView == .tagdetail && TagDetailView.showEditButtons {

@@ -10,7 +10,6 @@ import SwiftUI
 
 struct AuthorDetailView: View {
     @EnvironmentObject var env: Env
-//    @EnvironmentObject var author: AuthorList.Author
     static var author: AuthorList.Author = AuthorList.Author()
     
     var body: some View {
@@ -30,9 +29,8 @@ struct AuthorDetailView: View {
                     
                     List {
                         ForEach(AuthorDetailView.author.books.sorted(by: {$0.title < $1.title})) { book in
-//                            NavigationLink(destination: BookDetailView().environmentObject(book)) {
                             Button(action: {
-                                BookDetailView.book = book
+                                self.env.book = book
                                 self.env.topView = .bookdetail
                             }) {
                                 HStack {

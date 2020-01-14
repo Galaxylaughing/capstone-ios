@@ -23,7 +23,7 @@ struct BookListView: View {
                     ForEach(env.bookList.books.sorted(by: {$0 < $1})) { book in
 //                        NavigationLink(destination: BookDetailView().environmentObject(book)) {
                         Button(action: {
-                            BookDetailView.book = book
+                            self.env.book = book
                             self.env.topView = .bookdetail
                         }) {
                             HStack {

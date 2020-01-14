@@ -39,7 +39,7 @@ struct SeriesDetailView: View {
                         ForEach(self.getBooks().sorted(by: {$0.position < $1.position})) { book in
 //                            NavigationLink(destination: BookDetailView().environmentObject(book)) {
                             Button(action: {
-                                BookDetailView.book = book
+                                self.env.book = book
                                 self.env.topView = .bookdetail
                             }) {
                                 HStack {

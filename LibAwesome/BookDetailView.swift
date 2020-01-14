@@ -10,16 +10,16 @@ import SwiftUI
 
 struct BookDetailView: View {
     @EnvironmentObject var env: Env
-    static var book: BookList.Book = BookList.Book()
     
     struct DisplayHeader: View {
+        @EnvironmentObject var env: Env
         fileprivate func displayHeader() -> some View {
             return Section() {
                 VStack {
-                    ForEach(BookDetailView.book.findComponents(), id: \.self) { component in
+                    ForEach(self.env.book.findComponents(), id: \.self) { component in
                         VStack {
-                            if component == BookDetailView.book.getMainTitle() {
-                                Text(BookDetailView.book.getMainTitle())
+                            if component == self.env.book.getMainTitle() {
+                                Text(self.env.book.getMainTitle())
                                     .font(.largeTitle)
                                     .multilineTextAlignment(.center)
                                     .padding(.horizontal)
@@ -30,7 +30,7 @@ struct BookDetailView: View {
                             }
                         }
                     }
-                    Text(BookDetailView.book.authorNames())
+                    Text(self.env.book.authorNames())
                     .font(.headline)
                     .multilineTextAlignment(.center)
                     .padding(.top)
@@ -48,20 +48,20 @@ struct BookDetailView: View {
         @EnvironmentObject var env: Env
         
         fileprivate func getSeriesName() -> String {
-            if let series = self.env.seriesList.series.first(where: {$0.id == BookDetailView.book.seriesId}) {
+            if let series = self.env.seriesList.series.first(where: {$0.id == self.env.book.seriesId}) {
                 return series.name
             }
             return "[unknown]"
         }
         
         fileprivate func displaySeriesInfo() -> AnyView {
-            if BookDetailView.book.seriesId != nil {
+            if self.env.book.seriesId != nil {
                 return AnyView(
                     VStack {
                         Divider()
                         Section() {
                             HStack {
-                                Text("# \(String(BookDetailView.book.position))")
+                                Text("# \(String(self.env.book.position))")
                                 Text("|")
                                 Text("\(self.getSeriesName())")
                             }
@@ -80,6 +80,7 @@ struct BookDetailView: View {
     }
     
     struct DisplayTags: View {
+        @EnvironmentObject var env: Env
         @State private var showTags: Bool = false
         
         fileprivate func displayTags() -> AnyView {
@@ -98,11 +99,11 @@ struct BookDetailView: View {
                             }
                         }
                         if self.showTags {
-                            if BookDetailView.book.tags.count > 0 {
+                            if self.env.book.tags.count > 0 {
                                 HStack {
                                     Spacer()
                                     VStack(alignment: .leading) {
-                                        ForEach(Alphabetical(BookDetailView.book.tags), id: \.self) { tag in
+                                        ForEach(Alphabetical(self.env.book.tags), id: \.self) { tag in
                                             TagBubble(text: tag)
                                                 .padding(.vertical, 4.0)
                                         }
@@ -127,30 +128,31 @@ struct BookDetailView: View {
     }
     
     struct DisplayISBNs: View {
+        @EnvironmentObject var env: Env
         @State private var showISBNs: Bool = false
         
         fileprivate func listISBNs() -> AnyView {
             var view: AnyView
-            if BookDetailView.book.isbn10 != nil
-            && BookDetailView.book.isbn13 != nil {
+            if self.env.book.isbn10 != nil
+            && self.env.book.isbn13 != nil {
                 view = AnyView(
                     VStack(alignment: .leading) {
-                        Text("ISBN-10: \(BookDetailView.book.isbn10!)")
-                        Text("ISBN-13: \(BookDetailView.book.isbn13!)")
+                        Text("ISBN-10: \(self.env.book.isbn10!)")
+                        Text("ISBN-13: \(self.env.book.isbn13!)")
                     }
                     .padding(.top)
                 )
-            } else if BookDetailView.book.isbn10 != nil {
+            } else if self.env.book.isbn10 != nil {
                 view = AnyView(
                     VStack(alignment: .leading) {
-                        Text("ISBN-10: \(BookDetailView.book.isbn10!)")
+                        Text("ISBN-10: \(self.env.book.isbn10!)")
                     }
                     .padding(.top)
                 )
-            } else if BookDetailView.book.isbn13 != nil {
+            } else if self.env.book.isbn13 != nil {
                 view = AnyView(
                     VStack(alignment: .leading) {
-                        Text("ISBN-10: \(BookDetailView.book.isbn13!)")
+                        Text("ISBN-10: \(self.env.book.isbn13!)")
                     }
                     .padding(.top)
                 )
@@ -175,8 +177,8 @@ struct BookDetailView: View {
                         }
                     }
                     if self.showISBNs {
-                        if (BookDetailView.book.isbn10 != nil)
-                        || (BookDetailView.book.isbn13 != nil) {
+                        if (self.env.book.isbn10 != nil)
+                        || (self.env.book.isbn13 != nil) {
                             self.listISBNs()
                         } else {
                             Text("No ISBNs available.")
@@ -193,19 +195,20 @@ struct BookDetailView: View {
     }
     
     struct DisplayPublicationInfo: View {
+        @EnvironmentObject var env: Env
         @State private var showPublicationInfo: Bool = false
         
         fileprivate func listPublicationInfo() -> AnyView {
             return AnyView(
                 VStack {
-                    if BookDetailView.book.pageCount != nil {
-                        Text("\(BookDetailView.book.pageCount!) pages")
+                    if self.env.book.pageCount != nil {
+                        Text("\(self.env.book.pageCount!) pages")
                     }
-                    if BookDetailView.book.publicationDate != nil {
-                        Text("published \(BookDetailView.book.publicationDate!)")
+                    if self.env.book.publicationDate != nil {
+                        Text("published \(self.env.book.publicationDate!)")
                     }
-                    if BookDetailView.book.publisher != nil {
-                        Text("by \(BookDetailView.book.publisher!)")
+                    if self.env.book.publisher != nil {
+                        Text("by \(self.env.book.publisher!)")
                     }
                 }
                 .padding(.top)
@@ -227,9 +230,9 @@ struct BookDetailView: View {
                         }
                     }
                     if self.showPublicationInfo {
-                        if (BookDetailView.book.pageCount != nil)
-                        || (BookDetailView.book.publicationDate != nil)
-                        || (BookDetailView.book.publisher != nil) {
+                        if (self.env.book.pageCount != nil)
+                        || (self.env.book.publicationDate != nil)
+                        || (self.env.book.publisher != nil) {
                             self.listPublicationInfo()
                         } else {
                             Text("No publication information available.")
@@ -247,13 +250,14 @@ struct BookDetailView: View {
     }
     
     struct DisplayDescription: View {
+        @EnvironmentObject var env: Env
         @State private var showDescription: Bool = false
         
         fileprivate func listDescription() -> some View {
             var view: AnyView
-            if BookDetailView.book.description != nil {
+            if self.env.book.description != nil {
                 view = AnyView(
-                    Text("\(BookDetailView.book.description!)")
+                    Text("\(self.env.book.description!)")
                 )
             } else {
                 view = AnyView(

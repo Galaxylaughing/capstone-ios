@@ -89,7 +89,7 @@ struct AddByISBNForm: View {
                 bookList.books.append(newBook)
                 Env.setEnv(in: self.env, to: bookList)
                 DispatchQueue.main.async {
-                    BookDetailView.book = newBook
+                    self.env.book = newBook
                     self.env.topView = .bookdetail
                 }
             }

@@ -11,7 +11,7 @@ import SwiftUI
 struct EditBookForm: View {
     @Binding var showForm: Bool
     @EnvironmentObject var env: Env
-    @EnvironmentObject var book: BookList.Book
+//    @EnvironmentObject var book: BookList.Book
     
     @State private var error: ErrorAlert?
     
@@ -42,6 +42,15 @@ struct EditBookForm: View {
             Text("Cancel")
         }
     }
+        
+    fileprivate func editBookTitle() -> some View {
+        return Section(header: Text("title")) {
+            HStack {
+                TextField("title", text: $bookToEdit.title)
+                    .lineLimit(nil) // if swiftui bug is fixed, will allow multiline textfield
+            }
+        }
+    }
     
     var body: some View {
         NavigationView {
@@ -53,6 +62,7 @@ struct EditBookForm: View {
                                 .lineLimit(nil) // if swiftui bug is fixed, will allow multiline textfield
                         }
                     }
+//                    self.editBookTitle()
                     
                     Section(header: Text("author(s)")) {
                         if bookToEdit.authors.count > 0 {
@@ -223,7 +233,7 @@ struct EditBookForm: View {
         // make PUT to update book
         let response = APIHelper.putBook(
             token: self.env.user.token,
-            bookId: book.id,
+            bookId: self.env.book.id,
             title: self.bookToEdit.title,
             authors: self.bookToEdit.authors,
             position: seriesData["position"] ?? nil,
@@ -272,15 +282,11 @@ struct EditBookForm: View {
                     }
                     
                     DispatchQueue.main.async {
+                        self.env.book = newBook
+                        self.env.topView = .bookdetail
                         self.env.seriesList = seriesList
                         self.env.tag = TagList.Tag(name: currentTag.name, books: currentTag.books)
                     }
-                    // update book in state
-                    self.book.title = newBook.title
-                    self.book.authors = newBook.authors
-                    self.book.position = newBook.position
-                    self.book.seriesId = newBook.seriesId
-                    self.book.tags = newBook.tags
                 }
             }
             // should dismiss sheet if success
@@ -333,6 +339,6 @@ struct EditBookForm_Previews: PreviewProvider {
     static var previews: some View {
         EditBookForm(showForm: $showForm, bookToEdit: bookToEdit, assignSeries: false, seriesIndex: 1, seriesPositionIndex: 1)
             .environmentObject(self.exampleBook)
-            .environmentObject(self.env)
+//            .environmentObject(self.env)
     }
 }
