@@ -311,7 +311,8 @@ struct AddBookForm: View {
 
         // determine page count
         let stringPageCount = self.bookToAdd.pageCount
-        let cleanPageCount = stringPageCount.replacingOccurrences(of: ",", with: "")
+        let cleanPageCount = stringPageCount.components(
+            separatedBy: CharacterSet.decimalDigits.inverted).joined()
         // Int() produces nil for not-numberifiable strings, including empty string
         let numberified = Int(cleanPageCount)
         bookToSend.page_count = numberified

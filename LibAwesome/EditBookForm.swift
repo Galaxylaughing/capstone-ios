@@ -328,7 +328,8 @@ struct EditBookForm: View {
         
         // determine page count
         let stringPageCount = self.bookToEdit.pageCount
-        let cleanPageCount = stringPageCount.replacingOccurrences(of: ",", with: "")
+        let cleanPageCount = stringPageCount.components(
+            separatedBy: CharacterSet.decimalDigits.inverted).joined()
         // Int(x) produces nil for not-numberifiable strings, including empty string
         let numberified = Int(cleanPageCount)
         if numberified == nil {
@@ -342,7 +343,10 @@ struct EditBookForm: View {
         if self.bookToEdit.description == "" {
             prepBook.description = nil
         } else {
-            prepBook.description = self.bookToEdit.description
+            // swap any backslash-n's out for carriage returns
+            let description = self.bookToEdit.description
+            let cleanDescription = description.replacingOccurrences(of: "\\n", with: "\n")
+            prepBook.description = cleanDescription
         }
         Debug.debug(msg: "    Description: \(prepBook.description ?? "none")", level: .debug)
         
