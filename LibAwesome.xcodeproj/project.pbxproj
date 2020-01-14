@@ -46,6 +46,7 @@
 		041FB3D123CCEA2900D34B41 /* AddByISBNForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041FB3D023CCEA2900D34B41 /* AddByISBNForm.swift */; };
 		041FB3D523CD169600D34B41 /* ISBNHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041FB3D423CD169600D34B41 /* ISBNHelper.swift */; };
 		041FB3D723CD170600D34B41 /* GoogleBooksHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041FB3D623CD170600D34B41 /* GoogleBooksHelper.swift */; };
+		041FB3DE23CE522200D34B41 /* FormBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041FB3DD23CE522200D34B41 /* FormBook.swift */; };
 		04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3223BBA43B003706C6 /* AppDelegate.swift */; };
 		04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */; };
 		04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3623BBA43B003706C6 /* TabbedView.swift */; };
@@ -143,6 +144,7 @@
 		041FB3D023CCEA2900D34B41 /* AddByISBNForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddByISBNForm.swift; sourceTree = "<group>"; };
 		041FB3D423CD169600D34B41 /* ISBNHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISBNHelper.swift; sourceTree = "<group>"; };
 		041FB3D623CD170600D34B41 /* GoogleBooksHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleBooksHelper.swift; sourceTree = "<group>"; };
+		041FB3DD23CE522200D34B41 /* FormBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormBook.swift; sourceTree = "<group>"; };
 		04AA7C2F23BBA43B003706C6 /* LibAwesome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LibAwesome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AA7C3223BBA43B003706C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 			children = (
 				04AA7C7A23BBB99E003706C6 /* User.swift */,
 				0413024723BFE91300FDF25B /* BookList.swift */,
+				041FB3DD23CE522200D34B41 /* FormBook.swift */,
 				0413027023C3AFA700FDF25B /* SeriesList.swift */,
 				04E3125A23C8D93700757B56 /* AuthorList.swift */,
 				04080F3B23C67716006E1523 /* TagList.swift */,
@@ -580,6 +583,7 @@
 			files = (
 				04E3126923CA6DAA00757B56 /* NavView.swift in Sources */,
 				04E3125F23C8EDFE00757B56 /* AuthorDetailView.swift in Sources */,
+				041FB3DE23CE522200D34B41 /* FormBook.swift in Sources */,
 				0413028423C5098300FDF25B /* EditSeriesForm.swift in Sources */,
 				0413025923C28E5000FDF25B /* EditBookForm.swift in Sources */,
 				04E3125523C7C77D00757B56 /* EditTagButton.swift in Sources */,

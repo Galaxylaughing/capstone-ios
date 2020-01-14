@@ -10,31 +10,17 @@ import SwiftUI
 
 struct AddBookForm: View {
     @EnvironmentObject var env: Env
+    @State private var bookToAdd: FormBook = FormBook()
     
     @State private var error: ErrorAlert?
     @Binding var showForm: Bool
-    
-    // form fields
-    @State private var title: String = ""
-    @State private var authors: [String] = []
-    @State private var author: String = ""
-    
-    @State private var assignSeries: Bool = false
-    @State private var seriesIndex = 0
-    @State private var seriesPositionIndex = 0
-    let seriesPositions: [Int] = Array(1...100)
-    
-    @State var tagChecklist: [CheckListItem] = []
-    @State private var tags: [String] = []
-    @State private var newTag: String = ""
-    
     
     fileprivate func saveButton() -> some View {
         return Button(action: { self.createBook() }) {
             Text("Add Book")
         }
             // disable if no title or authors
-            .disabled(self.title == "" || self.authors.count == 0)
+            .disabled(self.bookToAdd.title == "" || self.bookToAdd.authors.count == 0)
             .alert(item: $error, content: { error in
                 AlertHelper.alert(reason: error.reason)
             })
@@ -46,93 +32,115 @@ struct AddBookForm: View {
         }
     }
     
-    var body: some View {
-        NavigationView {
-            VStack {
-                Form {
-                    Section(header: Text("title")) {
-                        VStack(alignment: .leading) {
-                            TextField("book title", text: $title)
-                        }
-                    }
-                    
-                    Section(header: Text("author(s)")) {
-                        VStack(alignment: .leading) {
-                            HStack {
-                                TextField("author name", text: $author)
-                                Spacer()
-                                Button(action: { self.addAuthor() } ) {
-                                    Image(systemName: "plus.circle")
-                                }.disabled(self.author == "")
-                            }
-                        }
-                        List {
-                            ForEach(authors, id: \.self) { author in
-                                HStack {
-                                    Text(author)
-                                    Spacer()
-                                    Text("delete")
-                                    Button(action: { self.deleteAuthor(name: author) } ) {
-                                        Image(systemName: "minus.circle")
-                                    }
-                                }
-                            }.onDelete(perform: self.swipeDeleteAuthor)
-                        }
-                    }
-                    
-                    Section(header: Text("add to series")) {
-                        VStack(alignment: .leading) {
-                            Toggle(isOn: $assignSeries) {
-                                Text("Assign to Series")
-                            }
-                            .disabled(!(self.env.seriesList.series.count > 0))
-                            
-                            if self.assignSeries {
-                                Text("").padding(.bottom)
-                                // side-by-side picker frames from  https://stackoverflow.com/questions/56961550/swiftui-placing-two-pickers-side-by-side-in-hstack-does-not-resize-pickers
-                                HStack {
-                                    VStack {
-                                        Text("Number")
-                                        Picker("Position in series", selection: $seriesPositionIndex) {
-                                            ForEach(0 ..< self.seriesPositions.count) {
-                                                Text("\(self.seriesPositions[$0])").tag($0)
-                                            }
-                                        }
-                                        .pickerStyle(WheelPickerStyle())
-                                        .frame(minWidth: 0, maxWidth: 100, minHeight: 0, maxHeight: .infinity)
-                                        .clipped()
-                                    }
-                                    
-                                    VStack {
-                                        Text("Series Name")
-                                        Picker("Series name", selection: $seriesIndex) {
-                                            ForEach(0 ..< self.env.seriesList.series.count) {
-                                                Text("\(self.env.seriesList.series[$0].name)").tag($0)
-                                            }
-                                        }
-                                        .pickerStyle(WheelPickerStyle())
-                                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                                        .clipped()
-                                    }
-                                }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 150)
-                            }
-                            
-                        }
-                    }
-                    
-                    TagUpdate(
-                        tagChecklist: self.$tagChecklist,
-                        newTag: self.$newTag,
-                        addTag: { self.addTag() }
-                    )
-                }
+    // TITLE SECTION
+    func addBookTitle() -> some View {
+        return Section(header: Text("title")) {
+            VStack(alignment: .leading) {
+                TextField("book title", text: $bookToAdd.title)
             }
-            .navigationBarTitle("Add Book", displayMode: .inline)
-            .navigationBarItems(leading: cancelButton(), trailing: saveButton())
         }
-        .onAppear(perform: {self.buildTagChecklist()})
     }
     
+    // AUTHOR SECTION
+    @State private var author: String = ""
+    func deleteAuthor(name: String) {
+        // delete with button
+        if let index = self.bookToAdd.authors.firstIndex(of: name) {
+            DispatchQueue.main.async {
+                self.bookToAdd.authors.remove(at: index)
+            }
+        }
+    }
+    func swipeDeleteAuthor(at offsets: IndexSet) {
+        // delete by swipe
+        DispatchQueue.main.async {
+            self.bookToAdd.authors.remove(atOffsets: offsets)
+        }
+    }
+    func addAuthor() {
+        // add author to list
+        self.bookToAdd.authors.append(self.author)
+        // clear author from field
+        self.author = ""
+    }
+    func addBookAuthors() -> some View {
+        return Section(header: Text("author(s)")) {
+            VStack(alignment: .leading) {
+                HStack {
+                    TextField("author name", text: $author)
+                    Spacer()
+                    Button(action: { self.addAuthor() } ) {
+                        Image(systemName: "plus.circle")
+                    }.disabled(self.author == "")
+                }
+            }
+            List {
+                ForEach(bookToAdd.authors, id: \.self) { author in
+                    HStack {
+                        Text(author)
+                        Spacer()
+                        Text("delete")
+                        Button(action: { self.deleteAuthor(name: author) } ) {
+                            Image(systemName: "minus.circle")
+                        }
+                    }
+                }.onDelete(perform: self.swipeDeleteAuthor)
+            }
+        }
+    }
+    
+    
+    // SERIES SECTION
+    @State private var assignSeries: Bool = false
+    @State private var seriesIndex = 0
+    @State private var seriesPositionIndex = 0
+    let seriesPositions: [Int] = Array(1...100)
+    
+    func addBookSeries() -> some View {
+        return Section(header: Text("add to series")) {
+            VStack(alignment: .leading) {
+                Toggle(isOn: $assignSeries) {
+                    Text("Assign to Series")
+                }
+                .disabled(!(self.env.seriesList.series.count > 0))
+                
+                if self.assignSeries {
+                    Text("").padding(.bottom)
+                    // side-by-side picker frames from  https://stackoverflow.com/questions/56961550/swiftui-placing-two-pickers-side-by-side-in-hstack-does-not-resize-pickers
+                    HStack {
+                        VStack {
+                            Text("Number")
+                            Picker("Position in series", selection: $seriesPositionIndex) {
+                                ForEach(0 ..< self.seriesPositions.count) {
+                                    Text("\(self.seriesPositions[$0])").tag($0)
+                                }
+                            }
+                            .pickerStyle(WheelPickerStyle())
+                            .frame(minWidth: 0, maxWidth: 100, minHeight: 0, maxHeight: .infinity)
+                            .clipped()
+                        }
+                        
+                        VStack {
+                            Text("Series Name")
+                            Picker("Series name", selection: $seriesIndex) {
+                                ForEach(0 ..< self.env.seriesList.series.count) {
+                                    Text("\(self.env.seriesList.series[$0].name)").tag($0)
+                                }
+                            }
+                            .pickerStyle(WheelPickerStyle())
+                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                            .clipped()
+                        }
+                    }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 150)
+                }
+                
+            }
+        }
+    }
+    
+    // TAG SECTION
+    @State var tagChecklist: [CheckListItem] = []
+    @State private var newTag: String = ""
     func addTag() {
         // add tag to checklist
         var checklist: [CheckListItem] = self.tagChecklist
@@ -144,7 +152,6 @@ struct AddBookForm: View {
         // clear tag from field
         self.newTag = ""
     }
-
     func buildTagChecklist() {
         var checklist: [CheckListItem] = []
         // convert env tags to checklist items
@@ -156,66 +163,178 @@ struct AddBookForm: View {
         let alphaChecklist = checklist.sorted(by: {$0 < $1})
         self.tagChecklist = alphaChecklist
     }
-    
-    // AUTHOR FORM FIELDS
-    func deleteAuthor(name: String) {
-        // delete with button
-        if let index = self.authors.firstIndex(of: name) {
-            DispatchQueue.main.async {
-                self.authors.remove(at: index)
-            }
-        }
-    }
-    func swipeDeleteAuthor(at offsets: IndexSet) {
-        // delete by swipe
-        DispatchQueue.main.async {
-            self.authors.remove(atOffsets: offsets)
-        }
-    }
-    func addAuthor() {
-        // add author to list
-        self.authors.append(self.author)
-        // clear author from field
-        self.author = ""
-    }
-    
-    func onChecklistSubmit() {
-        for item in self.tagChecklist {
-            print(item.content, item.isChecked)
-        }
-    }
-
     func unBuildTagChecklist() {
         // assign correct tags to self.tags based on checklist
         for item in self.tagChecklist {
             if item.isChecked {
-                self.tags.append(item.content)
+                self.bookToAdd.tags.append(item.content)
+            }
+        }
+    }
+    func addBookTags() -> some View {
+        return TagUpdate(
+            tagChecklist: self.$tagChecklist,
+            newTag: self.$newTag,
+            addTag: { self.addTag() }
+        )
+    }
+    
+    // ISBN SECTION
+    func editBookIsbn() -> some View {
+        return Section(header: Text("ISBN")) {
+            VStack {
+                HStack {
+                    Text("ISBN-10")
+                    Divider()
+                    TextField("ISBN-10", text: $bookToAdd.isbn10)
+                }
+                HStack {
+                    Text("ISBN-13")
+                    Divider()
+                    TextField("ISBN-13", text: $bookToAdd.isbn13)
+                }
             }
         }
     }
     
-    // SUBMIT FORM
-    func createBook() {
-        self.onChecklistSubmit() // should print current checklist values
+    // PAGE COUNT SECTION
+    func editBookPageCount() -> some View {
+        return HStack {
+                Text("Page Count")
+                Divider()
+                TextField("page count", text: $bookToAdd.pageCount)
+            }
+    }
+    
+    // PUBLICATION INFO SECTION
+    func editBookPub() -> some View {
+        return Section(header: Text("publication information")) {
+            VStack {
+                self.editBookPageCount()
+                HStack {
+                    Text("Publisher")
+                    Divider()
+                    TextField("publisher", text: $bookToAdd.publisher)
+                }
+                HStack {
+                    Text("Publication Date")
+                    Divider()
+                    TextField("YYYY-MM-DD", text: $bookToAdd.publicationDate)
+                }
+            }
+        }
+    }
+    
+    // DESCRIPTION SECTION
+    func editBookDescription() -> some View {
+        return Section(header: Text("description")) {
+            VStack {
+                TextField("description", text: $bookToAdd.description)
+            }
+        }
+    }
+    
+    var body: some View {
+        NavigationView {
+            VStack {
+                Form {
+                    self.addBookTitle()
+                    self.addBookAuthors()
+                    
+                    self.addBookSeries()
+                    self.addBookTags()
+                    
+                    self.editBookIsbn()
+                    self.editBookPub()
+                    self.editBookDescription()
+                }
+            }
+            .navigationBarTitle("Add Book", displayMode: .inline)
+            .navigationBarItems(leading: cancelButton(), trailing: saveButton())
+        }
+        .onAppear(perform: {self.buildTagChecklist()})
+    }
+    
+    fileprivate func prepBookToSend(book: FormBook) -> BookListService.Book {
+        var bookToSend: BookListService.Book = BookListService.Book()
+
+        // determine title
+        bookToSend.title = self.bookToAdd.title
+        // determine authors
+        bookToSend.authors = self.bookToAdd.authors
+
+        // determine tags
         self.unBuildTagChecklist()
-        print("BOOK'S TAGS:", self.tags)
-        
+        bookToSend.tags = self.bookToAdd.tags
+        Debug.debug(msg: "    tags: \(bookToSend.tags)", level: .debug)
+
+        // determine series information
         let seriesData = BookHelper.getSeriesId(
             seriesList: self.env.seriesList,
             assignSeries: self.assignSeries,
             seriesPositions: self.seriesPositions,
             seriesPositionIndex: self.seriesPositionIndex,
             seriesIndex: self.seriesIndex)
+        let position = seriesData["position"] ?? nil
+        let seriesId = seriesData["seriesId"] ?? nil
+        bookToSend.position_in_series = position
+        bookToSend.series = seriesId
+        Debug.debug(msg: "    position \(String(describing: bookToSend.position_in_series)) in series \(String(describing: bookToSend.series))", level: .debug)
         
+        // determine ISBNs
+        if self.bookToAdd.isbn10 == "" {
+            bookToSend.isbn_10 = nil
+        } else {
+            bookToSend.isbn_10 = self.bookToAdd.isbn10
+        }
+        if self.bookToAdd.isbn13 == "" {
+            bookToSend.isbn_13 = nil
+        } else {
+            bookToSend.isbn_13 = self.bookToAdd.isbn13
+        }
+        Debug.debug(msg: "    ISBN-10: \(bookToSend.isbn_10 ?? "none")", level: .debug)
+        Debug.debug(msg: "    ISBN-10: \(bookToSend.isbn_13 ?? "none")", level: .debug)
+
+        // determine publication info
+        if self.bookToAdd.publisher == "" {
+            bookToSend.publisher = nil
+        } else {
+            bookToSend.publisher = self.bookToAdd.publisher
+        }
+        if self.bookToAdd.publicationDate == "" {
+            bookToSend.publication_date = nil
+        } else {
+            bookToSend.publication_date = self.bookToAdd.publicationDate
+        }
+        Debug.debug(msg: "    Publisher: \(bookToSend.publisher ?? "none")", level: .debug)
+        Debug.debug(msg: "    PublicationDate: \(bookToSend.publication_date ?? "none")", level: .debug)
+
+        // determine page count
+        let stringPageCount = self.bookToAdd.pageCount
+        let cleanPageCount = stringPageCount.replacingOccurrences(of: ",", with: "")
+        // Int() produces nil for not-numberifiable strings, including empty string
+        let numberified = Int(cleanPageCount)
+        bookToSend.page_count = numberified
+        Debug.debug(msg: "    page count: \(String(describing: bookToSend.page_count))", level: .debug)
+
+        // determine description
+        if self.bookToAdd.description == "" {
+            bookToSend.description = nil
+        } else {
+            bookToSend.description = self.bookToAdd.description
+        }
+        Debug.debug(msg: "    Description: \(bookToSend.description ?? "none")", level: .debug)
+        
+        return bookToSend
+    }
+    
+    // SUBMIT FORM
+    func createBook() {
         // make POST to create a book
+        let bookToSend = self.prepBookToSend(book: self.bookToAdd)
         let response = APIHelper.postBook(
             token: self.env.user.token,
-            title: self.title,
-            authors: self.authors,
-            position: seriesData["position"] ?? nil,
-            seriesId: seriesData["seriesId"] ?? nil,
-            // TODO: add other fields
-            tags: self.tags)
+            book: bookToSend)
     
         if response["success"] != nil {
             // add new book to environment BookList

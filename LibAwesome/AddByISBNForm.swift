@@ -67,19 +67,22 @@ struct AddByISBNForm: View {
         
         // POST book to API
         let googleBook = googleBookList.books[0]
-        let response = APIHelper.postBook(
-            token: self.env.user.token,
+        let bookToSend: BookListService.Book = BookListService.Book(
+            id: 0,
             title: googleBook.title,
             authors: googleBook.authors,
-            position: nil,
-            seriesId: nil,
+            position_in_series: nil,
+            series: nil,
             publisher: googleBook.publisher,
-            publicationDate: googleBook.publicationDate,
-            isbn10: googleBook.isbn10,
-            isbn13: googleBook.isbn13,
-            pageCount: googleBook.pageCount,
+            publication_date: googleBook.publicationDate,
+            isbn_10: googleBook.isbn10,
+            isbn_13: googleBook.isbn13,
+            page_count: googleBook.pageCount,
             description: googleBook.description,
             tags: [])
+        let response = APIHelper.postBook(
+            token: self.env.user.token,
+            book: bookToSend)
         
         if response["success"] != nil {
             print("came back from POSTING with success")

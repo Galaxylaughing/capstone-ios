@@ -250,7 +250,6 @@ struct EditBookForm: View {
         }
     }
     
-    
     // EDIT BOOK FORM BODY
     var body: some View {
         NavigationView {
@@ -273,18 +272,18 @@ struct EditBookForm: View {
         .onAppear(perform: {self.buildTagChecklist()})
     }
     
-    fileprivate func prepBookToSend(book: FormBook) -> BookList.Book {
-        let bookToSend: BookList.Book = BookList.Book()
+    fileprivate func prepBookToSend(book: FormBook) -> BookListService.Book {
+        let prepBook: BookList.Book = BookList.Book()
         
         // determine title
-        bookToSend.title = self.bookToEdit.title
+        prepBook.title = self.bookToEdit.title
         // determine authors
-        bookToSend.authors = self.bookToEdit.authors
+        prepBook.authors = self.bookToEdit.authors
         
         // determine tags
         self.unBuildTagChecklist()
-        bookToSend.tags = self.bookToEdit.tags
-        Debug.debug(msg: "    tags: \(bookToSend.tags)", level: .debug)
+        prepBook.tags = self.bookToEdit.tags
+        Debug.debug(msg: "    tags: \(prepBook.tags)", level: .debug)
         
         // determine series information
         let seriesData = BookHelper.getSeriesId(
@@ -295,37 +294,37 @@ struct EditBookForm: View {
             seriesIndex: self.seriesIndex)
         let position = seriesData["position"] ?? nil
         let seriesId = seriesData["seriesId"] ?? nil
-        bookToSend.position = position ?? -1
-        bookToSend.seriesId = seriesId ?? -1
-        Debug.debug(msg: "    position \(bookToSend.position) in series \(String(describing: bookToSend.seriesId))", level: .debug)
+        prepBook.position = position ?? -1
+        prepBook.seriesId = seriesId ?? -1
+        Debug.debug(msg: "    position \(prepBook.position) in series \(String(describing: prepBook.seriesId))", level: .debug)
         
         // determine ISBNs
         if self.bookToEdit.isbn10 == "" {
-            bookToSend.isbn10 = nil
+            prepBook.isbn10 = nil
         } else {
-            bookToSend.isbn10 = self.bookToEdit.isbn10
+            prepBook.isbn10 = self.bookToEdit.isbn10
         }
         if self.bookToEdit.isbn13 == "" {
-            bookToSend.isbn13 = nil
+            prepBook.isbn13 = nil
         } else {
-            bookToSend.isbn13 = self.bookToEdit.isbn13
+            prepBook.isbn13 = self.bookToEdit.isbn13
         }
-        Debug.debug(msg: "    ISBN-10: \(bookToSend.isbn10 ?? "none")", level: .debug)
-        Debug.debug(msg: "    ISBN-10: \(bookToSend.isbn13 ?? "none")", level: .debug)
+        Debug.debug(msg: "    ISBN-10: \(prepBook.isbn10 ?? "none")", level: .debug)
+        Debug.debug(msg: "    ISBN-10: \(prepBook.isbn13 ?? "none")", level: .debug)
         
         // determine publication info
         if self.bookToEdit.publisher == "" {
-            bookToSend.publisher = nil
+            prepBook.publisher = nil
         } else {
-            bookToSend.publisher = self.bookToEdit.publisher
+            prepBook.publisher = self.bookToEdit.publisher
         }
         if self.bookToEdit.publicationDate == "" {
-            bookToSend.publicationDate = nil
+            prepBook.publicationDate = nil
         } else {
-            bookToSend.publicationDate = self.bookToEdit.publicationDate
+            prepBook.publicationDate = self.bookToEdit.publicationDate
         }
-        Debug.debug(msg: "    Publisher: \(bookToSend.publisher ?? "none")", level: .debug)
-        Debug.debug(msg: "    PublicationDate: \(bookToSend.publicationDate ?? "none")", level: .debug)
+        Debug.debug(msg: "    Publisher: \(prepBook.publisher ?? "none")", level: .debug)
+        Debug.debug(msg: "    PublicationDate: \(prepBook.publicationDate ?? "none")", level: .debug)
         
         // determine page count
         let stringPageCount = self.bookToEdit.pageCount
@@ -333,20 +332,21 @@ struct EditBookForm: View {
         // Int(x) produces nil for not-numberifiable strings, including empty string
         let numberified = Int(cleanPageCount)
         if numberified == nil {
-            bookToSend.pageCount = -1
+            prepBook.pageCount = -1
         } else {
-            bookToSend.pageCount = numberified!
+            prepBook.pageCount = numberified!
         }
-        Debug.debug(msg: "    page count: \(String(describing: bookToSend.pageCount))", level: .debug)
+        Debug.debug(msg: "    page count: \(String(describing: prepBook.pageCount))", level: .debug)
         
         // determine description
         if self.bookToEdit.description == "" {
-            bookToSend.description = nil
+            prepBook.description = nil
         } else {
-            bookToSend.description = self.bookToEdit.description
+            prepBook.description = self.bookToEdit.description
         }
-        Debug.debug(msg: "    Description: \(bookToSend.description ?? "none")", level: .debug)
+        Debug.debug(msg: "    Description: \(prepBook.description ?? "none")", level: .debug)
         
+        let bookToSend = BookListService.Book(from: prepBook)
         return bookToSend
     }
     

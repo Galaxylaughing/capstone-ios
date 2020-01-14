@@ -223,18 +223,33 @@ struct BookListService: Decodable {
     let books: [Book]
     
     struct Book: Codable {
-        let id: Int
-        let title: String
-        let authors: [String]
-        let position_in_series: Int?
-        let series: Int?
-        let publisher: String?
-        let publication_date: String?
-        let isbn_10: String?
-        let isbn_13: String?
-        let page_count: Int?
-        let description: String?
-        let tags: [String]
+        var id: Int
+        var title: String
+        var authors: [String]
+        var position_in_series: Int?
+        var series: Int?
+        var publisher: String?
+        var publication_date: String?
+        var isbn_10: String?
+        var isbn_13: String?
+        var page_count: Int?
+        var description: String?
+        var tags: [String]
+        
+        init() {
+            self.id = 0
+            self.title = ""
+            self.authors = []
+            self.position_in_series = nil
+            self.series = nil
+            self.publisher = nil
+            self.publication_date = nil
+            self.isbn_10 = nil
+            self.isbn_13 = nil
+            self.page_count = nil
+            self.description = nil
+            self.tags = []
+        }
         
         init(
             id: Int,

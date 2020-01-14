@@ -163,17 +163,7 @@ struct APIHelper {
     // BOOK - POST/CREATE
     static func postBook(
         token: String?,
-        title: String,
-        authors: [String],
-        position: Int? = nil,
-        seriesId: Int? = nil,
-        publisher: String? = nil,
-        publicationDate: String? = nil,
-        isbn10: String? = nil,
-        isbn13: String? = nil,
-        pageCount: Int? = nil,
-        description: String? = nil,
-        tags: [String] = []) -> [String:String] {
+        book: BookListService.Book) -> [String:String] {
         
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
@@ -191,19 +181,6 @@ struct APIHelper {
         request.setValue(value, forHTTPHeaderField: "Authorization")
         
         // set body
-        let book = BookListService.Book(
-            id: 0,
-            title: title,
-            authors: authors,
-            position_in_series: position,
-            series: seriesId,
-            publisher: publisher,               // TODO
-            publication_date: publicationDate,  // TODO
-            isbn_10: isbn10,                    // TODO
-            isbn_13: isbn13,                    // TODO
-            page_count: pageCount,              // TODO
-            description: description,           // TODO
-            tags: tags)
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
 
@@ -246,7 +223,7 @@ struct APIHelper {
                 
                 // Convert HTTP Response Data to a String
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                    Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
+                    Debug.debug(msg: "Response data string:\n \(dataString)", level: .debug)
                     returnData = ["success": "\(dataString)"]
                 }
             }
@@ -323,7 +300,7 @@ struct APIHelper {
     static func putBook(
         token: String?,
         bookId: Int,
-        book: BookList.Book) -> [String:String] {
+        book: BookListService.Book) -> [String:String] {
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
         
@@ -340,7 +317,6 @@ struct APIHelper {
         request.setValue(value, forHTTPHeaderField: "Authorization")
         
         // set body
-        let book = BookListService.Book(from: book)
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
 
