@@ -323,17 +323,7 @@ struct APIHelper {
     static func putBook(
         token: String?,
         bookId: Int,
-        title: String,
-        authors: [String],
-        position: Int? = nil,
-        seriesId: Int? = nil,
-        publisher: String? = nil,
-        publicationDate: String? = nil,
-        isbn10: String? = nil,
-        isbn13: String? = nil,
-        pageCount: Int? = nil,
-        description: String? = nil,
-        tags: [String] = []) -> [String:String] {
+        book: BookList.Book) -> [String:String] {
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
         
@@ -350,22 +340,7 @@ struct APIHelper {
         request.setValue(value, forHTTPHeaderField: "Authorization")
         
         // set body
-        let finalPosition = position ?? -1
-        let finalSeriesId = seriesId ?? -1
-        let finalPageCount = pageCount ?? -1
-        let book = BookListService.Book(
-            id: bookId,
-            title: title,
-            authors: authors,
-            position_in_series: finalPosition,
-            series: finalSeriesId,
-            publisher: publisher,               // TODO
-            publication_date: publicationDate,  // TODO
-            isbn_10: isbn10,                    // TODO
-            isbn_13: isbn13,                    // TODO
-            page_count: finalPageCount,         // TODO
-            description: description,           // TODO
-            tags: tags)
+        let book = BookListService.Book(from: book)
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
 

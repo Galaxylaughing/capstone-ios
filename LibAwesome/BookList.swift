@@ -235,6 +235,49 @@ struct BookListService: Decodable {
         let page_count: Int?
         let description: String?
         let tags: [String]
+        
+        init(
+            id: Int,
+            title: String,
+            authors: [String],
+            position_in_series: Int?,
+            series: Int?,
+            publisher: String?,
+            publication_date: String?,
+            isbn_10: String?,
+            isbn_13: String?,
+            page_count: Int?,
+            description: String?,
+            tags: [String]
+        ) {
+            self.id = id
+            self.title = title
+            self.authors = authors
+            self.position_in_series = position_in_series
+            self.series = series
+            self.publisher = publisher
+            self.publication_date = publication_date
+            self.isbn_10 = isbn_10
+            self.isbn_13 = isbn_13
+            self.page_count = page_count
+            self.description = description
+            self.tags = tags
+        }
+        
+        init(from book: BookList.Book) {
+            self.id = book.id
+            self.title = book.title
+            self.authors = book.authors
+            self.position_in_series = book.position
+            self.series = book.seriesId
+            self.publisher = book.publisher
+            self.publication_date = book.publicationDate
+            self.isbn_10 = book.isbn10
+            self.isbn_13 = book.isbn13
+            self.page_count = book.pageCount
+            self.description = book.description
+            self.tags = book.tags
+        }
     }
 }
 

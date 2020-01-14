@@ -10,7 +10,13 @@ import Foundation
 
 struct BookHelper {
     
-    static func getSeriesId(seriesList: SeriesList, assignSeries: Bool, seriesPositions: [Int], seriesPositionIndex: Int, seriesIndex: Int) -> [String:Int?] {
+    static func getSeriesId(
+        seriesList: SeriesList,
+        assignSeries: Bool,
+        seriesPositions: [Int],
+        seriesPositionIndex: Int,
+        seriesIndex: Int) -> [String:Int?] {
+        
         var position: Int? = nil
         var seriesId: Int? = nil
         
