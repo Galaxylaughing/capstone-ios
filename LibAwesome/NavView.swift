@@ -21,6 +21,8 @@ enum TopViews {
     case authordetail
     case seriesdetail
     case tagdetail
+    
+    case googleresults
 }
 
 struct NavView: View {
@@ -152,6 +154,10 @@ struct NavView: View {
             self.turnOnBackButton()
             view = AnyView(TagDetailView())
             
+        case .googleresults:
+            self.turnOnBackButton()
+            view = AnyView(SearchResultList())
+            
         default:
             view = AnyView(HomeView()) // defaults to .home
         }
@@ -179,6 +185,9 @@ struct NavView: View {
             title = "Series Detail"
         case .tagdetail:
             title = "Tag Detail"
+            
+        case .googleresults:
+            title = "Results"
             
         default:
             title = "Home" // defaults to .home

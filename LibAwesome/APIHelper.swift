@@ -758,7 +758,8 @@ struct APIHelper {
         }
     }
     
-//  EX: https://www.googleapis.com/books/v1/volumes?q=isbn:1429967943
+    // GOOGLE BOOKS API - ISBN
+    //  EX: https://www.googleapis.com/books/v1/volumes?q=isbn:1429967943
     static func getBookByISBN(isbn: String) -> [String:String] {
         // return unknown error if no other code overwrites with the correct error or success message
         var returnData: [String:String] = ["error": "unknown error"]
@@ -779,19 +780,105 @@ struct APIHelper {
             
             // Check for Error
             if let error = error {
-                Debug.debug(msg: "Error took place: \(error)", level: .verbose)
+                Debug.debug(msg: "Error took place: \(error)", level: .error)
                 returnData = ["error": "\(error)"]
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse else {
-                Debug.debug(msg: "Error took place", level: .verbose)
+                Debug.debug(msg: "Error took place", level: .error)
                 returnData = ["error": "Unknown error communicating with server"]
                 return
             }
             
             if !(200...299).contains(httpResponse.statusCode) {
-                Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .verbose)
+                Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .error)
+                returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
+                return
+            }
+            
+            // Convert HTTP Response Data to a String
+            if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
+                
+                returnData = ["success": "\(dataString)"]
+            }
+        }
+        task.resume()
+        group.wait()
+        return returnData
+    }
+    
+    
+    // GOOGLE BOOKS API - TITLE/AUTHORS
+    // EX: https://www.googleapis.com/books/v1/volumes?q=inauthor:"Gaiman Pratchett"+intitle:"Good Omens"
+    static func getBookBySeachTerms(title: String, authors: [String]) -> [String:String] {
+        // return unknown error if no other code overwrites with the correct error or success message
+        var returnData: [String:String] = ["error": "unknown error"]
+        
+        // Prepare URL
+        var searchString: String
+        if title != "" && authors != [] {
+            searchString = "intitle:\"\(title)\"+inauthor:\""
+            for (index, author) in authors.enumerated() {
+                if index == authors.count - 1 {
+                   searchString += "\(author)"
+                } else {
+                    searchString += "\(author) "
+                }
+            }
+            searchString += "\""
+        } else if title != "" {
+            searchString = "intitle:\"\(title)\""
+        } else if authors != [] {
+            searchString = "inauthor:\""
+            for (index, author) in authors.enumerated() {
+                if index == authors.count - 1 {
+                   searchString += "\(author)"
+                } else {
+                    searchString += "\(author) "
+                }
+                searchString += "\""
+            }
+        } else {
+            fatalError()
+        }
+        // percent encode search string
+        let percentEncodedString = EncodingHelper.percentEncodeString(string: searchString)
+        guard let encoded = percentEncodedString else { fatalError() }
+        
+        print("ENCODED: \(encoded)")
+        
+        let urlString = GOOGLE_BOOKS+encoded+"&startIndex=0&maxResults=20" // restricts number of results
+        let url = URL(string: urlString)
+        guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
+        Debug.debug(msg: "URL: \(requestUrl)", level: .verbose)
+        
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "GET"
+        
+        let group = DispatchGroup()
+        group.enter()
+        // Perform HTTP Request
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            defer { group.leave() }
+            
+            // Check for Error
+            if let error = error {
+                Debug.debug(msg: "Error took place: \(error)", level: .error)
+                returnData = ["error": "\(error)"]
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                Debug.debug(msg: "Error took place", level: .error)
+                returnData = ["error": "Unknown error communicating with server"]
+                return
+            }
+            
+            if !(200...299).contains(httpResponse.statusCode) {
+                Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .error)
                 returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
                 return
             }

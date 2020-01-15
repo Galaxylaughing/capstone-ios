@@ -25,6 +25,7 @@ struct AddButton: View {
                 .environmentObject(self.env)
         }
         .contextMenu() {
+            AddBySearchButton()
             AddByISBNButton()
         }
     }

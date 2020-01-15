@@ -139,6 +139,10 @@ class BookList: ObservableObject {
 
     }
     
+    init() {
+        self.books = []
+    }
+    
     init(bookList: BookList) {
         self.books = bookList.books
     }
@@ -183,25 +187,36 @@ class BookList: ObservableObject {
     init(from service: GoogleBookListService) {
         books = []
 
+        var tempId = -1
         let items = service.items
         for item in items {
             let info = item.volumeInfo
+            
+            var bookTitle: String = info.title ?? ""
+            if info.subtitle != nil {
+                bookTitle += ": "
+                bookTitle += info.subtitle!
+            }
 
             var authors: [String] = []
-            for authorName in info.authors {
-                authors.append(authorName)
+            if (info.authors != nil) {
+                for authorName in info.authors! {
+                    authors.append(authorName)
+                }
             }
 
             var identifiers: [String:String] = [:]
-            for industryIdentifier in info.industryIdentifiers {
-                let identifierName = industryIdentifier.type
-                let identifierNum = industryIdentifier.identifier
-                identifiers[identifierName] = identifierNum
+            if info.industryIdentifiers != nil {
+                for industryIdentifier in info.industryIdentifiers! {
+                    let identifierName = industryIdentifier.type
+                    let identifierNum = industryIdentifier.identifier
+                    identifiers[identifierName] = identifierNum
+                }
             }
             
             let book = BookList.Book(
-                id: 0, // temporary bogus ID
-                title: info.title,
+                id: tempId, // temporary bogus ID
+                title: bookTitle,
                 authors: authors,
                 position: 1,
                 seriesId: nil,
@@ -213,6 +228,7 @@ class BookList: ObservableObject {
                 description: info.description ?? ""
             )
 
+            tempId -= 1
             books.append(book)
         }
     }
@@ -305,13 +321,14 @@ struct GoogleBookListService: Decodable {
         let volumeInfo: VolumeInfo
         
         struct VolumeInfo: Decodable {
-            let title: String
-            let authors: [String]
+            let title: String?
+            let subtitle: String?
+            let authors: [String]?
             let publisher: String?
             let publishedDate: String?
             let description: String?
             let pageCount: Int?
-            let industryIdentifiers: [IndustryIdentifier]
+            let industryIdentifiers: [IndustryIdentifier]?
             
             struct IndustryIdentifier: Decodable {
                 let type: String

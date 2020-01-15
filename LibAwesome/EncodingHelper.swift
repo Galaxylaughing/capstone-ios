@@ -10,6 +10,15 @@ import Foundation
 import SwiftUI
 
 struct EncodingHelper {
+    // PERCENT ENCODE STRINGS
+    // from https://useyourloaf.com/blog/how-to-percent-encode-a-url-string/
+    static func percentEncodeString(string: String) -> String? {
+        let unreserved = "-._~/?:"
+        let allowed = NSMutableCharacterSet.alphanumeric()
+        allowed.addCharacters(in: unreserved)
+        return string.addingPercentEncoding(withAllowedCharacters: allowed as CharacterSet)
+    }
+    
     // TAGS
     static func getTags(from source: BookList) -> TagList {
         let newTagList = TagList(from: source)

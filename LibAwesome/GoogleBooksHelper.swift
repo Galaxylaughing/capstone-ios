@@ -9,7 +9,7 @@
 import Foundation
 
 struct GoogleBooksHelper {
-    static func decodeGoogleBook(json: String) -> BookList? {
+    static func decodeGoogleBookList(json: String) -> BookList? {
         let data = Data(json.utf8)
         // create a decoder
         let decoder = JSONDecoder()
@@ -25,22 +25,23 @@ struct GoogleBooksHelper {
                 """,                                                                    level: .debug)
             let allBooks = bookList.books
             for book in allBooks {
-                Debug.debug(msg: "\n\tBOOK: ",                                          level: .debug)
-                Debug.debug(msg: "title:  \(book.title)",                               level: .debug)
-                Debug.debug(msg: "authors: ",                                           level: .debug)
+                Debug.debug(msg: "\n\tBOOK: ",                                          level: .verbose)
+                Debug.debug(msg: "title:  \(book.title)",                               level: .verbose)
+                Debug.debug(msg: "authors: ",                                           level: .verbose)
                 for author in book.authors {
-                    Debug.debug(msg: "\t\(author)",                                     level: .debug)
+                    Debug.debug(msg: "\t\(author)",                                     level: .verbose)
                 }
-                Debug.debug(msg: "isbn-10:  \(book.isbn10 ?? "none")",                  level: .debug)
-                Debug.debug(msg: "isbn-13:  \(book.isbn13 ?? "none")",                  level: .debug)
-                Debug.debug(msg: "publisher: \(book.publisher ?? "none")",              level: .debug)
-                Debug.debug(msg: "publication date: \(book.publicationDate ?? "none")", level: .debug)
-                Debug.debug(msg: "page count: \(book.pageCount ?? 0)",                  level: .debug)
-                Debug.debug(msg: "description: \(book.description ?? "none")",          level: .debug)
+                Debug.debug(msg: "isbn-10:  \(book.isbn10 ?? "none")",                  level: .verbose)
+                Debug.debug(msg: "isbn-13:  \(book.isbn13 ?? "none")",                  level: .verbose)
+                Debug.debug(msg: "publisher: \(book.publisher ?? "none")",              level: .verbose)
+                Debug.debug(msg: "publication date: \(book.publicationDate ?? "none")", level: .verbose)
+                Debug.debug(msg: "page count: \(book.pageCount ?? 0)",                  level: .verbose)
+                Debug.debug(msg: "description: \(book.description ?? "none")",          level: .verbose)
             }
             
             return bookList
         }
+        Debug.debug(msg: "FAILURE: Could not parse response from Google Books API", level: .error)
         return nil
     }
     
@@ -49,8 +50,29 @@ struct GoogleBooksHelper {
         
         if response["success"] != nil {
             Debug.debug(msg: "Received success response from Google Books API", level: .verbose)
-            if let decodedGoogleBook = GoogleBooksHelper.decodeGoogleBook(json: response["success"]!) {
-                return decodedGoogleBook
+            if let decodedBookList = GoogleBooksHelper.decodeGoogleBookList(json: response["success"]!) {
+                return decodedBookList
+            }
+        }
+        return nil
+    }
+    
+    static func getFromGoogle(title: String, authors: [String]) -> BookList? {
+        let response = APIHelper.getBookBySeachTerms(title: title, authors: authors)
+        
+        if response["success"] != nil {
+            Debug.debug(msg: "Received success response from Google Books API", level: .verbose)
+            if let decodedBookList = GoogleBooksHelper.decodeGoogleBookList(json: response["success"]!) {
+                for (index, book) in decodedBookList.books.enumerated() {
+                    if book.authors == [] {
+                        // not necessarily accurate, but gets around the Google API bug.
+                        book.authors = authors
+                    }
+                    if book.title == "" {
+                        decodedBookList.books.remove(at: index)
+                    }
+                }
+                return decodedBookList
             }
         }
         return nil
