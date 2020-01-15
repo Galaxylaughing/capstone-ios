@@ -17,7 +17,7 @@ struct TagDetailView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(self.env.tag.name)
+                Text(self.env.tag.name/*displayName()*/)
                     .font(.title)
                     .fontWeight(.semibold)
             }

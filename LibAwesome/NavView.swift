@@ -37,7 +37,8 @@ struct NavView: View {
         prevView = NavView.stack.last ?? .home
         
         if (prevView == .tagdetail && env.tag.books.count == 0)
-        || (prevView == .authordetail && !env.book.authors.contains(AuthorDetailView.author.name)) {
+        || (prevView == .authordetail && !env.book.authors.contains(AuthorDetailView.author.name))
+        || (prevView == .googleresults) {
             prevView = NavView.stack.popLast() ?? .home
             prevView = NavView.stack.last ?? .home
         }

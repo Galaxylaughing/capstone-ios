@@ -162,7 +162,8 @@ struct EditBookForm: View {
         for tag in self.env.tagList.tags {
             // determine if they should be checked or not by comparing with bookToEdit's tags
             var isChecked: Bool = false
-            if self.bookToEdit.tags.contains(tag.name) {
+            let cleanTagName = EncodingHelper.encodeTagName(tagName: tag.name)
+            if self.bookToEdit.tags.contains(cleanTagName) {
                 isChecked = true
             }
             let checklistitem = CheckListItem(isChecked: isChecked, content: tag.name)
@@ -282,7 +283,15 @@ struct EditBookForm: View {
         
         // determine tags
         self.unBuildTagChecklist()
-        prepBook.tags = self.bookToEdit.tags
+        let uncleanTags = self.bookToEdit.tags
+        var cleanTags: [String] = []
+        for tag in uncleanTags {
+            Debug.debug(msg: "    STARTED WITH  \(tag)", level: .debug)
+            let cleanTagName = EncodingHelper.encodeTagName(tagName: tag)
+            Debug.debug(msg: "    CLEANED  \(cleanTagName) FOR BOOK", level: .debug)
+            cleanTags.append(cleanTagName)
+        }
+        prepBook.tags = cleanTags
         Debug.debug(msg: "    tags: \(prepBook.tags)", level: .debug)
         
         // determine series information
@@ -296,7 +305,7 @@ struct EditBookForm: View {
         let seriesId = seriesData["seriesId"] ?? nil
         prepBook.position = position ?? -1
         prepBook.seriesId = seriesId ?? -1
-        Debug.debug(msg: "    position \(prepBook.position) in series \(String(describing: prepBook.seriesId))", level: .debug)
+        Debug.debug(msg: "    position \(prepBook.position) in series \(String(describing: prepBook.seriesId))", level: .verbose)
         
         // determine ISBNs
         if self.bookToEdit.isbn10 == "" {
@@ -309,8 +318,8 @@ struct EditBookForm: View {
         } else {
             prepBook.isbn13 = self.bookToEdit.isbn13
         }
-        Debug.debug(msg: "    ISBN-10: \(prepBook.isbn10 ?? "none")", level: .debug)
-        Debug.debug(msg: "    ISBN-10: \(prepBook.isbn13 ?? "none")", level: .debug)
+        Debug.debug(msg: "    ISBN-10: \(prepBook.isbn10 ?? "none")", level: .verbose)
+        Debug.debug(msg: "    ISBN-10: \(prepBook.isbn13 ?? "none")", level: .verbose)
         
         // determine publication info
         if self.bookToEdit.publisher == "" {
@@ -323,8 +332,8 @@ struct EditBookForm: View {
         } else {
             prepBook.publicationDate = self.bookToEdit.publicationDate
         }
-        Debug.debug(msg: "    Publisher: \(prepBook.publisher ?? "none")", level: .debug)
-        Debug.debug(msg: "    PublicationDate: \(prepBook.publicationDate ?? "none")", level: .debug)
+        Debug.debug(msg: "    Publisher: \(prepBook.publisher ?? "none")", level: .verbose)
+        Debug.debug(msg: "    PublicationDate: \(prepBook.publicationDate ?? "none")", level: .verbose)
         
         // determine page count
         let stringPageCount = self.bookToEdit.pageCount
@@ -337,7 +346,7 @@ struct EditBookForm: View {
         } else {
             prepBook.pageCount = numberified!
         }
-        Debug.debug(msg: "    page count: \(String(describing: prepBook.pageCount))", level: .debug)
+        Debug.debug(msg: "    page count: \(String(describing: prepBook.pageCount))", level: .verbose)
         
         // determine description
         if self.bookToEdit.description == "" {
@@ -348,7 +357,7 @@ struct EditBookForm: View {
             let cleanDescription = description.replacingOccurrences(of: "\\n", with: "\n")
             prepBook.description = cleanDescription
         }
-        Debug.debug(msg: "    Description: \(prepBook.description ?? "none")", level: .debug)
+        Debug.debug(msg: "    Description: \(prepBook.description ?? "none")", level: .verbose)
         
         let bookToSend = BookListService.Book(from: prepBook)
         return bookToSend

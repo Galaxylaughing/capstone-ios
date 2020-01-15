@@ -265,7 +265,14 @@ struct AddBookForm: View {
 
         // determine tags
         self.unBuildTagChecklist()
-        bookToSend.tags = self.bookToAdd.tags
+        let uncleanTags = self.bookToAdd.tags
+        var cleanTags: [String] = []
+        for tag in uncleanTags {
+            let cleanTagName = EncodingHelper.encodeTagName(tagName: tag)
+            print("    CLEANED  \(cleanTagName) FOR BOOK")
+            cleanTags.append(cleanTagName)
+        }
+        bookToSend.tags = cleanTags
         Debug.debug(msg: "    tags: \(bookToSend.tags)", level: .debug)
 
         // determine series information

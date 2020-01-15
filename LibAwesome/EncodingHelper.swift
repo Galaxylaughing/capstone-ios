@@ -10,6 +10,16 @@ import Foundation
 import SwiftUI
 
 struct EncodingHelper {
+    // TAG NAMES
+    static func encodeTagName(tagName: String) -> String {
+        // change all occurrences of '/' delimiter to '__' to send info to API
+        return tagName.replacingOccurrences(of: "/", with: "__")
+    }
+    static func decodeTagName(tagName: String) -> String {
+        // change all occurrences of '__' delimiter to '/' to get info from API
+        return tagName.replacingOccurrences(of: "__", with: "/")
+    }
+    
     // PERCENT ENCODE STRINGS
     // from https://useyourloaf.com/blog/how-to-percent-encode-a-url-string/
     static func percentEncodeString(string: String) -> String? {
@@ -22,11 +32,11 @@ struct EncodingHelper {
     // TAGS
     static func getTags(from source: BookList) -> TagList {
         let newTagList = TagList(from: source)
-        Debug.debug(msg: "\nRESULTING TAGS:", level: .verbose)
+        Debug.debug(msg: "\nRESULTING TAGS:", level: .debug)
         for tag in newTagList.tags {
-            Debug.debug(msg: tag.name, level: .verbose)
+            Debug.debug(msg: tag.name, level: .debug)
             for book in tag.books {
-                Debug.debug(msg: "-- \(book.title)", level: .verbose)
+                Debug.debug(msg: "-- \(book.title)", level: .debug)
             }
         }
         return newTagList

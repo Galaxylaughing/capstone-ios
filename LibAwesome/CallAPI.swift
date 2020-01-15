@@ -19,9 +19,9 @@ struct CallAPI {
                 env.seriesList = apiSeriesList
             }
         } else if let errorData = response["error"] {
-            print(errorData)
+            Debug.debug(msg: "\(errorData)", level: .error)
         } else {
-            print("other unknown error")
+            Debug.debug(msg: "other unknown error", level: .error)
         }
     }
     
@@ -31,12 +31,12 @@ struct CallAPI {
         if let data = response["success"] {
             let apiBookList = EncodingHelper.makeBookList(data: data) ?? BookList(books: [])
             
-            print("\nCallAPI.getBooks returned from calling makeBookList")
-            print("\nCallAPI.getBooks is about to call getAuthors")
+            Debug.debug(msg: "\nCallAPI.getBooks returned from calling makeBookList", level: .verbose)
+            Debug.debug(msg: "\nCallAPI.getBooks is about to call getAuthors", level: .verbose)
             let authorList = EncodingHelper.getAuthors(from: apiBookList)
             
-            print("\nCallAPI.getBooks returned from calling getAuthors")
-            print("\nCallAPI.getBooks is about to call getTags")
+            Debug.debug(msg: "\nCallAPI.getBooks returned from calling getAuthors", level: .verbose)
+            Debug.debug(msg: "\nCallAPI.getBooks is about to call getTags", level: .verbose)
             let tagList = EncodingHelper.getTags(from: apiBookList)
             
             // update the environment variable
@@ -46,9 +46,9 @@ struct CallAPI {
                 env.tagList = tagList
             }
         } else if let errorData = response["error"] {
-            print(errorData)
+            Debug.debug(msg: "\(errorData)", level: .error)
         } else {
-            print("other unknown error")
+            Debug.debug(msg: "other unknown error", level: .error)
         }
     }
 }

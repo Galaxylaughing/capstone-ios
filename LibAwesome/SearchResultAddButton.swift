@@ -1,34 +1,52 @@
 //
-//  AddResultButton.swift
+//  SearchResultAddButton.swift
 //  LibAwesome
 //
-//  Created by Sabrina on 1/14/20.
+//  Created by Sabrina on 1/15/20.
 //  Copyright © 2020 SabrinaLowney. All rights reserved.
 //
 
 import SwiftUI
 
-struct AddResultButton: View {
+struct SearchResultAddButton: View {
     @EnvironmentObject var env: Env
-    var book: BookList.Book
-    
+    @Binding var bookChecklist: [BookCheckListItem]
     @State private var error: ErrorAlert?
     
     var body: some View {
-        Button(action: { self.addBook() }) {
-            Image(systemName: "plus.circle.fill")
-                .resizable()
-                .frame(width: 25, height: 25)
-                .foregroundColor(Color.green)
+        Button(action: { self.addBooks() }) {
+            HStack {
+                Text("Add to Library")
+                Image(systemName: "plus.circle.fill")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+            }
+            .padding(16)
+            .background(Color.green)
+            .cornerRadius(25)
+            .foregroundColor(Color.white)
+            .padding(10)
+            .padding(.top, 5)
         }
         .alert(item: $error, content: { error in
             AlertHelper.alert(reason: error.reason)
         })
+//        .buttonStyle(BorderlessButtonStyle())
     }
     
-    func addBook() {
+    //    func unBuildBookChecklist() {
+    //        // assign correct books to self.booksToAdd based on checklist
+    //        for item in self.bookChecklist {
+    //            if item.isChecked {
+    //                self.booksToAdd.books.append(item.content)
+    //            }
+    //        }
+    //    }
+    
+    func addBooks() {
         print("adding")
         
+        /*
         // POST selected book to API
         let bookToSend: BookListService.Book = BookListService.Book(from: self.book)
         
@@ -59,12 +77,14 @@ struct AddResultButton: View {
         } else {
             self.error = ErrorAlert(reason: "Unknown error")
         }
-         
+        */
     }
 }
 
-struct AddResultButton_Previews: PreviewProvider {
+struct SearchResultAddButton_Previews: PreviewProvider {
+    @State static var bookChecklist: [BookCheckListItem] = []
+    
     static var previews: some View {
-        AddResultButton(book: BookList.Book())
+        SearchResultAddButton(bookChecklist: self.$bookChecklist)
     }
 }

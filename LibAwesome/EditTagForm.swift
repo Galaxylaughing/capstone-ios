@@ -39,7 +39,7 @@ struct EditTagForm: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("\(self.tagToEdit.name)")
+                Text("\(self.tagToEdit.displayName())")
                 
                 Form {
                     Section(header: Text("tag name")) {
@@ -77,12 +77,6 @@ struct EditTagForm: View {
         self.bookChecklist = alphaChecklist
     }
     
-    func onChecklistSubmit() {
-        for book in self.bookChecklist {
-            print(String(book.identifier!), book.content, book.isChecked)
-        }
-    }
-    
     func unBuildBookChecklist() -> [Int] {
         // assign correct book ids based on checklist
         var bookIds = self.tagToEdit.bookIds()
@@ -102,24 +96,29 @@ struct EditTagForm: View {
     }
     
     func editTag() {
-        self.onChecklistSubmit() // should print current checklist values
         let newBookIds = self.unBuildBookChecklist()
         print("TAG'S BOOKS:", newBookIds)
+        
+        let cleanTagName = EncodingHelper.encodeTagName(tagName: self.env.tagToEdit.name)
+        let cleanNewTagName = EncodingHelper.encodeTagName(tagName: self.tagToEdit.name)
+        
+        print("ENV.TAGTOEDIT: \(cleanTagName)")
+        print("SELF.TAGTOEDIT: \(cleanNewTagName)")
         
         // make PUT to update tag
         let response = APIHelper.putTag(
             token: self.env.user.token,
-            tagName: self.env.tagToEdit.name,
-            newTagName: self.tagToEdit.name,
+            tagName: cleanTagName,
+            newTagName: cleanNewTagName,
             books: newBookIds)
         
         if response["success"] != nil {
-            
             // ensure all the books have the correct tags
-            let newTagName = self.tagToEdit.name
+            let newUncleanTagName = self.tagToEdit.name
+            let newTagName = cleanNewTagName
             // check all the books that had the old tag
             let oldTaggedBooks = self.env.tagToEdit.books
-            let oldTagName = self.env.tagToEdit.name
+            let oldTagName = cleanTagName//self.env.tagToEdit.name
             // go through old tagged books
             for tagBook in oldTaggedBooks {
                 if let book = self.env.bookList.books.first(where: {$0.id == tagBook.id}) {
@@ -147,7 +146,7 @@ struct EditTagForm: View {
                     taggedBooks.append(foundBook)
                 }
             }
-            let newTagToEdit = TagList.Tag(name: self.tagToEdit.name, books: taggedBooks)
+            let newTagToEdit = TagList.Tag(name: newUncleanTagName, books: taggedBooks)
             print("I'M BACK WITH: \(newTagToEdit) \(newTagToEdit.name)")
             for book in newTagToEdit.books {
                 print("-- \(book.title)")
@@ -177,7 +176,7 @@ struct EditTagForm: View {
                     }
                 }
             }
-            let newTag = TagList.Tag(name: self.tagToEdit.name, books: currentBookList)
+            let newTag = TagList.Tag(name: newUncleanTagName, books: currentBookList)
                             
             // update tag in environment
             DispatchQueue.main.async {

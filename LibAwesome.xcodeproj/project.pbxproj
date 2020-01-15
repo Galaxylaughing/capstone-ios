@@ -51,6 +51,8 @@
 		041FB3E223CE725C00D34B41 /* AddBySearchForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041FB3E123CE725C00D34B41 /* AddBySearchForm.swift */; };
 		041FB3E423CE832300D34B41 /* SearchResultList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041FB3E323CE832300D34B41 /* SearchResultList.swift */; };
 		041FB3E623CEA3BD00D34B41 /* AddResultButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041FB3E523CEA3BD00D34B41 /* AddResultButton.swift */; };
+		041FB3E823CF805200D34B41 /* SearchResultChecklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041FB3E723CF805200D34B41 /* SearchResultChecklist.swift */; };
+		041FB3EA23CF879700D34B41 /* SearchResultAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041FB3E923CF879700D34B41 /* SearchResultAddButton.swift */; };
 		04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3223BBA43B003706C6 /* AppDelegate.swift */; };
 		04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */; };
 		04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3623BBA43B003706C6 /* TabbedView.swift */; };
@@ -153,6 +155,8 @@
 		041FB3E123CE725C00D34B41 /* AddBySearchForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBySearchForm.swift; sourceTree = "<group>"; };
 		041FB3E323CE832300D34B41 /* SearchResultList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultList.swift; sourceTree = "<group>"; };
 		041FB3E523CEA3BD00D34B41 /* AddResultButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddResultButton.swift; sourceTree = "<group>"; };
+		041FB3E723CF805200D34B41 /* SearchResultChecklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultChecklist.swift; sourceTree = "<group>"; };
+		041FB3E923CF879700D34B41 /* SearchResultAddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultAddButton.swift; sourceTree = "<group>"; };
 		04AA7C2F23BBA43B003706C6 /* LibAwesome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LibAwesome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AA7C3223BBA43B003706C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -383,6 +387,8 @@
 		04E3126A23CA6E5C00757B56 /* potential-delete */ = {
 			isa = PBXGroup;
 			children = (
+				041FB3E723CF805200D34B41 /* SearchResultChecklist.swift */,
+				041FB3E923CF879700D34B41 /* SearchResultAddButton.swift */,
 				0413028123C502CE00FDF25B /* SeriesForm.swift */,
 				0413026823C39BD900FDF25B /* Navigation */,
 				0413024123BE94DE00FDF25B /* LibraryView.swift */,
@@ -625,6 +631,7 @@
 				04E3127123CA7A9C00757B56 /* ArrowRight.swift in Sources */,
 				041FB3CD23CCE98800D34B41 /* AddByISBNButton.swift in Sources */,
 				04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */,
+				041FB3EA23CF879700D34B41 /* SearchResultAddButton.swift in Sources */,
 				0413025D23C2EB9C00FDF25B /* DrawerContent.swift in Sources */,
 				04E3125923C7CBDE00757B56 /* BookUpdate.swift in Sources */,
 				04E3124B23C77A4E00757B56 /* CheckList.swift in Sources */,
@@ -637,6 +644,7 @@
 				041FB3D123CCEA2900D34B41 /* AddByISBNForm.swift in Sources */,
 				04D4006423BBF982009D256C /* ErrorAlert.swift in Sources */,
 				04E3124F23C78E0A00757B56 /* CallAPI.swift in Sources */,
+				041FB3E823CF805200D34B41 /* SearchResultChecklist.swift in Sources */,
 				04AA7C7F23BBC3AF003706C6 /* Constants.swift in Sources */,
 				0413024A23C022B400FDF25B /* BookDetailView.swift in Sources */,
 				04E3125D23C8E7FA00757B56 /* AuthorListView.swift in Sources */,

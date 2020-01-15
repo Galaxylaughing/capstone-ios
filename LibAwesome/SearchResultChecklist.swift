@@ -1,5 +1,5 @@
 //
-//  SearchResultList.swift
+//  SearchResultChecklist.swift
 //  LibAwesome
 //
 //  Created by Sabrina on 1/14/20.
@@ -8,8 +8,9 @@
 
 import SwiftUI
 
-struct SearchResultRow: View {
+struct SearchResultChecklistRow: View {
     var book: BookList.Book
+    @Binding var isChecked: Bool
     @State private var showResultDetails: Bool = false
     
     fileprivate func displayResultData() -> some View {
@@ -66,8 +67,15 @@ struct SearchResultRow: View {
     var body: some View {
         VStack {
             HStack {
+                /*
                 AddResultButton(book: book)
                 .buttonStyle(BorderlessButtonStyle()) // added to prevent conflict with showResultDetails button
+                */
+                if self.isChecked {
+                    Image(systemName: "checkmark.square.fill")
+                } else {
+                    Image(systemName: "square")
+                }
                 
                 Button(action: { self.showResultDetails.toggle() }) {
                     VStack(alignment: .leading) {
@@ -89,123 +97,96 @@ struct SearchResultRow: View {
                 self.displayResultData()
             }
         }
-//        .onAppear(perform: {self.buildTagChecklist()})
     }
 }
 
+class BookCheckListItem: Identifiable {
+    var id: Int {
+        return content.id
+    }
+    var isChecked: Bool
+    var content: BookList.Book
 
-//struct BookCheckListRow: View {
-//    @State var item: BookCheckListItem
-//    @State var isChecked: Bool
-//
-//    var body: some View {
-//        HStack {
-//            if self.isChecked {
-//                Image(systemName: "checkmark.square.fill")
-//            } else {
-//                Image(systemName: "square")
-//            }
-//            Text(self.item.content.title)
-//        }
-//        .gesture(
-//            TapGesture().onEnded({
-//                // toggle item to update CheckList view
-//                self.item.isChecked.toggle();
-//                // toggle boolean to update self view
-//                self.isChecked.toggle();
-//            })
-//        )
-//    }
-//}
+    init(isChecked: Bool = false, content: BookList.Book) {
+        self.isChecked = isChecked
+        self.content = content
+    }
+}
 
-//class BookCheckListItem: Identifiable {
-//    var id: Int {
-//        return content.id
-//    }
-//    var isChecked: Bool
-//    var content: BookList.Book
-//
-//    init(isChecked: Bool = false, content: BookList.Book) {
-//        self.isChecked = isChecked
-//        self.content = content
-//    }
-//}
+struct BookCheckListRow: View {
+    @State var item: BookCheckListItem
+    @State var isChecked: Bool
 
-//struct BookCheckList: View {
-//    @Binding var list: [BookCheckListItem]
-//
-//    var body: some View {
-//        VStack(alignment: .leading) {
-//            List {
-//                ForEach(list) { item in
-//                    CheckListRow(item: item, isChecked: item.isChecked)
-//                        .gesture(
-//                            TapGesture().onEnded({
-//                                item.isChecked.toggle()
-//                            })
-//                        )
-//                }
-//            }
-//        }
-//    }
-//}
-
-
-//    @State var bookChecklist: [BookCheckListItem] = []
-//    @State private var newBook: BookList.Book = BookList.Book()
-//
-//    func buildBookChecklist() {
-//        var checklist: [BookCheckListItem] = []
-//        // convert book results to checklist items
-//        for book in AddBySearchForm.searchResults.books {
-//            let checklistitem = BookCheckListItem(isChecked: false, content: book)
-//            checklist.append(checklistitem)
-//        }
-//        self.tagChecklist = checklist
-//    }
-//
-//    func unBuildBookChecklist() {
-//        // assign correct books to self.booksToAdd based on checklist
-//        for item in self.bookChecklist {
-//            if item.isChecked {
-//                self.booksToAdd.books.append(item.content)
-//            }
-//        }
-//    }
-//
-//    func addFromBookResults() -> some View {
-//        return BookResults(
-//            bookChecklist: self.$bookChecklist
-//        )
-//    }
-
-
-//struct BookResults: View {
-//    @Binding var bookChecklist: [BookCheckListItem]
-//
-//    var body: some View {
-//        Section(header: Text("add books")) {
-//            VStack(alignment: .leading) {
-//                CheckList(list: self.$bookChecklist)
-//            }
-//        }
-//    }
-//}
-
-struct SearchResultList: View {
     var body: some View {
-        VStack {
+        HStack {
+            SearchResultChecklistRow(book: self.item.content, isChecked: self.$isChecked)
+        }
+        .gesture(
+            TapGesture().onEnded({
+                // toggle item to update CheckList view
+                self.item.isChecked.toggle();
+                // toggle boolean to update self view
+                self.isChecked.toggle();
+            })
+        )
+    }
+}
+
+struct BookCheckList: View {
+    @Binding var list: [BookCheckListItem]
+
+    var body: some View {
+        VStack(alignment: .leading) {
             List {
-                ForEach(AddBySearchForm.searchResults.books) { book in
-                    SearchResultRow(book: book)
+                ForEach(list) { item in
+                    BookCheckListRow(item: item, isChecked: item.isChecked)
+                        .gesture(
+                            TapGesture().onEnded({
+                                item.isChecked.toggle()
+                            })
+                        )
                 }
             }
         }
     }
 }
 
-struct SearchResultList_Previews: PreviewProvider {
+struct BookResults: View {
+    @Binding var bookChecklist: [BookCheckListItem]
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            BookCheckList(list: self.$bookChecklist)
+        }
+    }
+}
+
+struct SearchResultChecklist: View {
+    @State var bookChecklist: [BookCheckListItem] = []
+    
+    func buildBookChecklist() {
+        var checklist: [BookCheckListItem] = []
+        // convert book results to checklist items
+        for book in AddBySearchForm.searchResults.books {
+            let checklistitem = BookCheckListItem(isChecked: false, content: book)
+            checklist.append(checklistitem)
+        }
+        self.bookChecklist = checklist
+    }
+    
+    var body: some View {
+        VStack(alignment: .center) {
+            SearchResultAddButton(bookChecklist: self.$bookChecklist)
+            Form {
+                BookCheckList(list: self.$bookChecklist)
+            }
+        }
+        .onAppear(perform: { self.buildBookChecklist() })
+    }
+}
+
+struct SearchResultChecklist_Previews: PreviewProvider {
     static var previews: some View {
-        SearchResultList()
+        SearchResultChecklist()
     }
 }

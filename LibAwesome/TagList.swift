@@ -38,10 +38,11 @@ class TagList: ObservableObject {
                         tempTags[index].books.append(book)
                     }
                 } else {
+                    let cleanTag = EncodingHelper.decodeTagName(tagName: tag)
                     // add this tag to the list of names
-                    tagNames.append(tag)
+                    tagNames.append(cleanTag)
                     // add the tag to the temp list and add this book to its list of books
-                    let newTag = TagList.Tag(name: tag, books: [book])
+                    let newTag = TagList.Tag(name: cleanTag, books: [book])
                     tempTags.append(newTag)
                 }
             }
@@ -74,6 +75,10 @@ class TagList: ObservableObject {
             self.name = name
             self.books = books
             self.subtags = Tag.getSubTags(tag: name)
+        }
+        
+        func displayName() -> String {
+            return EncodingHelper.decodeTagName(tagName: self.name)
         }
         
         static func getSubTags(tag: String) -> [Substring] {
