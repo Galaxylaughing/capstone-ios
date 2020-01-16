@@ -121,7 +121,9 @@ struct NavView: View {
         || self.env.topView == .seriesdetail
         || self.env.topView == .tagdetail {
             view = AnyView(self.detailsTrailingView)
-        } else if self.env.topView == .booklist {
+        } else if self.env.topView == .booklist
+        || self.env.topView == .serieslist
+        || self.env.topView == .authorlist {
             view = AnyView(self.listTrailingView)
         }
         return view

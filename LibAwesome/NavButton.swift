@@ -19,7 +19,7 @@ struct NavButton: View {
             self.env.topView = self.view
         }) {
             icon
-            .padding()
+            .padding(12)
         }.disabled(self.env.topView == view)
     }
 }
