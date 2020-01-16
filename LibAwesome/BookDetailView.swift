@@ -44,6 +44,27 @@ struct BookDetailView: View {
         }
     }
     
+    struct DisplayCurrentStatus: View {
+        @EnvironmentObject var env: Env
+        fileprivate func displayCurrentStatus() -> some View {
+            return VStack {
+                    Section() {
+                        VStack {
+                            Text("status")
+                            Divider()
+                            Text("\(self.env.book.current_status.rawValue)")
+                        }
+                        .padding(.horizontal, 100)
+                    }
+                    .padding(.vertical)
+                }
+        }
+        
+        var body: some View {
+            self.displayCurrentStatus()
+        }
+    }
+    
     struct DisplaySeriesInfo: View {
         @EnvironmentObject var env: Env
         
@@ -305,6 +326,7 @@ struct BookDetailView: View {
                     }
                     
                     Group {
+                        DisplayCurrentStatus()
                         DisplaySeriesInfo()
                         Divider()
                         DisplayTags()
@@ -348,6 +370,7 @@ struct BookDetailView_Previews: PreviewProvider {
         description: """
         The classic collaboration from the internationally bestselling authors Neil Gaiman and Terry Pratchett. According to The Nice and Accurate Prophecies of Agnes Nutter, Witch (the world's only completely accurate book of prophecies, written in 1655, before she exploded), the world will end on a Saturday. Next Saturday, in fact. Just before dinner. So the armies of Good and Evil are amassing, Atlantis is rising, frogs are falling, tempers are flaring. Everything appears to be going according to Divine Plan. Except a somewhat fussy angel and a fast-living demon—both of whom have lived amongst Earth's mortals since The Beginning and have grown rather fond of the lifestyle—are not actually looking forward to the coming Rapture. And someone seems to have misplaced the Antichrist.
         """,
+        current_status: Status.completed,
         tags: ["fantasy", "science-fiction", "comedy", "fantasy/contemporary"]
     )
     

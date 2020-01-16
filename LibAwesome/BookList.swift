@@ -45,7 +45,7 @@ class BookList: ObservableObject {
         @Published var isbn13: String?
         @Published var pageCount: Int?
         @Published var description: String?
-        @Published var current_status: String
+        @Published var current_status: Status
         @Published var tags: [String]
         
         func withAuthors(by main: String) -> String {
@@ -115,7 +115,7 @@ class BookList: ObservableObject {
             self.isbn13 = nil
             self.pageCount = nil
             self.description = nil
-            self.current_status = Status.wanttoread.rawValue // default status
+            self.current_status = Status.wanttoread // default status
             self.tags = []
         }
         
@@ -131,7 +131,7 @@ class BookList: ObservableObject {
              isbn13: String? = nil,
              pageCount: Int? = nil,
              description: String? = nil,
-             current_status: String = Status.wanttoread.rawValue, // default status
+             current_status: Status = Status.wanttoread, // default status
              tags: [String] = []) {
             self.id = id
             self.title = title
@@ -203,7 +203,7 @@ class BookList: ObservableObject {
                 isbn13: item.isbn_13,
                 pageCount: item.page_count,
                 description: item.description,
-                current_status: item.current_status,
+                current_status: Status(rawValue: item.current_status) ?? Status.wanttoread,
                 tags: item.tags
             )
             
@@ -254,7 +254,7 @@ class BookList: ObservableObject {
                 isbn13: identifiers["ISBN_13"] ?? nil,
                 pageCount: info.pageCount ?? nil,
                 description: info.description ?? "",
-                current_status: Status.wanttoread.rawValue // default status
+                current_status: Status.wanttoread // default status
             )
 
             tempId -= 1
@@ -340,7 +340,7 @@ struct BookListService: Decodable {
             self.isbn_13 = book.isbn13
             self.page_count = book.pageCount
             self.description = book.description
-            self.current_status = book.current_status
+            self.current_status = book.current_status.rawValue
             self.tags = book.tags
         }
     }

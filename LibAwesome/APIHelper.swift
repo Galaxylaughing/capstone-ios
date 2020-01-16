@@ -151,7 +151,7 @@ struct APIHelper {
             
             // Convert HTTP Response Data to a String
             if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
+                Debug.debug(msg: "Response data string:\n \(dataString)", level: .debug)
                 returnData = ["success": "\(dataString)"]
             }
         }
