@@ -20,7 +20,16 @@ let GOOGLE_BOOKS = "https://www.googleapis.com/books/v1/volumes?q="
 let HOME_ICON = AnyView(Image(systemName: "house"))
 let SETTINGS_ICON = AnyView(Image(systemName: "slider.horizontal.3"))
 
-let BOOKLIST_ICON = AnyView(Text("Books"))
-let AUTHORLIST_ICON = AnyView(Text("Authors"))
-let SERIESLIST_ICON = AnyView(Text("Series"))
+let BOOKLIST_ICON = AnyView(VStack{
+    Image(systemName: "book.fill")
+    Text("Books")
+})
+let AUTHORLIST_ICON = AnyView(VStack{
+    Image(systemName: "person.fill")
+    Text("Authors")
+})
+let SERIESLIST_ICON = AnyView(VStack{
+    Image(systemName: "folder.fill")
+    Text("Series")
+})
 let SCANNER_ICON = AnyView(Image(systemName: "barcode.viewfinder"))
