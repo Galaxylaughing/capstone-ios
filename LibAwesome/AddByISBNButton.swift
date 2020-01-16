@@ -15,7 +15,7 @@ struct AddByISBNButton: View {
     var body: some View {
         Button(action: { self.showForm.toggle() }) {
             HStack {
-                Text("add with ISBN")
+                Text("enter ISBN")
                 Image(systemName: "barcode")
             }
         }

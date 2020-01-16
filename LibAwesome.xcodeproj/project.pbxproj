@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -53,6 +53,11 @@
 		041FB3E623CEA3BD00D34B41 /* AddResultButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041FB3E523CEA3BD00D34B41 /* AddResultButton.swift */; };
 		041FB3E823CF805200D34B41 /* SearchResultChecklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041FB3E723CF805200D34B41 /* SearchResultChecklist.swift */; };
 		041FB3EA23CF879700D34B41 /* SearchResultAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041FB3E923CF879700D34B41 /* SearchResultAddButton.swift */; };
+		043E15C323CFE41400F9E214 /* HomeNavButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043E15C223CFE41400F9E214 /* HomeNavButton.swift */; };
+		043E15C523CFEE1000F9E214 /* MassDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043E15C423CFEE1000F9E214 /* MassDeleteButton.swift */; };
+		043E15C723CFEE4100F9E214 /* MassDeleteIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043E15C623CFEE4100F9E214 /* MassDeleteIcon.swift */; };
+		0442537C23CFBB72000BF2E9 /* BarcodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0442537B23CFBB72000BF2E9 /* BarcodeScanner.swift */; };
+		0442538323CFC37B000BF2E9 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 0442538223CFC37B000BF2E9 /* CodeScanner */; };
 		04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3223BBA43B003706C6 /* AppDelegate.swift */; };
 		04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */; };
 		04AA7C3723BBA43B003706C6 /* TabbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA7C3623BBA43B003706C6 /* TabbedView.swift */; };
@@ -157,6 +162,10 @@
 		041FB3E523CEA3BD00D34B41 /* AddResultButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddResultButton.swift; sourceTree = "<group>"; };
 		041FB3E723CF805200D34B41 /* SearchResultChecklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultChecklist.swift; sourceTree = "<group>"; };
 		041FB3E923CF879700D34B41 /* SearchResultAddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultAddButton.swift; sourceTree = "<group>"; };
+		043E15C223CFE41400F9E214 /* HomeNavButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavButton.swift; sourceTree = "<group>"; };
+		043E15C423CFEE1000F9E214 /* MassDeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MassDeleteButton.swift; sourceTree = "<group>"; };
+		043E15C623CFEE4100F9E214 /* MassDeleteIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MassDeleteIcon.swift; sourceTree = "<group>"; };
+		0442537B23CFBB72000BF2E9 /* BarcodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScanner.swift; sourceTree = "<group>"; };
 		04AA7C2F23BBA43B003706C6 /* LibAwesome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LibAwesome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AA7C3223BBA43B003706C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04AA7C3423BBA43B003706C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -208,6 +217,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0442538323CFC37B000BF2E9 /* CodeScanner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +282,14 @@
 			name = Navigation;
 			sourceTree = "<group>";
 		};
+		0442537A23CFBB5C000BF2E9 /* Barcode Scanning */ = {
+			isa = PBXGroup;
+			children = (
+				0442537B23CFBB72000BF2E9 /* BarcodeScanner.swift */,
+			);
+			name = "Barcode Scanning";
+			sourceTree = "<group>";
+		};
 		04AA7C2623BBA43B003706C6 = {
 			isa = PBXGroup;
 			children = (
@@ -302,6 +320,9 @@
 				04D4006523BD240B009D256C /* ContentView.swift */,
 				04E3126823CA6DAA00757B56 /* NavView.swift */,
 				04E3126B23CA71F900757B56 /* HomeView.swift */,
+				043E15C223CFE41400F9E214 /* HomeNavButton.swift */,
+				04E3126623CA6BB600757B56 /* NavButton.swift */,
+				0413023023BE5ABB00FDF25B /* LogoutButton.swift */,
 				04E3127623CA88ED00757B56 /* SettingsView.swift */,
 				04E3127223CA878B00757B56 /* Tags */,
 				04E3127323CA879100757B56 /* Books */,
@@ -309,7 +330,7 @@
 				04E3127523CA879F00757B56 /* Authors */,
 				04AA7C6B23BBAA67003706C6 /* LoginViews */,
 				0413024B23C022C500FDF25B /* AuxiliaryViews */,
-				04AA7C6923BBAA06003706C6 /* Buttons */,
+				04E3126D23CA738500757B56 /* Icons */,
 				0413023223BE621700FDF25B /* HelperFunctions */,
 				04AA7C7923BBB98A003706C6 /* Models */,
 				0413023523BE627E00FDF25B /* HelperModels */,
@@ -348,16 +369,6 @@
 				04AA7C5623BBA43C003706C6 /* Info.plist */,
 			);
 			path = LibAwesomeUITests;
-			sourceTree = "<group>";
-		};
-		04AA7C6923BBAA06003706C6 /* Buttons */ = {
-			isa = PBXGroup;
-			children = (
-				04E3126623CA6BB600757B56 /* NavButton.swift */,
-				0413023023BE5ABB00FDF25B /* LogoutButton.swift */,
-				04E3126D23CA738500757B56 /* Icons */,
-			);
-			name = Buttons;
 			sourceTree = "<group>";
 		};
 		04AA7C6B23BBAA67003706C6 /* LoginViews */ = {
@@ -404,6 +415,7 @@
 				0413026523C39B5500FDF25B /* AddBookIcon.swift */,
 				04E3127023CA7A9C00757B56 /* ArrowRight.swift */,
 				0413027623C3DFA400FDF25B /* AddIcon.swift */,
+				043E15C623CFEE4100F9E214 /* MassDeleteIcon.swift */,
 				0413028723C5120600FDF25B /* EditIcon.swift */,
 				04E3125223C7C4FD00757B56 /* DeleteIcon.swift */,
 			);
@@ -428,6 +440,7 @@
 			isa = PBXGroup;
 			children = (
 				0413026323C399D800FDF25B /* BookListView.swift */,
+				043E15C423CFEE1000F9E214 /* MassDeleteButton.swift */,
 				0413024923C022B400FDF25B /* BookDetailView.swift */,
 				0413024E23C0613F00FDF25B /* AddBookForm.swift */,
 				0413025823C28E5000FDF25B /* EditBookForm.swift */,
@@ -437,6 +450,7 @@
 				04E3127A23CAC0CF00757B56 /* DeleteBookButton.swift */,
 				041FB3CC23CCE98800D34B41 /* AddByISBNButton.swift */,
 				041FB3D023CCEA2900D34B41 /* AddByISBNForm.swift */,
+				0442537A23CFBB5C000BF2E9 /* Barcode Scanning */,
 				041FB3DF23CE712900D34B41 /* AddBySearchButton.swift */,
 				041FB3E123CE725C00D34B41 /* AddBySearchForm.swift */,
 				041FB3E323CE832300D34B41 /* SearchResultList.swift */,
@@ -484,6 +498,9 @@
 			dependencies = (
 			);
 			name = LibAwesome;
+			packageProductDependencies = (
+				0442538223CFC37B000BF2E9 /* CodeScanner */,
+			);
 			productName = LibAwesome;
 			productReference = 04AA7C2F23BBA43B003706C6 /* LibAwesome.app */;
 			productType = "com.apple.product-type.application";
@@ -556,6 +573,9 @@
 				Base,
 			);
 			mainGroup = 04AA7C2623BBA43B003706C6;
+			packageReferences = (
+				0442538123CFC37B000BF2E9 /* XCRemoteSwiftPackageReference "CodeScanner" */,
+			);
 			productRefGroup = 04AA7C3023BBA43B003706C6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -635,6 +655,7 @@
 				0413025D23C2EB9C00FDF25B /* DrawerContent.swift in Sources */,
 				04E3125923C7CBDE00757B56 /* BookUpdate.swift in Sources */,
 				04E3124B23C77A4E00757B56 /* CheckList.swift in Sources */,
+				0442537C23CFBB72000BF2E9 /* BarcodeScanner.swift in Sources */,
 				04E3127723CA88ED00757B56 /* SettingsView.swift in Sources */,
 				04E3124323C6C2C900757B56 /* Alphabetical.swift in Sources */,
 				0413028623C5118700FDF25B /* EditSeriesButton.swift in Sources */,
@@ -651,6 +672,7 @@
 				0413025B23C2EB6100FDF25B /* NavDrawer.swift in Sources */,
 				041FB3E023CE712900D34B41 /* AddBySearchButton.swift in Sources */,
 				04AA7C7B23BBB99E003706C6 /* User.swift in Sources */,
+				043E15C523CFEE1000F9E214 /* MassDeleteButton.swift in Sources */,
 				0413027B23C4308300FDF25B /* Env.swift in Sources */,
 				0413026423C399D800FDF25B /* BookListView.swift in Sources */,
 				0413027723C3DFA400FDF25B /* AddIcon.swift in Sources */,
@@ -660,6 +682,7 @@
 				041FB3E623CEA3BD00D34B41 /* AddResultButton.swift in Sources */,
 				04E3127D23CAC2CE00757B56 /* DeleteSeriesButton.swift in Sources */,
 				0413026623C39B5500FDF25B /* AddBookIcon.swift in Sources */,
+				043E15C723CFEE4100F9E214 /* MassDeleteIcon.swift in Sources */,
 				0413027123C3AFA700FDF25B /* SeriesList.swift in Sources */,
 				04E3126323C9942400757B56 /* Debug.swift in Sources */,
 				0413024823BFE91300FDF25B /* BookList.swift in Sources */,
@@ -668,6 +691,7 @@
 				0413026A23C3A28E00FDF25B /* SeriesListView.swift in Sources */,
 				0413023723BE633400FDF25B /* TokenHelper.swift in Sources */,
 				0413025723C28E1900FDF25B /* EditBookButton.swift in Sources */,
+				043E15C323CFE41400F9E214 /* HomeNavButton.swift in Sources */,
 				04E3126F23CA73BB00757B56 /* TagListView.swift in Sources */,
 				041FB3E423CE832300D34B41 /* SearchResultList.swift in Sources */,
 				04E3125723C7C80500757B56 /* EditTagForm.swift in Sources */,
@@ -998,6 +1022,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0442538123CFC37B000BF2E9 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0442538223CFC37B000BF2E9 /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0442538123CFC37B000BF2E9 /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 04AA7C2723BBA43B003706C6 /* Project object */;
 }

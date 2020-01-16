@@ -55,54 +55,15 @@ struct AddByISBNForm: View {
     
     // SUBMIT FORM
     func addBook() {
-        // strip any whitespace or hyphens from isbn
-        let cleanIsbn = ISBNHelper.cleanIsbn(isbn: self.isbn)
-        
-        // get book from Google Books API
-        guard let googleBookList = GoogleBooksHelper.getFromGoogle(isbn: cleanIsbn) else {
-            Debug.debug(msg: "Could not parse Google Books API response into object", level: .error)
-            self.error = ErrorAlert(reason: "ISBN Not Found")
-            return
-        }
-        
-        // POST book to API
-        let googleBook = googleBookList.books[0]
-        let bookToSend: BookListService.Book = BookListService.Book(
-            id: 0,
-            title: googleBook.title,
-            authors: googleBook.authors,
-            position_in_series: nil,
-            series: nil,
-            publisher: googleBook.publisher,
-            publication_date: googleBook.publicationDate,
-            isbn_10: googleBook.isbn10,
-            isbn_13: googleBook.isbn13,
-            page_count: googleBook.pageCount,
-            description: googleBook.description,
-            tags: [])
-        let response = APIHelper.postBook(
-            token: self.env.user.token,
-            book: bookToSend)
+        let response = ISBNHelper.addWithIsbn(isbn: self.isbn, env: self.env)
         
         if response["success"] != nil {
-            print("came back from POSTING with success")
-            // add new book to environment BookList
-            if let newBook = EncodingHelper.makeBook(data: response["success"]!) {
-                let bookList = self.env.bookList
-                bookList.books.append(newBook)
-                Env.setEnv(in: self.env, to: bookList)
-                DispatchQueue.main.async {
-                    self.env.book = newBook
-                    self.env.topView = .bookdetail
-                }
+            DispatchQueue.main.async {
+                self.env.topView = .bookdetail
             }
-            // should dismiss sheet if success
             self.showForm = false
         } else if response["error"] != nil {
-            // should pop up error if failure
             self.error = ErrorAlert(reason: response["error"]!)
-        } else {
-            self.error = ErrorAlert(reason: "Unknown error")
         }
     }
 }

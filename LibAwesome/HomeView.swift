@@ -10,15 +10,20 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        VStack {
-            Spacer()
-            NavButton(view: .booklist, icon: BOOKLIST_ICON)
-            NavButton(view: .authorlist, icon: AUTHORLIST_ICON)
-            NavButton(view: .serieslist, icon: SERIESLIST_ICON)
-
-            Spacer()
-            TagListView()
-            Spacer()
+        ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
+            VStack {
+                Spacer()
+                HStack(alignment: .center) {
+                    HomeNavButton(view: .booklist, icon: BOOKLIST_ICON)
+                    HomeNavButton(view: .authorlist, icon: AUTHORLIST_ICON)
+                    HomeNavButton(view: .serieslist, icon: SERIESLIST_ICON)
+                }
+                
+                Spacer()
+                TagListView()
+                Spacer()
+            }
+            BarcodeScanner(showText: false)
         }
     }
 }

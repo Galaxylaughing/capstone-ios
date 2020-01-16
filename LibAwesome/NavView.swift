@@ -23,6 +23,7 @@ enum TopViews {
     case tagdetail
     
     case googleresults
+    case scanner
 }
 
 struct NavView: View {
@@ -91,6 +92,15 @@ struct NavView: View {
             }
         }
     }
+    
+    var listTrailingView: some View {
+        HStack {
+            // edit button
+            if self.env.topView == .booklist {
+                EditButton()
+            }
+        }
+    }
 
     // NavView body
     var body: some View {
@@ -111,6 +121,8 @@ struct NavView: View {
         || self.env.topView == .seriesdetail
         || self.env.topView == .tagdetail {
             view = AnyView(self.detailsTrailingView)
+        } else if self.env.topView == .booklist {
+            view = AnyView(self.listTrailingView)
         }
         return view
     }
@@ -158,6 +170,8 @@ struct NavView: View {
         case .googleresults:
             self.turnOnBackButton()
             view = AnyView(SearchResultList())
+        case .scanner:
+            view = AnyView(BarcodeScanner())
             
         default:
             view = AnyView(HomeView()) // defaults to .home
@@ -189,6 +203,8 @@ struct NavView: View {
             
         case .googleresults:
             title = "Results"
+        case .scanner:
+            title = "Barcode Scanner"
             
         default:
             title = "Home" // defaults to .home

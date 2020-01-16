@@ -27,6 +27,7 @@ struct AddButton: View {
         .contextMenu() {
             AddBySearchButton()
             AddByISBNButton()
+            BarcodeScanner()
         }
     }
 }

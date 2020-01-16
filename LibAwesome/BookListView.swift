@@ -9,19 +9,23 @@
 import SwiftUI
 
 struct BookListView: View {
+    @Environment(\.editMode) var mode
     @EnvironmentObject var env: Env
     
-    @State private var error: String?
-    @State private var showConfirm = false
+    // from https://stackoverflow.com/questions/56706188/how-does-one-enable-selections-in-swiftuis-list
+    // and https://stackoverflow.com/questions/57617524/swiftui-editbutton-action-on-done
+    @State var selectKeeper = Set<Int>()
+    
+    @State var error: String?
+    @State var showConfirm: Bool = false
     @State private var bookToDelete: Int = 0
     @State private var bookTitleToDelete: String = ""
     
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
             VStack {
-                List {
-                    ForEach(env.bookList.books.sorted(by: {$0 < $1})) { book in
-//                        NavigationLink(destination: BookDetailView().environmentObject(book)) {
+                List(selection: $selectKeeper) {
+                    ForEach(env.bookList.books.sorted(by: {$0 < $1}), id: \.id) { book in
                         Button(action: {
                             self.env.book = book
                             self.env.topView = .bookdetail
@@ -36,33 +40,39 @@ struct BookListView: View {
                                 ArrowRight()
                             }
                         }
-                    }.onDelete(perform: self.displayConfirm)
+                    }
+                    .onDelete(perform: self.displayConfirm)
                 }
-                    // from https://www.hackingwithswift.com/quick-start/ios-swiftui/using-an-alert-to-pop-a-navigationlink-programmatically
-                    .alert(isPresented: self.$showConfirm) {
-                        if self.error == nil {
-                            return Alert(title: Text("Delete '\(self.bookTitleToDelete)'"),
-                                         message: Text("Are you sure?"),
-                                         primaryButton: .destructive(Text("Delete")) {
-                                            self.swipeDeleteBook()
-                                },
-                                         secondaryButton: .cancel()
+                // from https://www.hackingwithswift.com/quick-start/ios-swiftui/using-an-alert-to-pop-a-navigationlink-programmatically
+                .alert(isPresented: self.$showConfirm) {
+                    if self.error == nil {
+                        return Alert(title: Text("Delete '\(self.bookTitleToDelete)'"),
+                                     message: Text("Are you sure?"),
+                                     primaryButton: .destructive(Text("Delete")) {
+                                        self.swipeDeleteBook()
+                            },
+                                     secondaryButton: .cancel()
+                        )
+                    } else {
+                        return Alert(title: Text("Error"),
+                                     message: Text(error!),
+                                     dismissButton: Alert.Button.default(
+                                        Text("OK"), action: {
+                                            self.error = nil
+                                            self.showConfirm = false
+                                     }
                             )
-                        } else {
-                            return Alert(title: Text("Error"),
-                                         message: Text(error!),
-                                         dismissButton: Alert.Button.default(
-                                            Text("OK"), action: {
-                                                self.error = nil
-                                                self.showConfirm = false
-                                         }
-                                )
-                            )
-                        }
+                        )
+                    }
                 }
             }
-            AddButton()
+            if self.mode?.wrappedValue == .active {
+                MassDeleteButton(itemsToDelete: self.selectKeeper, showConfirm: self.$showConfirm, error: self.$error)
                 .padding(10)
+            } else {
+                AddButton()
+                .padding(10)
+            }
         }
         .navigationBarTitle("Library", displayMode: .large)
     }
