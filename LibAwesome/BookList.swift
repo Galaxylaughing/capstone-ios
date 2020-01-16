@@ -8,6 +8,28 @@
 
 import Foundation
 
+/* Django Book Model
+WANTTOREAD = 'WTR'
+CURRENT = 'CURR'
+COMPLETED = 'COMP'
+PAUSED = 'PAUS'
+DISCARDED = 'DNF'
+STATUS_CHOICES = [
+    (WANTTOREAD, 'Want to Read'),
+    (CURRENT, 'Currently Reading'),
+    (COMPLETED, 'Completed'),
+    (PAUSED, 'Paused'),
+    (DISCARDED, 'Discarded'),
+]
+*/
+enum Status: String {
+    case wanttoread = "Want to Read"
+    case current = "Currently Reading"
+    case completed = "Completed"
+    case paused = "Paused"
+    case discarded = "Discarded"
+}
+
 class BookList: ObservableObject {
     @Published var books: [Book]
     
@@ -23,6 +45,7 @@ class BookList: ObservableObject {
         @Published var isbn13: String?
         @Published var pageCount: Int?
         @Published var description: String?
+        @Published var current_status: String
         @Published var tags: [String]
         
         func withAuthors(by main: String) -> String {
@@ -92,6 +115,7 @@ class BookList: ObservableObject {
             self.isbn13 = nil
             self.pageCount = nil
             self.description = nil
+            self.current_status = Status.wanttoread.rawValue // default status
             self.tags = []
         }
         
@@ -107,6 +131,7 @@ class BookList: ObservableObject {
              isbn13: String? = nil,
              pageCount: Int? = nil,
              description: String? = nil,
+             current_status: String = Status.wanttoread.rawValue, // default status
              tags: [String] = []) {
             self.id = id
             self.title = title
@@ -119,6 +144,7 @@ class BookList: ObservableObject {
             self.isbn13 = isbn13
             self.pageCount = pageCount
             self.description = description
+            self.current_status = current_status
             self.tags = tags
         }
         // init
@@ -134,6 +160,7 @@ class BookList: ObservableObject {
             self.isbn13 = book.isbn13
             self.pageCount = book.pageCount
             self.description = book.description
+            self.current_status = book.current_status
             self.tags = book.tags
         }
 
@@ -176,6 +203,7 @@ class BookList: ObservableObject {
                 isbn13: item.isbn_13,
                 pageCount: item.page_count,
                 description: item.description,
+                current_status: item.current_status,
                 tags: item.tags
             )
             
@@ -225,7 +253,8 @@ class BookList: ObservableObject {
                 isbn10: identifiers["ISBN_10"] ?? nil,
                 isbn13: identifiers["ISBN_13"] ?? nil,
                 pageCount: info.pageCount ?? nil,
-                description: info.description ?? ""
+                description: info.description ?? "",
+                current_status: Status.wanttoread.rawValue // default status
             )
 
             tempId -= 1
@@ -250,6 +279,7 @@ struct BookListService: Decodable {
         var isbn_13: String?
         var page_count: Int?
         var description: String?
+        var current_status: String
         var tags: [String]
         
         init() {
@@ -264,6 +294,7 @@ struct BookListService: Decodable {
             self.isbn_13 = nil
             self.page_count = nil
             self.description = nil
+            self.current_status = Status.wanttoread.rawValue
             self.tags = []
         }
         
@@ -279,6 +310,7 @@ struct BookListService: Decodable {
             isbn_13: String?,
             page_count: Int?,
             description: String?,
+            current_status: String = Status.wanttoread.rawValue, // default status
             tags: [String]
         ) {
             self.id = id
@@ -292,6 +324,7 @@ struct BookListService: Decodable {
             self.isbn_13 = isbn_13
             self.page_count = page_count
             self.description = description
+            self.current_status = current_status
             self.tags = tags
         }
         
@@ -307,6 +340,7 @@ struct BookListService: Decodable {
             self.isbn_13 = book.isbn13
             self.page_count = book.pageCount
             self.description = book.description
+            self.current_status = book.current_status
             self.tags = book.tags
         }
     }
