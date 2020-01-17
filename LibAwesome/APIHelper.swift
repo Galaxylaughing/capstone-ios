@@ -40,6 +40,16 @@ struct APIHelper {
                 Debug.debug(msg: "Error took place: \(error)", level: .error)
                 returnData = ["error": "\(error)"]
             }
+            guard let httpResponse = response as? HTTPURLResponse else {
+                Debug.debug(msg: "Error took place", level: .error)
+                returnData = ["error": "Could not connect to server"]
+                return
+            }
+            if !(200...299).contains(httpResponse.statusCode) {
+                Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .error)
+                returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
+                return
+            }
             // Convert HTTP Response Data to a String
             if let data = data, let dataString = String(data: data, encoding: .utf8) {
                 Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
@@ -151,7 +161,7 @@ struct APIHelper {
             
             // Convert HTTP Response Data to a String
             if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                Debug.debug(msg: "Response data string:\n \(dataString)", level: .debug)
+                Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                 returnData = ["success": "\(dataString)"]
             }
         }
@@ -893,6 +903,157 @@ struct APIHelper {
         task.resume()
         group.wait()
         return returnData
+    }
+    
+    // BOOKSTATUS - GET ALL PER BOOK
+    static func getStatusHistory(token: String?, bookId: Int) -> [String:String] {
+        // return unknown error if no other code overwrites with the correct error or success message
+        var returnData: [String:String] = ["error": "unknown error"]
+        
+        // Prepare URL
+        let url = URL(string: API_HOST+"status/\(bookId)/")
+        guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
+        
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "GET"
+        
+        //Prepare HTTP Request Header
+        let value = "Token \(token ?? "")"
+        request.setValue(value, forHTTPHeaderField: "Authorization")
+        
+        let group = DispatchGroup()
+        group.enter()
+        // Perform HTTP Request
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            defer { group.leave() }
+            
+            // Check for Error
+            if let error = error {
+                Debug.debug(msg: "Error took place: \(error)", level: .error)
+                returnData = ["error": "\(error)"]
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                Debug.debug(msg: "Error took place", level: .error)
+                returnData = ["error": "Unknown error communicating with server"]
+                return
+            }
+            
+            if httpResponse.statusCode == 400 {
+                Debug.debug(msg: "Error took place: \(httpResponse.statusCode) Could not find book ID \(bookId)", level: .error)
+                returnData = ["error": "\(httpResponse)"]
+                return
+            }
+            
+            if !(200...299).contains(httpResponse.statusCode) {
+                Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .error)
+                returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode): \(httpResponse)"]
+                return
+            }
+            
+            // Convert HTTP Response Data to a String
+            if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                Debug.debug(msg: "Response data string:\n \(dataString)", level: .debug)
+                returnData = ["success": "\(dataString)"]
+            }
+        }
+        task.resume()
+        group.wait()
+        return returnData
+    }
+    
+    // BOOKSTATUS - POST/CREATE
+    static func postStatus(
+        token: String?,
+        bookId: Int,
+        statusCode: String,
+        isoDate: String) -> [String:String] {
+        
+        // return unknown error if no other code overwrites with the correct error or success message
+        var returnData: [String:String] = ["error": "unknown error"]
+        
+        // prepare URL
+        let url = URL(string: API_HOST+"status/\(bookId)/")
+        guard let requestURL = url else { fatalError() } // unwraps the 'URL?' object
+        
+        // prepare request
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "POST"
+        
+        // set header
+        let value = "Token \(token ?? "")"
+        request.setValue(value, forHTTPHeaderField: "Authorization")
+        
+        // make body
+        struct StatusData: Encodable {
+            let status_code: String
+            let date: String
+        }
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+
+        let statusData = StatusData(status_code: statusCode, date: isoDate)
+        
+        if let jsonData = try? encoder.encode(statusData) {
+            Debug.debug(msg: String(data: jsonData, encoding: .utf8)!, level: .debug)
+            
+            // set body
+            request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+            request.httpBody = jsonData
+            
+            let group = DispatchGroup()
+            group.enter()
+            // Perform HTTP Request
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                defer { group.leave() }
+                
+                // Check for Error
+                if let error = error {
+                    Debug.debug(msg: "Error took place: \(error)", level: .error)
+                    returnData = ["error": "\(error)"]
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    Debug.debug(msg: "Error took place", level: .error)
+                    returnData = ["error": "Unknown error communicating with server"]
+                    return
+                }
+                
+                if (500...599).contains(httpResponse.statusCode) {
+                    Debug.debug(msg: "Error took place: \(httpResponse.statusCode) Internal Server Error", level: .error)
+                    returnData = ["error": "Internal Server Error"]
+                    return
+                }
+                
+                if httpResponse.statusCode == 400 {
+                    Debug.debug(msg: "Error took place: \(httpResponse.statusCode) Invalid status parameters", level: .error)
+                    returnData = ["error": "\(httpResponse)"]
+                    return
+                }
+                
+                if !(200...299).contains(httpResponse.statusCode) {
+                    Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .error)
+                    returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode): \(httpResponse)"]
+                    return
+                }
+                
+                // Convert HTTP Response Data to a String
+                if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                    Debug.debug(msg: "Response data string:\n \(dataString)", level: .debug)
+                    returnData = ["success": "\(dataString)"]
+                }
+            }
+            task.resume()
+            group.wait()
+            return returnData
+            
+        } else {
+            Debug.debug(msg: "error occurred during JSON encoding", level: .error)
+            return ["error": "Could not encode object to JSON"]
+        }
     }
     
 }

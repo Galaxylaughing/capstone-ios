@@ -9,10 +9,10 @@
 import Foundation
 import SwiftUI
 
-//let API_HOST = "http://127.0.0.1:8000/"
-let API_HOST = "http://192.168.1.18:8000/"
+// API URLS
+let API_HOST = "http://127.0.0.1:8000/"
+//let API_HOST = "http://192.168.1.18:8000/"
 //let API_HOST = "https://booktrackerapi.herokuapp.com/"
-
 let GOOGLE_BOOKS = "https://www.googleapis.com/books/v1/volumes?q="
 
 

@@ -46,17 +46,39 @@ struct BookDetailView: View {
     
     struct DisplayCurrentStatus: View {
         @EnvironmentObject var env: Env
+        @State private var showMenu: Bool = false
+        
         fileprivate func displayCurrentStatus() -> some View {
             return VStack {
                     Section() {
                         VStack {
-                            Text("status")
                             Divider()
-                            Text("\(self.env.book.current_status.rawValue)")
+                            Button(action: { self.showMenu.toggle() }) {
+                                HStack {
+                                    Text("\(self.env.book.current_status.getHumanReadableStatus())")
+                                    .padding(5)
+                                    if showMenu {
+                                        Image(systemName: "chevron.up")
+                                    } else {
+                                        Image(systemName: "chevron.down")
+                                    }
+                                }
+                                .contextMenu {
+                                    StatusButton.getStatusButtons(for: self.env.book)
+                                }
+                            }
+                            
+                            if showMenu {
+                                VStack {
+                                    Text("\(self.env.book.current_status_date, formatter: DateHelper.getDateFormatter())")
+                                }
+                            }
+                            
+                            Divider()
                         }
-                        .padding(.horizontal, 100)
+                        .padding(.horizontal, 60)
                     }
-                    .padding(.vertical)
+                    .padding(.bottom)
                 }
         }
         

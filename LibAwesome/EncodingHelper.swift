@@ -72,6 +72,16 @@ struct EncodingHelper {
             let bookList = BookList(from: serviceBookList)
             Debug.debug(msg: "\nI DECODED SUCCESSFULLY INTO OBJECT:")
             Debug.debug(msg: "\(bookList)")
+            
+            if Debug.debugLevel == .verbose {
+                Debug.debug(msg: "\nBOOKLIST CONTENTS:", level: .verbose)
+                for book in bookList.books {
+                    Debug.debug(msg: "\tBOOK: \t \(book.title)", level: .verbose)
+                    Debug.debug(msg: "\t\t\t\t \(book.authorNames())", level: .verbose)
+                    Debug.debug(msg: "\t\t\t\t \(book.current_status)", level: .verbose)
+                }
+            }
+            
             return bookList
         } else {
             Debug.debug(msg: "I FAILED in decodeBookList", level: .error)

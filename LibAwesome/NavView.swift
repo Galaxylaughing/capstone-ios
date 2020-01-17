@@ -22,6 +22,8 @@ enum TopViews {
     case seriesdetail
     case tagdetail
     
+    case currentreads
+    
     case googleresults
     case scanner
 }
@@ -62,6 +64,7 @@ struct NavView: View {
 
     var trailingView: some View {
          HStack {
+            CurrentReadsButton()
             NavButton(view: .settings, icon: SETTINGS_ICON)
         }
      }
@@ -97,7 +100,10 @@ struct NavView: View {
         HStack {
             // edit button
             if self.env.topView == .booklist {
+                CurrentReadsButton()
                 EditButton()
+            } else {
+                CurrentReadsButton()
             }
         }
     }
@@ -169,6 +175,10 @@ struct NavView: View {
             self.turnOnBackButton()
             view = AnyView(TagDetailView())
             
+        case .currentreads:
+            self.turnOnBackButton()
+            view = AnyView(CurrentReadsList())
+            
         case .googleresults:
             self.turnOnBackButton()
             view = AnyView(SearchResultList())
@@ -202,6 +212,9 @@ struct NavView: View {
             title = "Series Detail"
         case .tagdetail:
             title = "Tag Detail"
+            
+        case .currentreads:
+            title = "Currently Reading"
             
         case .googleresults:
             title = "Results"

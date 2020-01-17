@@ -8,28 +8,6 @@
 
 import Foundation
 
-/* Django Book Model
-WANTTOREAD = 'WTR'
-CURRENT = 'CURR'
-COMPLETED = 'COMP'
-PAUSED = 'PAUS'
-DISCARDED = 'DNF'
-STATUS_CHOICES = [
-    (WANTTOREAD, 'Want to Read'),
-    (CURRENT, 'Currently Reading'),
-    (COMPLETED, 'Completed'),
-    (PAUSED, 'Paused'),
-    (DISCARDED, 'Discarded'),
-]
-*/
-enum Status: String {
-    case wanttoread = "Want to Read"
-    case current = "Currently Reading"
-    case completed = "Completed"
-    case paused = "Paused"
-    case discarded = "Discarded"
-}
-
 class BookList: ObservableObject {
     @Published var books: [Book]
     
@@ -46,7 +24,9 @@ class BookList: ObservableObject {
         @Published var pageCount: Int?
         @Published var description: String?
         @Published var current_status: Status
+        @Published var current_status_date: Date
         @Published var tags: [String]
+        @Published var status_history: [BookStatusList.BookStatus]
         
         func withAuthors(by main: String) -> String {
             // returns a list of who else wrote a book in addition to the parameter
@@ -116,7 +96,9 @@ class BookList: ObservableObject {
             self.pageCount = nil
             self.description = nil
             self.current_status = Status.wanttoread // default status
+            self.current_status_date = Date() // default status date
             self.tags = []
+            self.status_history = []
         }
         
         // init
@@ -132,7 +114,9 @@ class BookList: ObservableObject {
              pageCount: Int? = nil,
              description: String? = nil,
              current_status: Status = Status.wanttoread, // default status
-             tags: [String] = []) {
+             current_status_date: Date = Date(), // default status date
+             tags: [String] = [],
+             status_history: [BookStatusList.BookStatus] = []) {
             self.id = id
             self.title = title
             self.authors = authors
@@ -145,7 +129,9 @@ class BookList: ObservableObject {
             self.pageCount = pageCount
             self.description = description
             self.current_status = current_status
+            self.current_status_date = current_status_date
             self.tags = tags
+            self.status_history = status_history
         }
         // init
         init(book: Book) {
@@ -161,7 +147,9 @@ class BookList: ObservableObject {
             self.pageCount = book.pageCount
             self.description = book.description
             self.current_status = book.current_status
+            self.current_status_date = book.current_status_date
             self.tags = book.tags
+            self.status_history = book.status_history
         }
 
     }
@@ -191,6 +179,9 @@ class BookList: ObservableObject {
                 authors.append(author)
             }
             
+            let formatter = ISO8601DateFormatter()
+            let isoDate = formatter.date(from: item.current_status_date) ?? Date()
+            
             let book = BookList.Book(
                 id: item.id,
                 title: item.title,
@@ -204,7 +195,9 @@ class BookList: ObservableObject {
                 pageCount: item.page_count,
                 description: item.description,
                 current_status: Status(rawValue: item.current_status) ?? Status.wanttoread,
-                tags: item.tags
+                current_status_date: isoDate,
+                tags: item.tags,
+                status_history: []
             )
             
             books.append(book)
@@ -254,7 +247,8 @@ class BookList: ObservableObject {
                 isbn13: identifiers["ISBN_13"] ?? nil,
                 pageCount: info.pageCount ?? nil,
                 description: info.description ?? "",
-                current_status: Status.wanttoread // default status
+                current_status: Status.wanttoread, // default status
+                current_status_date: Date() // default status date
             )
 
             tempId -= 1
@@ -280,6 +274,7 @@ struct BookListService: Decodable {
         var page_count: Int?
         var description: String?
         var current_status: String
+        var current_status_date: String
         var tags: [String]
         
         init() {
@@ -295,6 +290,11 @@ struct BookListService: Decodable {
             self.page_count = nil
             self.description = nil
             self.current_status = Status.wanttoread.rawValue
+            
+            let formatter = ISO8601DateFormatter()
+            let isoDateString = formatter.string(from: Date())
+            
+            self.current_status_date = isoDateString
             self.tags = []
         }
         
@@ -310,7 +310,8 @@ struct BookListService: Decodable {
             isbn_13: String?,
             page_count: Int?,
             description: String?,
-            current_status: String = Status.wanttoread.rawValue, // default status
+            current_status: String?,
+            current_status_date: String?,
             tags: [String]
         ) {
             self.id = id
@@ -324,7 +325,12 @@ struct BookListService: Decodable {
             self.isbn_13 = isbn_13
             self.page_count = page_count
             self.description = description
-            self.current_status = current_status
+            self.current_status = current_status ?? Status.wanttoread.rawValue
+            
+            let formatter = ISO8601DateFormatter()
+            let isoDateString = formatter.string(from: Date())
+            
+            self.current_status_date = current_status_date ?? isoDateString
             self.tags = tags
         }
         
@@ -341,6 +347,11 @@ struct BookListService: Decodable {
             self.page_count = book.pageCount
             self.description = book.description
             self.current_status = book.current_status.rawValue
+            
+            let formatter = ISO8601DateFormatter()
+            let isoDateString = formatter.string(from: book.current_status_date)
+            
+            self.current_status_date = isoDateString //CHECK
             self.tags = book.tags
         }
     }

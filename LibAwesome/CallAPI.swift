@@ -39,11 +39,15 @@ struct CallAPI {
             Debug.debug(msg: "\nCallAPI.getBooks is about to call getTags", level: .verbose)
             let tagList = EncodingHelper.getTags(from: apiBookList)
             
+            //CHECK add current reads calculator?
+            let currentReadsCount = Env.getCurrentReadsCount(from: apiBookList)
+            
             // update the environment variable
             DispatchQueue.main.async {
                 env.bookList = apiBookList
                 env.authorList = authorList
                 env.tagList = tagList
+                env.currentReadsCount = currentReadsCount
             }
         } else if let errorData = response["error"] {
             Debug.debug(msg: "\(errorData)", level: .error)
