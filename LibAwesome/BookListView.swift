@@ -30,27 +30,39 @@ struct BookListView: View {
         return booklist
     }
     
+    fileprivate func bookRow(for book: BookList.Book) -> some View {
+        return
+            Button(action: {
+                self.env.book = book
+                self.env.topView = .bookdetail
+            }) {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(book.title)
+                        HStack {
+                            Text(book.authorNames())
+                            Spacer()
+                            if book.rating != Rating.unrated {
+                                book.rating.getEmojiStarredRating()
+                                .foregroundColor(Color.yellow)
+                            }
+                        }
+                        .font(.caption)
+                    }
+                    Spacer()
+                    ArrowRight()
+                }
+                .contextMenu {
+                    StatusButton.getStatusButtons(for: book)
+                }
+            }
+    }
+    
     fileprivate func listBooks() -> AnyView {
         return AnyView(
             List(selection: $selectKeeper) {
                 ForEach(self.getSortedBookList(), id: \.id) { book in
-                    Button(action: {
-                        self.env.book = book
-                        self.env.topView = .bookdetail
-                    }) {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(book.title)
-                                Text(book.authorNames())
-                                    .font(.caption)
-                            }
-                            Spacer()
-                            ArrowRight()
-                        }
-                        .contextMenu {
-                            StatusButton.getStatusButtons(for: book)
-                        }
-                    }
+                    self.bookRow(for: book)
                 }
                 .onDelete(perform: self.displayConfirm)
             }
@@ -102,7 +114,6 @@ struct BookListView: View {
             }
         }
         .navigationBarTitle("Library", displayMode: .large)
-//        .onAppear(perform: { self.getFilteredBookList() })
     }
     
     func displayConfirm(at offsets: IndexSet) {
@@ -147,14 +158,34 @@ struct BookListView_Previews: PreviewProvider {
         authors: [
             "Neil Gaiman",
             "Terry Pratchett",
-    ])
+        ],
+        rating: Rating.four
+    )
     static var exampleBook2 = BookList.Book(
         id: 2,
         title: "A Great and Terrible Beauty",
         authors: [
             "Libba Bray"
-    ])
-    static var bookList = BookList(books: [exampleBook1, exampleBook2])
+        ],
+        rating: Rating.three
+    )
+    static var exampleBook3 = BookList.Book(
+        id: 3,
+        title: "Spinning Silver",
+        authors: [
+            "Naomi Novik"
+        ],
+        rating: Rating.five
+    )
+    static var exampleBook4 = BookList.Book(
+        id: 4,
+        title: "The Warrior's Apprentice",
+        authors: [
+            "Lois McMaster Bujold"
+        ],
+        rating: Rating.unrated
+    )
+    static var bookList = BookList(books: [exampleBook1, exampleBook2, exampleBook3, exampleBook4])
     static var env = Env(
         user: Env.defaultEnv.user,
         bookList: bookList,

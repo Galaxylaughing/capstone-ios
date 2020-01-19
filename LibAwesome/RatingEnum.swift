@@ -57,7 +57,7 @@ enum Rating: Int {
         case .five:
             emojiStars = fiveStars
         }
-        return emojiStars.foregroundColor(Color.yellow)
+        return emojiStars
     }
     
     func getStarredRating() -> AnyView {
