@@ -15,11 +15,19 @@ struct FilterChoicesButton: View {
     var body: some View {
         Button(action: { self.showOptions.toggle() }) {
             HStack {
-                Text("Filter by Status")
+                Text("Filter")
                 Spacer()
-                Text("\(self.env.selectedStatusFilter?.getHumanReadableStatus() ?? "Show All") ")
-                    .foregroundColor(Color.gray)
-                ArrowRight()
+                HStack {
+                    if self.env.selectedStatusFilter != nil {
+                        Text("\(self.env.selectedStatusFilter!.getHumanReadableStatus()) ")
+                    } else if self.env.selectedRatingFilter != nil {
+                        Text("\(self.env.selectedRatingFilter!.getEmojiStarredRating()) ")
+                    } else {
+                        Text("Show All ")
+                    }
+                    ArrowRight()
+                }
+                .foregroundColor(Color.gray)
             }
         }.sheet(isPresented: self.$showOptions) {
             FilterChoicesList(showOptions: self.$showOptions)

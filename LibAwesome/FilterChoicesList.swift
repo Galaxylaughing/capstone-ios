@@ -12,57 +12,50 @@ struct FilterChoicesList: View {
     @EnvironmentObject var env: Env
     @Binding var showOptions: Bool
     
-    struct SelectStatusButton: View {
-        var selectedStatus: Status?
-        var isDefault: Bool = false // true if the text is not a Status
-        var text: String
-        var selectAction: () -> ()
-        
-        fileprivate func isSelectedItem() -> Bool {
-            return (self.selectedStatus != nil
-                    && self.selectedStatus!.getHumanReadableStatus() == self.text)
-                || (self.selectedStatus == nil
-                    && self.isDefault)
-        }
-        
-        var body: some View {
-            Button(action: { self.selectAction() }) {
-                HStack {
-                    Text(self.text)
-                        .foregroundColor(self.isSelectedItem() ? Color.primary : Color.blue)
-                    Spacer()
-                    
-                    if self.isSelectedItem() {
-                        Image(systemName: "checkmark")
-                            .foregroundColor(Color.primary)
-                    }
-                }
-            }
-        }
-    }
-    
     var body: some View {
         Form {
             List() {
-                SelectStatusButton(
-                    selectedStatus: self.env.selectedStatusFilter,
-                    isDefault: true,
-                    text: "Show All",
-                    selectAction: {
-                        self.env.selectedStatusFilter = nil
-                        self.showOptions = false
-                    }
-                )
-                ForEach(Status.getStatusList(), id: \.self) { status in
-                    SelectStatusButton(
-                        selectedStatus: self.env.selectedStatusFilter,
-                        text: status.getHumanReadableStatus(),
+                Section {
+                    SelectAllButton(
+//                        selectedStatus: self.env.selectedStatusFilter,
+//                        isDefault: true,
+                        text: "Show All",
                         selectAction: {
-                            self.env.selectedStatusFilter = status
+                            self.env.selectedStatusFilter = nil
+                            self.env.selectedRatingFilter = nil
                             self.showOptions = false
                         }
                     )
                 }
+                
+                Section(header: Text("Filter by Status")) {
+                    ForEach(Status.getStatusList(), id: \.self) { status in
+                        SelectStatusButton(
+                            selectedStatus: self.env.selectedStatusFilter,
+                            text: status.getHumanReadableStatus(),
+                            selectAction: {
+                                self.env.selectedStatusFilter = status
+                                self.env.selectedRatingFilter = nil
+                                self.showOptions = false
+                            }
+                        )
+                    }
+                }
+                
+                Section(header: Text("Filter by Rating")) {
+                    ForEach(Rating.getRatingList(), id: \.self) { rating in
+                        SelectRatingButton(
+                            selectedRating: self.env.selectedRatingFilter,
+                            text: rating.getEmojiStarredRating(),
+                            selectAction: {
+                                self.env.selectedStatusFilter = nil
+                                self.env.selectedRatingFilter = rating
+                                self.showOptions = false
+                            }
+                        )
+                    }
+                }
+                
             }
         }
     }
@@ -73,5 +66,6 @@ struct FilterChoicesList_Previews: PreviewProvider {
     
     static var previews: some View {
         FilterChoicesList(showOptions: self.$showOptions)
+        .environmentObject(Env())
     }
 }

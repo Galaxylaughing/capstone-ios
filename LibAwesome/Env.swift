@@ -20,6 +20,7 @@ class Env: ObservableObject {
     @Published var book: BookList.Book
     @Published var currentReadsCount: Int
     @Published var selectedStatusFilter: Status?
+    @Published var selectedRatingFilter: Rating?
     @Published var selectedAuthorFilter: String?
     
     init(user: User, bookList: BookList, book: BookList.Book = BookList.Book(), authorList: AuthorList, seriesList: SeriesList, tagList: TagList, tag: TagList.Tag, tagToEdit: TagList.Tag) {

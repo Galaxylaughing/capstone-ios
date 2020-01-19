@@ -34,15 +34,45 @@ enum Rating: Int {
     case four = 4
     case five = 5
     
-    func getEmojiStarredRating() -> Text {
-        let zeroStars = Text("unrated")
-        let oneStar = Text("★☆☆☆☆")
-        let twoStars = Text("★★☆☆☆")
-        let threeStars = Text("★★★☆☆")
-        let fourStars = Text("★★★★☆")
-        let fiveStars = Text("★★★★★")
+    static func getRatingList() -> Array<Rating> {
+        return [
+            Rating.five,
+            Rating.four,
+            Rating.three,
+            Rating.two,
+            Rating.one,
+            Rating.unrated,
+        ]
+    }
+    
+    func getLongName() -> String {
+        var longName = ""
+        switch self {
+        case .unrated:
+            longName = "Unrated"
+        case .one:
+            longName = "One Star"
+        case .two:
+            longName = "Two Stars"
+        case .three:
+            longName = "Three Stars"
+        case .four:
+            longName = "Four Stars"
+        case .five:
+            longName = "Five Stars"
+        }
+        return longName
+    }
+    
+    func getEmojiStarredRating() -> String {
+        let zeroStars = "unrated"
+        let oneStar = "★☆☆☆☆"
+        let twoStars = "★★☆☆☆"
+        let threeStars = "★★★☆☆"
+        let fourStars = "★★★★☆"
+        let fiveStars = "★★★★★"
         
-        var emojiStars = Text("")
+        var emojiStars = ""
         switch self {
         case .unrated:
             emojiStars = zeroStars

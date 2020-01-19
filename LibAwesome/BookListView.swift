@@ -26,6 +26,9 @@ struct BookListView: View {
         if self.env.selectedStatusFilter != nil {
             booklist = BookHelper.filterByStatus(list: booklist, status: self.env.selectedStatusFilter!)
         }
+        else if self.env.selectedRatingFilter != nil {
+            booklist = BookHelper.filterByRating(list: booklist, rating: self.env.selectedRatingFilter!)
+        }
         booklist = booklist.sorted(by: {$0 < $1})
         return booklist
     }
@@ -43,7 +46,7 @@ struct BookListView: View {
                             Text(book.authorNames())
                             Spacer()
                             if book.rating != Rating.unrated {
-                                book.rating.getEmojiStarredRating()
+                                Text(book.rating.getEmojiStarredRating())
                                 .foregroundColor(Color.yellow)
                             }
                         }

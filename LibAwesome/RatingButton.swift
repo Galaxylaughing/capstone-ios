@@ -33,7 +33,7 @@ struct RatingButton: View {
     var body: some View {
         Button(action: { self.changeRating() }) {
             HStack {
-                self.rating.getEmojiStarredRating()
+                Text(self.rating.getEmojiStarredRating())
                 if self.isCurrentRating() {
                     Image(systemName: "checkmark.circle")
                 }

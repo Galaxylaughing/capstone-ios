@@ -110,6 +110,9 @@
 		04F5E13E23D388BF00B845A2 /* FilterChoicesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E13D23D388BF00B845A2 /* FilterChoicesButton.swift */; };
 		04F5E14423D4D0BF00B845A2 /* RatingEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14323D4D0BF00B845A2 /* RatingEnum.swift */; };
 		04F5E14623D4E0DE00B845A2 /* RatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14523D4E0DD00B845A2 /* RatingButton.swift */; };
+		04F5E14823D5078300B845A2 /* SelectStatusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14723D5078300B845A2 /* SelectStatusButton.swift */; };
+		04F5E14A23D5087200B845A2 /* SelectRatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14923D5087200B845A2 /* SelectRatingButton.swift */; };
+		04F5E14C23D50B6500B845A2 /* SelectAllButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14B23D50B6500B845A2 /* SelectAllButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -238,6 +241,9 @@
 		04F5E13D23D388BF00B845A2 /* FilterChoicesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChoicesButton.swift; sourceTree = "<group>"; };
 		04F5E14323D4D0BF00B845A2 /* RatingEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingEnum.swift; sourceTree = "<group>"; };
 		04F5E14523D4E0DD00B845A2 /* RatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingButton.swift; sourceTree = "<group>"; };
+		04F5E14723D5078300B845A2 /* SelectStatusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStatusButton.swift; sourceTree = "<group>"; };
+		04F5E14923D5087200B845A2 /* SelectRatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRatingButton.swift; sourceTree = "<group>"; };
+		04F5E14B23D50B6500B845A2 /* SelectAllButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAllButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -552,6 +558,9 @@
 			children = (
 				04F5E13D23D388BF00B845A2 /* FilterChoicesButton.swift */,
 				04F5E13B23D3825300B845A2 /* FilterChoicesList.swift */,
+				04F5E14B23D50B6500B845A2 /* SelectAllButton.swift */,
+				04F5E14923D5087200B845A2 /* SelectRatingButton.swift */,
+				04F5E14723D5078300B845A2 /* SelectStatusButton.swift */,
 			);
 			name = "Filter Booklist";
 			sourceTree = "<group>";
@@ -702,6 +711,7 @@
 				0413025923C28E5000FDF25B /* EditBookForm.swift in Sources */,
 				04E3125523C7C77D00757B56 /* EditTagButton.swift in Sources */,
 				0413023423BE624600FDF25B /* AlertHelper.swift in Sources */,
+				04F5E14C23D50B6500B845A2 /* SelectAllButton.swift in Sources */,
 				04AA7C7523BBB158003706C6 /* SignUpForm.swift in Sources */,
 				04E3126C23CA71F900757B56 /* HomeView.swift in Sources */,
 				04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */,
@@ -777,11 +787,13 @@
 				0413026A23C3A28E00FDF25B /* SeriesListView.swift in Sources */,
 				0413023723BE633400FDF25B /* TokenHelper.swift in Sources */,
 				0413025723C28E1900FDF25B /* EditBookButton.swift in Sources */,
+				04F5E14A23D5087200B845A2 /* SelectRatingButton.swift in Sources */,
 				043E15C323CFE41400F9E214 /* HomeNavButton.swift in Sources */,
 				04F5E13E23D388BF00B845A2 /* FilterChoicesButton.swift in Sources */,
 				04E3126F23CA73BB00757B56 /* TagListView.swift in Sources */,
 				041FB3E423CE832300D34B41 /* SearchResultList.swift in Sources */,
 				04E3125723C7C80500757B56 /* EditTagForm.swift in Sources */,
+				04F5E14823D5078300B845A2 /* SelectStatusButton.swift in Sources */,
 				04AA7C7123BBADF8003706C6 /* LoginForm.swift in Sources */,
 				04F5E14423D4D0BF00B845A2 /* RatingEnum.swift in Sources */,
 				04E3127923CABD2A00757B56 /* DeleteTagButton.swift in Sources */,

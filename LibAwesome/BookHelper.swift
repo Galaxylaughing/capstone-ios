@@ -10,6 +10,10 @@ import Foundation
 
 struct BookHelper {
     
+    static func filterByRating(list: [BookList.Book], rating: Rating) -> [BookList.Book] {
+        return list.filter { $0.rating == rating }
+    }
+    
     static func filterByStatus(list: [BookList.Book], status: Status) -> [BookList.Book] {
 //        var filteredList: [BookList.Book] = []
 //
