@@ -59,7 +59,6 @@ struct ISBNHelper {
             book: bookToSend)
         
         if response["success"] != nil {
-            print("came back from POSTING with success")
             // add new book to environment BookList
             if let newBook = EncodingHelper.makeBook(data: response["success"]!) {
                 let bookList = env.bookList

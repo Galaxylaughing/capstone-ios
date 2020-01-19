@@ -42,7 +42,6 @@ struct DeleteTagButton: View {
     
     
     func displayConfirm() {
-        print("DELETING \(self.env.tag.name)")
         self.showConfirm = true
     }
 

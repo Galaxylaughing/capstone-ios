@@ -269,11 +269,10 @@ struct AddBookForm: View {
         var cleanTags: [String] = []
         for tag in uncleanTags {
             let cleanTagName = EncodingHelper.encodeTagName(tagName: tag)
-            print("    CLEANED  \(cleanTagName) FOR BOOK")
             cleanTags.append(cleanTagName)
         }
         bookToSend.tags = cleanTags
-        Debug.debug(msg: "    tags: \(bookToSend.tags)", level: .debug)
+        Debug.debug(msg: "    tags: \(bookToSend.tags)", level: .verbose)
 
         // determine series information
         let seriesData = BookHelper.getSeriesId(
@@ -286,7 +285,7 @@ struct AddBookForm: View {
         let seriesId = seriesData["seriesId"] ?? nil
         bookToSend.position_in_series = position
         bookToSend.series = seriesId
-        Debug.debug(msg: "    position \(String(describing: bookToSend.position_in_series)) in series \(String(describing: bookToSend.series))", level: .debug)
+        Debug.debug(msg: "    position \(String(describing: bookToSend.position_in_series)) in series \(String(describing: bookToSend.series))", level: .verbose)
         
         // determine ISBNs
         if self.bookToAdd.isbn10 == "" {
@@ -299,8 +298,8 @@ struct AddBookForm: View {
         } else {
             bookToSend.isbn_13 = self.bookToAdd.isbn13
         }
-        Debug.debug(msg: "    ISBN-10: \(bookToSend.isbn_10 ?? "none")", level: .debug)
-        Debug.debug(msg: "    ISBN-10: \(bookToSend.isbn_13 ?? "none")", level: .debug)
+        Debug.debug(msg: "    ISBN-10: \(bookToSend.isbn_10 ?? "none")", level: .verbose)
+        Debug.debug(msg: "    ISBN-10: \(bookToSend.isbn_13 ?? "none")", level: .verbose)
 
         // determine publication info
         if self.bookToAdd.publisher == "" {
@@ -313,8 +312,8 @@ struct AddBookForm: View {
         } else {
             bookToSend.publication_date = self.bookToAdd.publicationDate
         }
-        Debug.debug(msg: "    Publisher: \(bookToSend.publisher ?? "none")", level: .debug)
-        Debug.debug(msg: "    PublicationDate: \(bookToSend.publication_date ?? "none")", level: .debug)
+        Debug.debug(msg: "    Publisher: \(bookToSend.publisher ?? "none")", level: .verbose)
+        Debug.debug(msg: "    PublicationDate: \(bookToSend.publication_date ?? "none")", level: .verbose)
 
         // determine page count
         let stringPageCount = self.bookToAdd.pageCount
@@ -323,7 +322,7 @@ struct AddBookForm: View {
         // Int() produces nil for not-numberifiable strings, including empty string
         let numberified = Int(cleanPageCount)
         bookToSend.page_count = numberified
-        Debug.debug(msg: "    page count: \(String(describing: bookToSend.page_count))", level: .debug)
+        Debug.debug(msg: "    page count: \(String(describing: bookToSend.page_count))", level: .verbose)
 
         // determine description
         if self.bookToAdd.description == "" {
@@ -331,7 +330,7 @@ struct AddBookForm: View {
         } else {
             bookToSend.description = self.bookToAdd.description
         }
-        Debug.debug(msg: "    Description: \(bookToSend.description ?? "none")", level: .debug)
+        Debug.debug(msg: "    Description: \(bookToSend.description ?? "none")", level: .verbose)
         
         return bookToSend
     }

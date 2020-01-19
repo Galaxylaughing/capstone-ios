@@ -22,7 +22,7 @@ struct GoogleBooksHelper {
             Debug.debug(msg: """
                 Successfully parsed Google Books API response,
                 received: \(bookList) with \(bookList.books.count) books
-                """,                                                                    level: .debug)
+                """,                                                                    level: .verbose)
             let allBooks = bookList.books
             for book in allBooks {
                 Debug.debug(msg: "\n\tBOOK: ",                                          level: .verbose)

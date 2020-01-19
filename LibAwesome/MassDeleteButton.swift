@@ -18,6 +18,7 @@ struct MassDeleteButton: View {
     var body: some View {
         Button(action: { self.deleteListItems() }) {
             MassDeleteIcon()
+                .foregroundColor(Color.red)
         }
     }
     

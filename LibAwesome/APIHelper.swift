@@ -233,7 +233,7 @@ struct APIHelper {
                 
                 // Convert HTTP Response Data to a String
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                    Debug.debug(msg: "Response data string:\n \(dataString)", level: .debug)
+                    Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                     returnData = ["success": "\(dataString)"]
                 }
             }
@@ -857,8 +857,6 @@ struct APIHelper {
         let percentEncodedString = EncodingHelper.percentEncodeString(string: searchString)
         guard let encoded = percentEncodedString else { fatalError() }
         
-        print("ENCODED: \(encoded)")
-        
         let urlString = GOOGLE_BOOKS+encoded+"&startIndex=0&maxResults=20" // restricts number of results
         let url = URL(string: urlString)
         guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
@@ -955,7 +953,7 @@ struct APIHelper {
             
             // Convert HTTP Response Data to a String
             if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                Debug.debug(msg: "Response data string:\n \(dataString)", level: .debug)
+                Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                 returnData = ["success": "\(dataString)"]
             }
         }
@@ -997,7 +995,7 @@ struct APIHelper {
         let statusData = StatusData(status_code: statusCode, date: isoDate)
         
         if let jsonData = try? encoder.encode(statusData) {
-            Debug.debug(msg: String(data: jsonData, encoding: .utf8)!, level: .debug)
+            Debug.debug(msg: String(data: jsonData, encoding: .utf8)!, level: .verbose)
             
             // set body
             request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
@@ -1042,7 +1040,7 @@ struct APIHelper {
                 
                 // Convert HTTP Response Data to a String
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                    Debug.debug(msg: "Response data string:\n \(dataString)", level: .debug)
+                    Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                     returnData = ["success": "\(dataString)"]
                 }
             }
@@ -1146,7 +1144,7 @@ struct APIHelper {
         let ratingData = RatingData(rating: rating)
         
         if let jsonData = try? encoder.encode(ratingData) {
-            Debug.debug(msg: String(data: jsonData, encoding: .utf8)!, level: .debug)
+            Debug.debug(msg: String(data: jsonData, encoding: .utf8)!, level: .verbose)
             
             // set body
             request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
@@ -1185,7 +1183,7 @@ struct APIHelper {
                 
                 // Convert HTTP Response Data to a String
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                    Debug.debug(msg: "Response data string:\n \(dataString)", level: .debug)
+                    Debug.debug(msg: "Response data string:\n \(dataString)", level: .verbose)
                     returnData = ["success": "\(dataString)"]
                 }
             }

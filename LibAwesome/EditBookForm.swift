@@ -286,13 +286,13 @@ struct EditBookForm: View {
         let uncleanTags = self.bookToEdit.tags
         var cleanTags: [String] = []
         for tag in uncleanTags {
-            Debug.debug(msg: "    STARTED WITH  \(tag)", level: .debug)
+            Debug.debug(msg: "    STARTED WITH  \(tag)", level: .verbose)
             let cleanTagName = EncodingHelper.encodeTagName(tagName: tag)
-            Debug.debug(msg: "    CLEANED  \(cleanTagName) FOR BOOK", level: .debug)
+            Debug.debug(msg: "    CLEANED  \(cleanTagName) FOR BOOK", level: .verbose)
             cleanTags.append(cleanTagName)
         }
         prepBook.tags = cleanTags
-        Debug.debug(msg: "    tags: \(prepBook.tags)", level: .debug)
+        Debug.debug(msg: "    tags: \(prepBook.tags)", level: .verbose)
         
         // determine series information
         let seriesData = BookHelper.getSeriesId(
@@ -372,9 +372,9 @@ struct EditBookForm: View {
             book: bookToSend)
         
         if response["success"] != nil {
-            Debug.debug(msg: "Successfully returned from API call", level: .debug)
+            Debug.debug(msg: "Successfully returned from API call", level: .verbose)
             if let newBook = EncodingHelper.makeBook(data: response["success"]!) {
-                Debug.debug(msg: "Successfully encoded new book", level: .debug)
+                Debug.debug(msg: "Successfully encoded new book", level: .verbose)
                 
                 // update book in environment's BookList
                 if let index = self.env.bookList.books.firstIndex(where: { $0.id == newBook.id }) {

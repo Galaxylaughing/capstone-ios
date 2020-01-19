@@ -27,7 +27,13 @@ struct BarcodeScanner: View {
     
     @State private var result: String = ""
     @State private var error: String = ""
-    @State private var showError: Bool = false
+    @State private var showAlert: Bool = false
+    
+    @State private var warningTitle: String = ""
+    @State private var warningMessage: String = ""
+    @State private var proceedAfterWarning: Bool = false
+    
+    @State private var isbn: String = ""
     
     var body: some View {
         VStack {
@@ -45,18 +51,34 @@ struct BarcodeScanner: View {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                 )
                 .padding()
-                .alert(isPresented: self.$showError) {
-                    return Alert(
-                        title: Text("Error"),
-                        message: Text(self.error),
-                        dismissButton: Alert.Button.default(
-                            Text("OK"),
-                            action: {
-                                self.error = ""
-                                self.showError = false
-                            }
+                .alert(isPresented: self.$showAlert) {
+                    if self.warningMessage != "" {
+                        return Alert(
+                            title: Text(self.warningTitle),
+                            message: Text(self.warningMessage),
+                            primaryButton: .destructive(Text("Add Book")) {
+                                self.warningTitle = ""
+                                self.warningMessage = ""
+                                self.proceedAfterWarning = true
+                                self.showAlert = false
+                                self.addBookWithScannedData(isbn: self.isbn)
+                            },
+                            secondaryButton: .cancel()
                         )
-                    )
+                        
+                    } else {
+                        return Alert(
+                            title: Text("Error"),
+                            message: Text(self.error),
+                            dismissButton: Alert.Button.default(
+                                Text("OK"),
+                                action: {
+                                    self.error = ""
+                                    self.showAlert = false
+                                }
+                            )
+                        )
+                    }
                 }
             }
             .sheet(isPresented: self.$isShowingScanner) {
@@ -69,17 +91,32 @@ struct BarcodeScanner: View {
     }
     
     func addBookWithScannedData(isbn: String) {
-        let response = ISBNHelper.addWithIsbn(isbn: isbn, env: self.env)
+        var isbnIsPresent = false
         
-        if response["success"] != nil {
-            // addWithIsbn sets self.env.book
-            DispatchQueue.main.async {
-                self.env.topView = .bookdetail
-            }
-        } else if response["error"] != nil {
-            self.error = response["error"]!
-            self.showError = true
+        if !self.proceedAfterWarning {
+            isbnIsPresent = BookHelper.isPresentInList(isbn: isbn, in: self.env.bookList.books)
         }
+        
+        if isbnIsPresent {
+            self.warningTitle = "This ISBN is already present in your library."
+            self.warningMessage = "Are you sure you want to add it?"
+            self.showAlert = true
+        }
+        
+        if (!isbnIsPresent) || (isbnIsPresent && self.proceedAfterWarning) {
+            let response = ISBNHelper.addWithIsbn(isbn: isbn, env: self.env)
+            
+            if response["success"] != nil {
+                // addWithIsbn sets self.env.book
+                DispatchQueue.main.async {
+                    self.env.topView = .bookdetail
+                }
+            } else if response["error"] != nil {
+                self.error = response["error"]!
+                self.showAlert = true
+            }
+        }
+        
     }
     
     func handleScan(result: Result<String, CodeScannerView.ScanError>) {
@@ -88,24 +125,25 @@ struct BarcodeScanner: View {
         switch result {
         case .success(let code):
             var isbnCode = code
-            Debug.debug(msg: "Found code: \(isbnCode)", level: .debug)
+            Debug.debug(msg: "Found code: \(isbnCode)", level: .verbose)
             
             /* from: https://bisg.org/page/BarcodingGuidelines ->
              "The number set zero [0] was assigned to the UPC. Thus the 12-digit UPC in the US and Canada is a subset of, and fully compatible with, the 13-digit EAN by the addition of the zero prefix."
              */
             if code.count == 12 {
                 isbnCode = "0" + code
-                Debug.debug(msg: "Created code: \(isbnCode)", level: .debug)
+                Debug.debug(msg: "Created code: \(isbnCode)", level: .verbose)
             }
             
             DispatchQueue.main.async {
+                self.isbn = isbnCode
                 self.addBookWithScannedData(isbn: isbnCode)
             }
         case .failure(let error):
-            Debug.debug(msg: "\(error.localizedDescription)", level: .debug)
+            Debug.debug(msg: "\(error.localizedDescription)", level: .verbose)
             DispatchQueue.main.async {
                 self.error = error.localizedDescription
-                self.showError = true
+                self.showAlert = true
             }
         }
         

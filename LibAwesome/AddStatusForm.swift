@@ -79,7 +79,7 @@ struct AddStatusForm: View {
         // date
         let formatter = ISO8601DateFormatter()
         let isoDateString = formatter.string(from: self.date)
-        Debug.debug(msg: "\(isoDateString)", level: .debug)
+        Debug.debug(msg: "\(isoDateString)", level: .verbose)
         
         // POST a new status to API
         let response = APIHelper.postStatus(
@@ -93,7 +93,7 @@ struct AddStatusForm: View {
         let oldStatusDate = self.bookToUpdate.current_status_date
         let newStatusDate = self.date
         if response["success"] != nil {
-            print("successfully posted new status")
+            Debug.debug(msg: "successfully posted new status", level: .verbose)
             
             // find book in environment booklist and change it's status
             let tempBookList = self.env.bookList

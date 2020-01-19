@@ -97,13 +97,9 @@ struct EditTagForm: View {
     
     func editTag() {
         let newBookIds = self.unBuildBookChecklist()
-        print("TAG'S BOOKS:", newBookIds)
         
         let cleanTagName = EncodingHelper.encodeTagName(tagName: self.env.tagToEdit.name)
         let cleanNewTagName = EncodingHelper.encodeTagName(tagName: self.tagToEdit.name)
-        
-        print("ENV.TAGTOEDIT: \(cleanTagName)")
-        print("SELF.TAGTOEDIT: \(cleanNewTagName)")
         
         // make PUT to update tag
         let response = APIHelper.putTag(
@@ -132,9 +128,9 @@ struct EditTagForm: View {
                 }
             }
             let newTagToEdit = TagList.Tag(name: newUncleanTagName, books: taggedBooks)
-            print("I'M BACK WITH: \(newTagToEdit) \(newTagToEdit.name)")
+            Debug.debug(msg: "I'M BACK WITH: \(newTagToEdit) \(newTagToEdit.name)", level: .verbose)
             for book in newTagToEdit.books {
-                print("-- \(book.title)")
+                Debug.debug(msg: "-- \(book.title)", level: .verbose)
             }
             
             var currentBookList = self.env.tag.books
@@ -145,11 +141,9 @@ struct EditTagForm: View {
             }
             for (index, book) in currentBookList.enumerated() {
                 if !taggedBooks.contains(book) {
-                    print("book", book, book.title)
                     // potentially could be deleted
                     var hasPrefix: Bool = false
                     for tag in book.tags {
-                        print("tag", tag)
                         // does the tag have the prefix
                         let prefix = cleanTagName + "__" // check for old tag name + __
                         if tag.hasPrefix(prefix) {

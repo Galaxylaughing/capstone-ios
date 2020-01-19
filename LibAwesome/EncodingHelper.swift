@@ -171,8 +171,8 @@ struct EncodingHelper {
     
     // BOOK-STATUS
     static func decodeStatusList(str: String) -> BookStatusList? {
-        Debug.debug(msg: "I'M DECODING THIS:", level: .debug)
-        Debug.debug(msg: str, level: .debug)
+        Debug.debug(msg: "I'M DECODING THIS:", level: .verbose)
+        Debug.debug(msg: str, level: .verbose)
         
         let data: Data? = str.data(using: .utf8)
         // create a decoder
@@ -197,9 +197,9 @@ struct EncodingHelper {
     // turn JSON into a BookStatusList object
     static func makeStatusList(data: String) -> BookStatusList? {
         if let statusList = decodeStatusList(str: data) {
-            Debug.debug(msg: "\nRESULTING STATUS:", level: .debug)
+            Debug.debug(msg: "\nRESULTING STATUS:", level: .verbose)
             for status in statusList.status_history {
-                Debug.debug(msg: "\(status) \(status.status.getHumanReadableStatus())", level: .debug)
+                Debug.debug(msg: "\(status) \(status.status.getHumanReadableStatus())", level: .verbose)
             }
             return statusList
         }
@@ -231,16 +231,16 @@ struct EncodingHelper {
         }
     }
     static func decodeDeletedStatusData(str: String) -> NewCurrentStatusInfo? {
-        Debug.debug(msg: "I'M DECODING THIS:", level: .debug)
-        Debug.debug(msg: str, level: .debug)
+        Debug.debug(msg: "I'M DECODING THIS:", level: .verbose)
+        Debug.debug(msg: str, level: .verbose)
         
         let data: Data? = str.data(using: .utf8)
         // create a decoder
         let decoder = JSONDecoder()
         // 'decode' the JSON into it's object equivalent
         if let deletedStatusService = try? decoder.decode(DeletedStatusService.self, from: data!) {
-            Debug.debug(msg: "\nI DECODED SUCCESSFULLY INTO SERVICE:", level: .debug)
-            Debug.debug(msg: "\(deletedStatusService)", level: .debug)
+            Debug.debug(msg: "\nI DECODED SUCCESSFULLY INTO SERVICE:", level: .verbose)
+            Debug.debug(msg: "\(deletedStatusService)", level: .verbose)
                 
             let formatter = ISO8601DateFormatter()
             let isoDate = formatter.date(from: deletedStatusService.current_status_date)
@@ -250,8 +250,8 @@ struct EncodingHelper {
                 currentStatusDate: isoDate ?? Date()
             )
             
-            Debug.debug(msg: "\nI DECODED SUCCESSFULLY INTO OBJECT:", level: .debug)
-            Debug.debug(msg: "\(newCurrentStatusInfo)", level: .debug)
+            Debug.debug(msg: "\nI DECODED SUCCESSFULLY INTO OBJECT:", level: .verbose)
+            Debug.debug(msg: "\(newCurrentStatusInfo)", level: .verbose)
             return newCurrentStatusInfo
             
         } else {

@@ -59,8 +59,6 @@ struct SignUpForm: View {
     func signupUser() {
         let response = APIHelper.signupUser(username: self.username, password: self.password)
         
-        print("caller sees: \(response)")
-        
         if let _ = response["success"] {
             // set signup success message
             self.signupSuccess = true

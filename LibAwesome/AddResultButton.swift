@@ -27,22 +27,19 @@ struct AddResultButton: View {
     }
     
     func addBook() {
-        print("adding")
-        
         // POST selected book to API
         let bookToSend: BookListService.Book = BookListService.Book(from: self.book)
         
-        print(bookToSend.title)
-        print("  \(String(describing: bookToSend.position_in_series))")
-        print("  \(String(describing: bookToSend.series))")
-        print("  \(bookToSend.tags)")
+        Debug.debug(msg: "\(bookToSend.title)", level: .verbose)
+        Debug.debug(msg: "  \(String(describing: bookToSend.position_in_series))", level: .verbose)
+        Debug.debug(msg: "  \(String(describing: bookToSend.series))", level: .verbose)
+        Debug.debug(msg: "  \(bookToSend.tags)", level: .verbose)
         
         let response = APIHelper.postBook(
             token: self.env.user.token,
             book: bookToSend)
 
         if response["success"] != nil {
-            print("came back from POSTING with success")
             // add new book to environment BookList
             if let newBook = EncodingHelper.makeBook(data: response["success"]!) {
                 let bookList = self.env.bookList

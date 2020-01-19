@@ -112,13 +112,7 @@ struct AddBySearchForm: View {
         }
         
         DispatchQueue.main.async {
-            AddBySearchForm.searchResults = googleBookList
-            
-            print("search results \(AddBySearchForm.searchResults.books.count)")
-            for result in AddBySearchForm.searchResults.books {
-                print("-- \(result.title)")
-            }
-            
+            AddBySearchForm.searchResults = googleBookList            
             self.env.topView = .googleresults
         }
     }

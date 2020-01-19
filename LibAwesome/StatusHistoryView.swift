@@ -21,7 +21,7 @@ struct StatusHistoryView: View {
         
         if Debug.debugLevel == .debug {
             for status in self.env.book.status_history {
-                Debug.debug(msg: "\(status.status.getHumanReadableStatus())", level: .debug)
+                Debug.debug(msg: "\(status.status.getHumanReadableStatus())", level: .verbose)
             }
         }
     }
