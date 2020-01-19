@@ -108,6 +108,7 @@
 		04F5E13923D263EC00B845A2 /* SeeStatusHistoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E13823D263EC00B845A2 /* SeeStatusHistoryButton.swift */; };
 		04F5E13C23D3825300B845A2 /* FilterChoicesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E13B23D3825300B845A2 /* FilterChoicesList.swift */; };
 		04F5E13E23D388BF00B845A2 /* FilterChoicesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E13D23D388BF00B845A2 /* FilterChoicesButton.swift */; };
+		04F5E14423D4D0BF00B845A2 /* RatingEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14323D4D0BF00B845A2 /* RatingEnum.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -234,6 +235,7 @@
 		04F5E13823D263EC00B845A2 /* SeeStatusHistoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeStatusHistoryButton.swift; sourceTree = "<group>"; };
 		04F5E13B23D3825300B845A2 /* FilterChoicesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChoicesList.swift; sourceTree = "<group>"; };
 		04F5E13D23D388BF00B845A2 /* FilterChoicesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChoicesButton.swift; sourceTree = "<group>"; };
+		04F5E14323D4D0BF00B845A2 /* RatingEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingEnum.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -412,6 +414,7 @@
 			children = (
 				04AA7C7A23BBB99E003706C6 /* User.swift */,
 				0413024723BFE91300FDF25B /* BookList.swift */,
+				04F5E14323D4D0BF00B845A2 /* RatingEnum.swift */,
 				041FB3DD23CE522200D34B41 /* FormBook.swift */,
 				0413027023C3AFA700FDF25B /* SeriesList.swift */,
 				04E3125A23C8D93700757B56 /* AuthorList.swift */,
@@ -776,6 +779,7 @@
 				041FB3E423CE832300D34B41 /* SearchResultList.swift in Sources */,
 				04E3125723C7C80500757B56 /* EditTagForm.swift in Sources */,
 				04AA7C7123BBADF8003706C6 /* LoginForm.swift in Sources */,
+				04F5E14423D4D0BF00B845A2 /* RatingEnum.swift in Sources */,
 				04E3127923CABD2A00757B56 /* DeleteTagButton.swift in Sources */,
 				04AA7C6D23BBAC53003706C6 /* LoginIconView.swift in Sources */,
 				04E3124123C6C03200757B56 /* TagBubble.swift in Sources */,

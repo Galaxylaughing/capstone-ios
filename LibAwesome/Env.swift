@@ -22,7 +22,7 @@ class Env: ObservableObject {
     @Published var selectedStatusFilter: Status?
     @Published var selectedAuthorFilter: String?
     
-    init(user: User, bookList: BookList, authorList: AuthorList, seriesList: SeriesList, tagList: TagList, tag: TagList.Tag, tagToEdit: TagList.Tag) {
+    init(user: User, bookList: BookList, book: BookList.Book = BookList.Book(), authorList: AuthorList, seriesList: SeriesList, tagList: TagList, tag: TagList.Tag, tagToEdit: TagList.Tag) {
         self.user = user
         self.bookList = bookList
         self.authorList = authorList
@@ -30,7 +30,7 @@ class Env: ObservableObject {
         self.tagList = tagList
         self.tag = tag
         self.tagToEdit = tagToEdit
-        self.book = BookList.Book()
+        self.book = book
         self.currentReadsCount = Env.getCurrentReadsCount(from: bookList) //CHECK
     }
     

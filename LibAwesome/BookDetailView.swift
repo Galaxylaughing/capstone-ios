@@ -44,6 +44,15 @@ struct BookDetailView: View {
         }
     }
     
+    struct DisplayRating: View {
+        @EnvironmentObject var env: Env
+        
+        var body: some View {
+            self.env.book.rating.getStarredRating()
+                .padding(.top, 5)
+        }
+    }
+    
     struct DisplayCurrentStatus: View {
         @EnvironmentObject var env: Env
         @State private var showMenu: Bool = false
@@ -53,10 +62,11 @@ struct BookDetailView: View {
                     Section() {
                         VStack {
                             Divider()
+                            DisplayRating()
                             Button(action: { self.showMenu.toggle() }) {
                                 HStack {
                                     Text("\(self.env.book.current_status.getHumanReadableStatus())")
-                                    .padding(5)
+                                        .padding(5)
                                     if showMenu {
                                         Image(systemName: "chevron.up")
                                     } else {
@@ -378,7 +388,8 @@ struct BookDetailView_Previews: PreviewProvider {
         id: 1,
         name: "Animorphs",
         plannedCount: 10,
-        books: [1])
+        books: [1]
+    )
     static var exampleBook = BookList.Book(
         id: 1,
         title: "Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch",
@@ -397,6 +408,7 @@ struct BookDetailView_Previews: PreviewProvider {
         The classic collaboration from the internationally bestselling authors Neil Gaiman and Terry Pratchett. According to The Nice and Accurate Prophecies of Agnes Nutter, Witch (the world's only completely accurate book of prophecies, written in 1655, before she exploded), the world will end on a Saturday. Next Saturday, in fact. Just before dinner. So the armies of Good and Evil are amassing, Atlantis is rising, frogs are falling, tempers are flaring. Everything appears to be going according to Divine Plan. Except a somewhat fussy angel and a fast-living demon—both of whom have lived amongst Earth's mortals since The Beginning and have grown rather fond of the lifestyle—are not actually looking forward to the coming Rapture. And someone seems to have misplaced the Antichrist.
         """,
         current_status: Status.completed,
+        rating: Rating.four,
         tags: ["fantasy", "science-fiction", "comedy", "fantasy/contemporary"]
     )
     
@@ -405,11 +417,13 @@ struct BookDetailView_Previews: PreviewProvider {
     static var env = Env(
         user: Env.defaultEnv.user,
         bookList: bookList,
+        book: exampleBook,
         authorList: Env.defaultEnv.authorList,
         seriesList: seriesList,
         tagList: Env.defaultEnv.tagList,
         tag: Env.defaultEnv.tag,
-        tagToEdit: Env.defaultEnv.tagToEdit)
+        tagToEdit: Env.defaultEnv.tagToEdit
+    )
     
     static var previews: some View {
         BookDetailView()

@@ -25,6 +25,7 @@ class BookList: ObservableObject {
         @Published var description: String?
         @Published var current_status: Status
         @Published var current_status_date: Date
+        @Published var rating: Rating
         @Published var tags: [String]
         @Published var status_history: [BookStatusList.BookStatus]
         
@@ -97,6 +98,7 @@ class BookList: ObservableObject {
             self.description = nil
             self.current_status = Status.wanttoread // default status
             self.current_status_date = Date() // default status date
+            self.rating = Rating.unrated
             self.tags = []
             self.status_history = []
         }
@@ -115,6 +117,7 @@ class BookList: ObservableObject {
              description: String? = nil,
              current_status: Status = Status.wanttoread, // default status
              current_status_date: Date = Date(), // default status date
+             rating: Rating = Rating.unrated,
              tags: [String] = [],
              status_history: [BookStatusList.BookStatus] = []) {
             self.id = id
@@ -130,6 +133,7 @@ class BookList: ObservableObject {
             self.description = description
             self.current_status = current_status
             self.current_status_date = current_status_date
+            self.rating = rating
             self.tags = tags
             self.status_history = status_history
         }
@@ -148,6 +152,7 @@ class BookList: ObservableObject {
             self.description = book.description
             self.current_status = book.current_status
             self.current_status_date = book.current_status_date
+            self.rating = book.rating
             self.tags = book.tags
             self.status_history = book.status_history
         }
@@ -196,6 +201,7 @@ class BookList: ObservableObject {
                 description: item.description,
                 current_status: Status(rawValue: item.current_status) ?? Status.wanttoread,
                 current_status_date: isoDate,
+                rating: Rating(rawValue: item.rating) ?? Rating.unrated,
                 tags: item.tags,
                 status_history: []
             )
@@ -248,7 +254,8 @@ class BookList: ObservableObject {
                 pageCount: info.pageCount ?? nil,
                 description: info.description ?? "",
                 current_status: Status.wanttoread, // default status
-                current_status_date: Date() // default status date
+                current_status_date: Date(), // default status date
+                rating: Rating.unrated
             )
 
             tempId -= 1
@@ -275,6 +282,7 @@ struct BookListService: Decodable {
         var description: String?
         var current_status: String
         var current_status_date: String
+        var rating: Int
         var tags: [String]
         
         init() {
@@ -295,6 +303,7 @@ struct BookListService: Decodable {
             let isoDateString = formatter.string(from: Date())
             
             self.current_status_date = isoDateString
+            self.rating = 0
             self.tags = []
         }
         
@@ -312,6 +321,7 @@ struct BookListService: Decodable {
             description: String?,
             current_status: String?,
             current_status_date: String?,
+            rating: Int,
             tags: [String]
         ) {
             self.id = id
@@ -331,6 +341,7 @@ struct BookListService: Decodable {
             let isoDateString = formatter.string(from: Date())
             
             self.current_status_date = current_status_date ?? isoDateString
+            self.rating = rating
             self.tags = tags
         }
         
@@ -352,6 +363,7 @@ struct BookListService: Decodable {
             let isoDateString = formatter.string(from: book.current_status_date)
             
             self.current_status_date = isoDateString //CHECK
+            self.rating = book.rating.rawValue
             self.tags = book.tags
         }
     }

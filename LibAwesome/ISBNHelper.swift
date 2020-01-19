@@ -52,6 +52,7 @@ struct ISBNHelper {
             description: googleBook.description,
             current_status: nil, // replaced by default in initializer
             current_status_date: nil, // replaced by default in initializer
+            rating: 0,
             tags: [])
         let response = APIHelper.postBook(
             token: env.user.token,
