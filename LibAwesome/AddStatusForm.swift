@@ -90,14 +90,21 @@ struct AddStatusForm: View {
         )
         
         let oldStatus = self.bookToUpdate.current_status
+        let oldStatusDate = self.bookToUpdate.current_status_date
+        let newStatusDate = self.date
         if response["success"] != nil {
             print("successfully posted new status")
             
             // find book in environment booklist and change it's status
             let tempBookList = self.env.bookList
             if let index = tempBookList.books.firstIndex(where: {$0.id == self.bookToUpdate.id}) {
-                tempBookList.books[index].current_status = newStatus
+                // if the new status is more recent
+                if newStatusDate > oldStatusDate {
+                    tempBookList.books[index].current_status = newStatus
+                    tempBookList.books[index].current_status_date = newStatusDate
+                }
             }
+            
             // update environment currently reading count
             var currentReadsCount = self.env.currentReadsCount
             if newStatus == Status.current

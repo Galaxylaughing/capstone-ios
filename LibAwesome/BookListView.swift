@@ -21,52 +21,76 @@ struct BookListView: View {
     @State private var bookToDelete: Int = 0
     @State private var bookTitleToDelete: String = ""
     
+    func getSortedBookList() -> [BookList.Book] {
+        var booklist = self.env.bookList.books
+        if self.env.selectedStatusFilter != nil {
+            booklist = BookHelper.filterByStatus(list: booklist, status: self.env.selectedStatusFilter!)
+        }
+        booklist = booklist.sorted(by: {$0 < $1})
+        return booklist
+    }
+    
+    fileprivate func listBooks() -> AnyView {
+        return AnyView(
+            List(selection: $selectKeeper) {
+                ForEach(self.getSortedBookList(), id: \.id) { book in
+                    Button(action: {
+                        self.env.book = book
+                        self.env.topView = .bookdetail
+                    }) {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(book.title)
+                                Text(book.authorNames())
+                                    .font(.caption)
+                            }
+                            Spacer()
+                            ArrowRight()
+                        }
+                        .contextMenu {
+                            StatusButton.getStatusButtons(for: book)
+                        }
+                    }
+                }
+                .onDelete(perform: self.displayConfirm)
+            }
+                // from https://www.hackingwithswift.com/quick-start/ios-swiftui/using-an-alert-to-pop-a-navigationlink-programmatically
+                .alert(isPresented: self.$showConfirm) {
+                    if self.error == nil {
+                        return Alert(title: Text("Delete '\(self.bookTitleToDelete)'"),
+                                     message: Text("Are you sure?"),
+                                     primaryButton: .destructive(Text("Delete")) {
+                                        self.swipeDeleteBook()
+                            },
+                                     secondaryButton: .cancel()
+                        )
+                    } else {
+                        return Alert(title: Text("Error"),
+                                     message: Text(error!),
+                                     dismissButton: Alert.Button.default(
+                                        Text("OK"), action: {
+                                            self.error = nil
+                                            self.showConfirm = false
+                                     }
+                            )
+                        )
+                    }
+            }
+        )
+    }
+    
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
             VStack {
-                List(selection: $selectKeeper) {
-                    ForEach(env.bookList.books.sorted(by: {$0 < $1}), id: \.id) { book in
-                        Button(action: {
-                            self.env.book = book
-                            self.env.topView = .bookdetail
-                        }) {
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text(book.title)
-                                    Text(book.authorNames())
-                                        .font(.caption)
-                                }
-                                Spacer()
-                                ArrowRight()
-                            }
-                            .contextMenu {
-                                StatusButton.getStatusButtons(for: book)
-                            }
-                        }
+                Section {
+                    VStack {
+                        FilterChoicesButton()
+                            .padding([.horizontal, .top])
+                        Divider()
                     }
-                    .onDelete(perform: self.displayConfirm)
                 }
-                    // from https://www.hackingwithswift.com/quick-start/ios-swiftui/using-an-alert-to-pop-a-navigationlink-programmatically
-                    .alert(isPresented: self.$showConfirm) {
-                        if self.error == nil {
-                            return Alert(title: Text("Delete '\(self.bookTitleToDelete)'"),
-                                         message: Text("Are you sure?"),
-                                         primaryButton: .destructive(Text("Delete")) {
-                                            self.swipeDeleteBook()
-                                },
-                                         secondaryButton: .cancel()
-                            )
-                        } else {
-                            return Alert(title: Text("Error"),
-                                         message: Text(error!),
-                                         dismissButton: Alert.Button.default(
-                                            Text("OK"), action: {
-                                                self.error = nil
-                                                self.showConfirm = false
-                                         }
-                                )
-                            )
-                        }
+                Section {
+                    self.listBooks()
                 }
             }
             if self.mode?.wrappedValue == .active {
@@ -78,6 +102,7 @@ struct BookListView: View {
             }
         }
         .navigationBarTitle("Library", displayMode: .large)
+//        .onAppear(perform: { self.getFilteredBookList() })
     }
     
     func displayConfirm(at offsets: IndexSet) {

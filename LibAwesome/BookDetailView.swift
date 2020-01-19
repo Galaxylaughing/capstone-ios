@@ -68,9 +68,13 @@ struct BookDetailView: View {
                                 }
                             }
                             
+                            
                             if showMenu {
                                 VStack {
                                     Text("\(self.env.book.current_status_date, formatter: DateHelper.getDateFormatter())")
+                                    
+                                    SeeStatusHistoryButton()
+                                    .padding(.top)
                                 }
                             }
                             

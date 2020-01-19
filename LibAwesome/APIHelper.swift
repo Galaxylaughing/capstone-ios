@@ -1056,4 +1056,63 @@ struct APIHelper {
         }
     }
     
+    // BOOK-STATUS - DELETE
+    static func deleteBookStatus(token: String?, statusId: Int) -> [String:String] {
+        // return unknown error if no other code overwrites with the correct error or success message
+        var returnData: [String:String] = ["error": "unknown error"]
+        
+        // Prepare URL
+        let url = URL(string: API_HOST+"status/\(statusId)/")
+        guard let requestUrl = url else { fatalError() } // unwraps `URL?` object
+        
+        // Prepare URL Request Object
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "DELETE"
+        
+        //Prepare HTTP Request Header
+        let value = "Token \(token ?? "")"
+        request.setValue(value, forHTTPHeaderField: "Authorization")
+        
+        let group = DispatchGroup()
+        group.enter()
+        // Perform HTTP Request
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            defer { group.leave() }
+            
+            // Check for Error
+            if let error = error {
+                Debug.debug(msg: "Error took place: \(error)", level: .error)
+                returnData = ["error": "\(error)"]
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                Debug.debug(msg: "Error took place", level: .error)
+                returnData = ["error": "Unknown error communicating with server"]
+                return
+            }
+            
+            if httpResponse.statusCode == 400 {
+                Debug.debug(msg: "Error took place: \(httpResponse.statusCode) Could not find status with ID: '\(statusId)'", level: .error)
+                returnData = ["error": "Could not find status with ID: \(statusId)"]
+                return
+            }
+            
+            if !(200...299).contains(httpResponse.statusCode) {
+                Debug.debug(msg: "Error took place: \(httpResponse.statusCode)", level: .error)
+                returnData = ["error": "HTTP Response Code: \(httpResponse.statusCode)"]
+                return
+            }
+            
+            // Convert HTTP Response Data to a String
+            if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                Debug.debug(msg: "Response data string:\n \(dataString)", level: .debug)
+                returnData = ["success": "\(dataString)"]
+            }
+        }
+        task.resume()
+        group.wait()
+        return returnData
+    }
+    
 }

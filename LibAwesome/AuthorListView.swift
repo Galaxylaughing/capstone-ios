@@ -10,14 +10,31 @@ import SwiftUI
 
 struct AuthorListView: View {
     @EnvironmentObject var env: Env
+    @State private var selectedFilter: Int = 0
+    
+    fileprivate func getSortedAuthorList() -> [AuthorList.Author] {
+        var authorlist = self.env.authorList.authors
+        if self.selectedFilter == 0 {
+            authorlist = authorlist.sorted(by: { $0.name < $1.name })
+        } else {
+            authorlist = authorlist.sorted(by: { $0.getLastName() < $1.getLastName() })
+        }
+        return authorlist
+    }
     
     var body: some View {
         VStack {
             Section {
+                Picker(selection: $selectedFilter, label: Text("Sort Author Names"), content: {
+                        Text("Sort by First Name").tag(0)
+                        Text("Sort by Last Name").tag(1)
+                }).pickerStyle(SegmentedPickerStyle())
+                    .padding(.top, 10)
+            }
+            Section {
                 List {
-                    ForEach(self.env.authorList.authors) { author in
+                    ForEach(self.getSortedAuthorList()) { author in
                         HStack {
-//                            NavigationLink(destination: AuthorDetailView().environmentObject(author)) {
                             Button(action: {
                                 AuthorDetailView.author = author
                                 self.env.topView = .authordetail
@@ -33,7 +50,6 @@ struct AuthorListView: View {
                 }
             }
         }
-//        .navigationBarTitle("Authors", displayMode: .large)
     }
 }
 

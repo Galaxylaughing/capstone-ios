@@ -25,7 +25,7 @@ struct StatusButton: View {
         }
     }
     
-    fileprivate func isDisabled() -> Bool {
+    fileprivate func isCurrent() -> Bool {
         return self.bookToUpdate.current_status == self.status
     }
     
@@ -33,7 +33,7 @@ struct StatusButton: View {
         Button(action: { self.showForm.toggle() }) {
             HStack {
                 Text(self.status.getHumanReadableStatus())
-                if self.isDisabled() {
+                if self.isCurrent() {
                     Image(systemName: "checkmark.circle")
                 }
             }
@@ -45,7 +45,6 @@ struct StatusButton: View {
             )
             .environmentObject(self.env)
         }
-        .disabled(self.isDisabled())
     }
 }
 

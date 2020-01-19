@@ -104,6 +104,10 @@
 		04F5E12F23D22FFB00B845A2 /* StatusList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E12E23D22FFB00B845A2 /* StatusList.swift */; };
 		04F5E13323D24DDF00B845A2 /* CurrentReadsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E13223D24DDF00B845A2 /* CurrentReadsList.swift */; };
 		04F5E13523D24E0400B845A2 /* CurrentReadsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E13423D24E0400B845A2 /* CurrentReadsButton.swift */; };
+		04F5E13723D263D500B845A2 /* StatusHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E13623D263D500B845A2 /* StatusHistoryView.swift */; };
+		04F5E13923D263EC00B845A2 /* SeeStatusHistoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E13823D263EC00B845A2 /* SeeStatusHistoryButton.swift */; };
+		04F5E13C23D3825300B845A2 /* FilterChoicesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E13B23D3825300B845A2 /* FilterChoicesList.swift */; };
+		04F5E13E23D388BF00B845A2 /* FilterChoicesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E13D23D388BF00B845A2 /* FilterChoicesButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -226,6 +230,10 @@
 		04F5E12E23D22FFB00B845A2 /* StatusList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusList.swift; sourceTree = "<group>"; };
 		04F5E13223D24DDF00B845A2 /* CurrentReadsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentReadsList.swift; sourceTree = "<group>"; };
 		04F5E13423D24E0400B845A2 /* CurrentReadsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentReadsButton.swift; sourceTree = "<group>"; };
+		04F5E13623D263D500B845A2 /* StatusHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusHistoryView.swift; sourceTree = "<group>"; };
+		04F5E13823D263EC00B845A2 /* SeeStatusHistoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeStatusHistoryButton.swift; sourceTree = "<group>"; };
+		04F5E13B23D3825300B845A2 /* FilterChoicesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChoicesList.swift; sourceTree = "<group>"; };
+		04F5E13D23D388BF00B845A2 /* FilterChoicesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChoicesButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -497,6 +505,8 @@
 				04F5E12A23D21A6D00B845A2 /* AddStatusForm.swift */,
 				04F5E13423D24E0400B845A2 /* CurrentReadsButton.swift */,
 				04F5E13223D24DDF00B845A2 /* CurrentReadsList.swift */,
+				04F5E13823D263EC00B845A2 /* SeeStatusHistoryButton.swift */,
+				04F5E13623D263D500B845A2 /* StatusHistoryView.swift */,
 			);
 			name = Status;
 			sourceTree = "<group>";
@@ -505,6 +515,7 @@
 			isa = PBXGroup;
 			children = (
 				0413026323C399D800FDF25B /* BookListView.swift */,
+				04F5E13A23D3824100B845A2 /* Filter Booklist */,
 				043E15C423CFEE1000F9E214 /* MassDeleteButton.swift */,
 				0413024C23C0566E00FDF25B /* AddButton.swift */,
 				0413024E23C0613F00FDF25B /* AddBookForm.swift */,
@@ -528,6 +539,15 @@
 				04E3127A23CAC0CF00757B56 /* DeleteBookButton.swift */,
 			);
 			name = "Book Detail";
+			sourceTree = "<group>";
+		};
+		04F5E13A23D3824100B845A2 /* Filter Booklist */ = {
+			isa = PBXGroup;
+			children = (
+				04F5E13D23D388BF00B845A2 /* FilterChoicesButton.swift */,
+				04F5E13B23D3825300B845A2 /* FilterChoicesList.swift */,
+			);
+			name = "Filter Booklist";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -669,6 +689,7 @@
 			files = (
 				04F5E12B23D21A6D00B845A2 /* AddStatusForm.swift in Sources */,
 				04E3126923CA6DAA00757B56 /* NavView.swift in Sources */,
+				04F5E13923D263EC00B845A2 /* SeeStatusHistoryButton.swift in Sources */,
 				04E3125F23C8EDFE00757B56 /* AuthorDetailView.swift in Sources */,
 				041FB3DE23CE522200D34B41 /* FormBook.swift in Sources */,
 				0413028423C5098300FDF25B /* EditSeriesForm.swift in Sources */,
@@ -688,6 +709,7 @@
 				0413027523C3DDF900FDF25B /* AddSeriesButton.swift in Sources */,
 				04080F3C23C67716006E1523 /* TagList.swift in Sources */,
 				0413023923BE63BF00FDF25B /* APIHelper.swift in Sources */,
+				04F5E13C23D3825300B845A2 /* FilterChoicesList.swift in Sources */,
 				0413028223C502CE00FDF25B /* SeriesForm.swift in Sources */,
 				04D4006623BD240B009D256C /* ContentView.swift in Sources */,
 				04080F3A23C676C9006E1523 /* TagsListView.swift in Sources */,
@@ -742,12 +764,14 @@
 				04E3126323C9942400757B56 /* Debug.swift in Sources */,
 				04F5E13523D24E0400B845A2 /* CurrentReadsButton.swift in Sources */,
 				0413024823BFE91300FDF25B /* BookList.swift in Sources */,
+				04F5E13723D263D500B845A2 /* StatusHistoryView.swift in Sources */,
 				0413024F23C0613F00FDF25B /* AddBookForm.swift in Sources */,
 				04E3125123C7AF4800757B56 /* TagUpdate.swift in Sources */,
 				0413026A23C3A28E00FDF25B /* SeriesListView.swift in Sources */,
 				0413023723BE633400FDF25B /* TokenHelper.swift in Sources */,
 				0413025723C28E1900FDF25B /* EditBookButton.swift in Sources */,
 				043E15C323CFE41400F9E214 /* HomeNavButton.swift in Sources */,
+				04F5E13E23D388BF00B845A2 /* FilterChoicesButton.swift in Sources */,
 				04E3126F23CA73BB00757B56 /* TagListView.swift in Sources */,
 				041FB3E423CE832300D34B41 /* SearchResultList.swift in Sources */,
 				04E3125723C7C80500757B56 /* EditTagForm.swift in Sources */,

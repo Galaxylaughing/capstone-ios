@@ -74,5 +74,12 @@ class AuthorList: ObservableObject {
         static func == (lhs: Author, rhs: Author) -> Bool {
             return lhs.name == rhs.name
         }
+        
+        func getLastName() -> Substring {
+            let name = self.name
+            let lastSpace = name.lastIndex(of: " ") ?? name.startIndex
+            let lastName = name[lastSpace..<name.endIndex]
+            return lastName
+        }
     }
 }

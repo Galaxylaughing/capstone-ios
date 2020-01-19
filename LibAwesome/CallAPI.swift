@@ -9,6 +9,25 @@
 import Foundation
 
 struct CallAPI {
+    static func getStatusHistory(env: Env) {
+        let response = APIHelper.getStatusHistory(token: env.user.token, bookId: env.book.id)
+        
+        if let data = response["success"] {
+            let apiStatusList = EncodingHelper.makeStatusList(data: data) ?? BookStatusList()
+            
+            let updatedBook = env.book
+            updatedBook.status_history = apiStatusList.status_history
+            
+            DispatchQueue.main.async {
+                env.book = updatedBook
+            }
+        } else if let errorData = response["error"] {
+            Debug.debug(msg: "\(errorData)", level: .error)
+        } else {
+            Debug.debug(msg: "other unknown error", level: .error)
+        }
+    }
+    
     static func getSeries(env: Env) {
         let response = APIHelper.getSeries(token: env.user.token)
         

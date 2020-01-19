@@ -10,6 +10,19 @@ import Foundation
 
 struct BookHelper {
     
+    static func filterByStatus(list: [BookList.Book], status: Status) -> [BookList.Book] {
+//        var filteredList: [BookList.Book] = []
+//
+//        for book in list {
+//            if book.current_status == status {
+//                filteredList.append(book)
+//            }
+//        }
+//
+//        return filteredList
+        return list.filter { $0.current_status == status }
+    }
+    
     static func getSeriesId(
         seriesList: SeriesList,
         assignSeries: Bool,

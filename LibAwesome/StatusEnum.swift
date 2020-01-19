@@ -30,6 +30,16 @@ enum Status: String {
     case paused = "PAUS"
     case discarded = "DNF"
     
+    static func getStatusList() -> Array<Status> {
+        return [
+            Status.wanttoread,
+            Status.current,
+            Status.completed,
+            Status.paused,
+            Status.discarded
+        ]
+    }
+    
     static let statusTranslator: [Status:String] = [
         Status.wanttoread: "Want to Read",
         Status.current: "Currently Reading",
