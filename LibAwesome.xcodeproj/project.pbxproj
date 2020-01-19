@@ -456,9 +456,9 @@
 			children = (
 				04E3126E23CA73BB00757B56 /* TagListView.swift */,
 				04E3124423C6C8A200757B56 /* TagDetailView.swift */,
+				04E3125423C7C77D00757B56 /* EditTagButton.swift */,
 				04E3125623C7C80500757B56 /* EditTagForm.swift */,
 				04E3125823C7CBDE00757B56 /* BookUpdate.swift */,
-				04E3125423C7C77D00757B56 /* EditTagButton.swift */,
 				04E3127823CABD2A00757B56 /* DeleteTagButton.swift */,
 				04080F3D23C690AC006E1523 /* ShowTagCountButton.swift */,
 			);

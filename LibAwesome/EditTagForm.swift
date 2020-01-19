@@ -116,24 +116,9 @@ struct EditTagForm: View {
             // ensure all the books have the correct tags
             let newUncleanTagName = self.tagToEdit.name
             let newTagName = cleanNewTagName
-            // check all the books that had the old tag
-            let oldTaggedBooks = self.env.tagToEdit.books
-            let oldTagName = cleanTagName//self.env.tagToEdit.name
-            // go through old tagged books
-            for tagBook in oldTaggedBooks {
-                if let book = self.env.bookList.books.first(where: {$0.id == tagBook.id}) {
-                    // is the book's id in new book ids?
-                    if let index = book.tags.firstIndex(where: { $0 == oldTagName }) {
-                        if newBookIds.contains(book.id) {
-                            // if it is, update the name of the tag on the book
-                            book.tags[index] = newTagName
-                        } else {
-                            // if it isn't, remove the tag from the book
-                            book.tags.remove(at: index)
-                        }
-                    }
-                }
-            }
+
+            CallAPI.getBooksAndTags(env: self.env)
+            
             // check the books that need to have the tag
             // build tag's book list from book ids
             var taggedBooks: [BookList.Book] = []
@@ -160,11 +145,13 @@ struct EditTagForm: View {
             }
             for (index, book) in currentBookList.enumerated() {
                 if !taggedBooks.contains(book) {
+                    print("book", book, book.title)
                     // potentially could be deleted
                     var hasPrefix: Bool = false
                     for tag in book.tags {
+                        print("tag", tag)
                         // does the tag have the prefix
-                        let prefix = newTagName + "/"
+                        let prefix = cleanTagName + "__" // check for old tag name + __
                         if tag.hasPrefix(prefix) {
                             hasPrefix = true
                             break
@@ -187,9 +174,7 @@ struct EditTagForm: View {
                     NavView.goBack(env: self.env)
                 }
             }
-            // update taglist in the environment
-            Env.setEnv(in: self.env, to: self.env.bookList)
-
+            
             // should dismiss sheet if success
             self.showForm = false
         } else if response["error"] != nil {

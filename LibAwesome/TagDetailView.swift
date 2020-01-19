@@ -13,11 +13,45 @@ struct TagDetailView: View {
     
     @State private var bookList = BookList(books: [])
     static var showEditButtons: Bool = true
+    
+    func getDescendantName(tagName: String) -> String {
+        let parentTagName = self.env.tag.name
+        let nested = tagName[parentTagName.endIndex..<tagName.endIndex]
+        
+        return String(nested)
+    }
+    
+    func getOtherTagNames(tagName: String) -> String {
+        var text: String = ""
+        if tagName.contains(self.env.tag.name) {
+            text = self.getDescendantName(tagName: tagName)
+        } else {
+            text = tagName
+        }
+        
+        // swap underscores for slashes
+        text = EncodingHelper.decodeTagName(tagName: text)
+        
+        return text
+    }
+    
+    func listAssociatedTags(book: BookList.Book) -> AnyView {
+        return AnyView(
+            ForEach(book.tags, id: \.self) { tag in
+                VStack {
+                    if tag != self.env.tag.name {
+                        Text(self.getOtherTagNames(tagName: tag))
+                            .font(.caption)
+                    }
+                }
+            }
+        )
+    }
 
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(self.env.tag.name/*displayName()*/)
+                Text(self.env.tag.name)
                     .font(.title)
                     .fontWeight(.semibold)
             }
@@ -31,7 +65,13 @@ struct TagDetailView: View {
                             self.env.topView = .bookdetail
                         }) {
                             HStack {
-                                Text("\(book.title)")
+                                VStack(alignment: .leading) {
+                                    Text("\(book.title)")
+                                    
+                                    VStack(alignment: .leading) {
+                                        self.listAssociatedTags(book: book)
+                                    }
+                                }
                                 Spacer()
                                 ArrowRight()
                             }
@@ -52,7 +92,7 @@ struct TagDetailView_Previews: PreviewProvider {
             "James Butcher"
         ],
         position: 3,
-        tags: ["science-fiction"])
+        tags: ["fiction"])
     static var book2 = BookList.Book(
         id: 2,
         title: "Fool Moon",
@@ -60,7 +100,7 @@ struct TagDetailView_Previews: PreviewProvider {
             "James Butcher"
         ],
         position: 2,
-        tags: ["science-fiction"])
+        tags: ["fiction/science-fiction", "fantasy"])
     static var book3 = BookList.Book(
         id: 3,
         title: "Grave Peril",
@@ -68,11 +108,11 @@ struct TagDetailView_Previews: PreviewProvider {
             "Jim Butcher"
         ],
         position: 1,
-        tags: ["science-fiction"])
+        tags: ["fiction/science-fiction"])
     static var bookList = BookList(books: [book1, book2, book3])
     
     static var tag = TagList.Tag(
-        name: "fiction/science-fiction",
+        name: "fiction",
         books: [book1, book2, book3])
     static var env = Env(
         user: Env.defaultEnv.user,

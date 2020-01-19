@@ -44,6 +44,28 @@ struct CallAPI {
         }
     }
     
+    static func getBooksAndTags(env: Env) {
+        let response = APIHelper.getBooks(token: env.user.token)
+        
+        if let data = response["success"] {
+            let apiBookList = EncodingHelper.makeBookList(data: data) ?? BookList(books: [])
+            
+            Debug.debug(msg: "\nCallAPI.getBooks returned from calling getAuthors", level: .verbose)
+            Debug.debug(msg: "\nCallAPI.getBooks is about to call getTags", level: .verbose)
+            let tagList = EncodingHelper.getTags(from: apiBookList)
+            
+            // update the environment variable
+            DispatchQueue.main.async {
+                env.bookList = apiBookList
+                env.tagList = tagList
+            }
+        } else if let errorData = response["error"] {
+            Debug.debug(msg: "\(errorData)", level: .error)
+        } else {
+            Debug.debug(msg: "other unknown error", level: .error)
+        }
+    }
+    
     static func getBooks(env: Env) {
         let response = APIHelper.getBooks(token: env.user.token)
         
