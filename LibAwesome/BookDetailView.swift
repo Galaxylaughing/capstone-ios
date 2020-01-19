@@ -48,8 +48,13 @@ struct BookDetailView: View {
         @EnvironmentObject var env: Env
         
         var body: some View {
-            self.env.book.rating.getStarredRating()
-                .padding(.top, 5)
+            HStack {
+                self.env.book.rating.getStarredRating()
+                .padding(10)
+                .contextMenu {
+                    RatingButton.getRatingButtons(for: self.env.book)
+                }
+            }
         }
     }
     

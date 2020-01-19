@@ -109,6 +109,7 @@
 		04F5E13C23D3825300B845A2 /* FilterChoicesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E13B23D3825300B845A2 /* FilterChoicesList.swift */; };
 		04F5E13E23D388BF00B845A2 /* FilterChoicesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E13D23D388BF00B845A2 /* FilterChoicesButton.swift */; };
 		04F5E14423D4D0BF00B845A2 /* RatingEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14323D4D0BF00B845A2 /* RatingEnum.swift */; };
+		04F5E14623D4E0DE00B845A2 /* RatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14523D4E0DD00B845A2 /* RatingButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -236,6 +237,7 @@
 		04F5E13B23D3825300B845A2 /* FilterChoicesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChoicesList.swift; sourceTree = "<group>"; };
 		04F5E13D23D388BF00B845A2 /* FilterChoicesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChoicesButton.swift; sourceTree = "<group>"; };
 		04F5E14323D4D0BF00B845A2 /* RatingEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingEnum.swift; sourceTree = "<group>"; };
+		04F5E14523D4E0DD00B845A2 /* RatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -540,6 +542,7 @@
 				0413025823C28E5000FDF25B /* EditBookForm.swift */,
 				04E3125023C7AF4800757B56 /* TagUpdate.swift */,
 				04E3127A23CAC0CF00757B56 /* DeleteBookButton.swift */,
+				04F5E14523D4E0DD00B845A2 /* RatingButton.swift */,
 			);
 			name = "Book Detail";
 			sourceTree = "<group>";
@@ -740,6 +743,7 @@
 				0413028A23C5401E00FDF25B /* SeriesDetailView.swift in Sources */,
 				041FB3D123CCEA2900D34B41 /* AddByISBNForm.swift in Sources */,
 				04F5E13323D24DDF00B845A2 /* CurrentReadsList.swift in Sources */,
+				04F5E14623D4E0DE00B845A2 /* RatingButton.swift in Sources */,
 				04D4006423BBF982009D256C /* ErrorAlert.swift in Sources */,
 				04E3124F23C78E0A00757B56 /* CallAPI.swift in Sources */,
 				041FB3E823CF805200D34B41 /* SearchResultChecklist.swift in Sources */,

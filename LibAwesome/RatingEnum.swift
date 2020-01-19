@@ -34,6 +34,32 @@ enum Rating: Int {
     case four = 4
     case five = 5
     
+    func getEmojiStarredRating() -> Text {
+        let zeroStars = Text("unrated")
+        let oneStar = Text("★☆☆☆☆")
+        let twoStars = Text("★★☆☆☆")
+        let threeStars = Text("★★★☆☆")
+        let fourStars = Text("★★★★☆")
+        let fiveStars = Text("★★★★★")
+        
+        var emojiStars = Text("")
+        switch self {
+        case .unrated:
+            emojiStars = zeroStars
+        case .one:
+            emojiStars = oneStar
+        case .two:
+            emojiStars = twoStars
+        case .three:
+            emojiStars = threeStars
+        case .four:
+            emojiStars = fourStars
+        case .five:
+            emojiStars = fiveStars
+        }
+        return emojiStars.foregroundColor(Color.yellow)
+    }
+    
     func getStarredRating() -> AnyView {
         let filledStarCount = self.rawValue
         let remainingStarCount = (5 - filledStarCount)
@@ -43,11 +69,15 @@ enum Rating: Int {
         
         return AnyView(
             HStack {
-                ForEach(0..<filledStarCount, id: \.self) { _ in
-                    filledStar
-                }
-                ForEach(0..<remainingStarCount, id: \.self) { _ in
-                    emptyStar
+                if self.rawValue != 0 {
+                    ForEach(0..<filledStarCount, id: \.self) { _ in
+                        filledStar
+                    }
+                    ForEach(0..<remainingStarCount, id: \.self) { _ in
+                        emptyStar
+                    }
+                } else {
+                    Text("unrated")
                 }
             }
         )
