@@ -70,21 +70,21 @@ struct LoginForm: View {
     func loginUser() {
         let response = APIHelper.loginUser(username: self.username, password: self.password)
         
-        print("caller sees: \(response)")
-        
         if let userToken = response["success"] {
             // from https://stackoverflow.com/questions/57798050/updating-published-variable-of-an-observableobject-inside-child-view
             // Update the value on the main thread
             DispatchQueue.main.async {
                 self.env.user = User(username: self.username, token: userToken)
-                print(self.env.user)
-                print(self.env.user.username ?? "couldn't get username")
-                print(self.env.user.token ?? "couldn't get token")
+                Debug.debug(msg: "user: \(self.env.user)", level: .verbose)
+                Debug.debug(msg: "username: \(self.env.user.username ?? "couldn't get username")", level: .verbose)
+                Debug.debug(msg: "user: \(self.env.user.token ?? "couldn't get token")", level: .verbose)
             }
         } else if let errorData = response["error"] {
+            Debug.debug(msg: "error: \(errorData)", level: .error)
             self.error = ErrorAlert(reason: "\(errorData)")
         } else {
-            self.error = ErrorAlert(reason: "other unknown error")
+            Debug.debug(msg: "error: other unknown error", level: .error)
+            self.error = ErrorAlert(reason: "unknown error")
         }
     }
     

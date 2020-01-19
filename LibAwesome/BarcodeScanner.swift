@@ -61,7 +61,7 @@ struct BarcodeScanner: View {
             }
             .sheet(isPresented: self.$isShowingScanner) {
                 CodeScannerView(
-                    codeTypes: [.ean13, .code128],
+                    codeTypes: [.ean8, .ean13, .upce, .code39, .code39Mod43, .code93, .code128, .interleaved2of5, .itf14],
                     simulatedData: "FakeNumber999",
                     completion: self.handleScan)
             }
@@ -87,9 +87,19 @@ struct BarcodeScanner: View {
         
         switch result {
         case .success(let code):
-            Debug.debug(msg: "Found code: \(code)", level: .debug)
+            var isbnCode = code
+            Debug.debug(msg: "Found code: \(isbnCode)", level: .debug)
+            
+            /* from: https://bisg.org/page/BarcodingGuidelines ->
+             "The number set zero [0] was assigned to the UPC. Thus the 12-digit UPC in the US and Canada is a subset of, and fully compatible with, the 13-digit EAN by the addition of the zero prefix."
+             */
+            if code.count == 12 {
+                isbnCode = "0" + code
+                Debug.debug(msg: "Created code: \(isbnCode)", level: .debug)
+            }
+            
             DispatchQueue.main.async {
-                self.addBookWithScannedData(isbn: code)
+                self.addBookWithScannedData(isbn: isbnCode)
             }
         case .failure(let error):
             Debug.debug(msg: "\(error.localizedDescription)", level: .debug)

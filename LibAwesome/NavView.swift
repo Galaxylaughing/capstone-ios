@@ -57,6 +57,7 @@ struct NavView: View {
                     NavView.goBack(env: self.env)
                 }) {
                     Image(systemName: "chevron.left.circle")
+                    .padding(.trailing)
                 }
             }
             NavButton(view: .home, icon: HOME_ICON)
@@ -86,11 +87,11 @@ struct NavView: View {
                 && (self.env.topView != .tagdetail || TagDetailView.showEditButtons) {
                 
                 if self.env.topView == .bookdetail {
-                    DeleteBookButton()
+                    DeleteBookButton().padding(.leading)
                 } else if self.env.topView == .seriesdetail {
-                    DeleteSeriesButton()
+                    DeleteSeriesButton().padding(.leading)
                 } else if self.env.topView == .tagdetail && TagDetailView.showEditButtons {
-                    DeleteTagButton()
+                    DeleteTagButton().padding(.leading)
                 }
                 
             }
@@ -103,6 +104,7 @@ struct NavView: View {
             if self.env.topView == .booklist {
                 CurrentReadsButton()
                 EditButton()
+                    .padding(.leading)
             } else {
                 CurrentReadsButton()
             }

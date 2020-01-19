@@ -17,7 +17,7 @@ struct AddBySearchForm: View {
     
     fileprivate func saveButton() -> some View {
         return Button(action: { self.addBook() }) {
-            Text("Add Book")
+            Text("Search")
         }
         .disabled(self.title == "" && self.authors == [])
         .alert(item: $error, content: { error in
