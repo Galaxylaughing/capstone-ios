@@ -65,6 +65,7 @@ struct LoginForm: View {
                 .navigationBarHidden(false)
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     func loginUser() {

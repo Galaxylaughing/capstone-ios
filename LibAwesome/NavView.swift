@@ -121,6 +121,7 @@ struct NavView: View {
                                     trailing: self.getTrailingView()
                 )
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     func getTrailingView() -> AnyView {
