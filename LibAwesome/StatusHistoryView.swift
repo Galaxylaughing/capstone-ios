@@ -16,14 +16,11 @@ struct StatusHistoryView: View {
     @State private var showAlert: Bool = false
     @State private var bookStatusToDelete: BookStatusList.BookStatus?
     
-    func getStatusHistory() {
-        CallAPI.getStatusHistory(env: self.env)
-        
-        if Debug.debugLevel == .debug {
-            for status in self.env.book.status_history {
-                Debug.debug(msg: "\(status.status.getHumanReadableStatus())", level: .verbose)
-            }
-        }
+    func getSortedStatusHistory() -> [BookStatusList.BookStatus] {
+        var sortedList: [BookStatusList.BookStatus] = []
+        sortedList.append(contentsOf: self.env.book.status_history)
+        sortedList = sortedList.sorted(by: { $0.date > $1.date })
+        return sortedList
     }
     
     var body: some View {
@@ -34,49 +31,50 @@ struct StatusHistoryView: View {
             }
             .padding(.top)
             
-            if self.env.book.status_history.count > 0 {
-                List {
-                    ForEach(self.env.book.status_history.sorted(by: { $0.date > $1.date }), id: \.id) { status in
-                        HStack {
-                            Text("\(status.status.getHumanReadableStatus())")
-                            Spacer()
-                            Text("\(status.date, formatter: DateHelper.getDateFormatter())")
-                                .font(.caption)
+            Section {
+                if self.env.book.status_history.count > 0 {
+                    List {
+                        ForEach(self.getSortedStatusHistory(), id: \.id) { status in
+                            HStack {
+                                Text("\(status.status.getHumanReadableStatus())")
+                                Spacer()
+                                Text("\(status.date, formatter: DateHelper.getDateFormatter())")
+                                    .font(.caption)
+                            }
+                        }
+                        .onDelete(perform: self.findStatusToDelete)
+                    }
+                    .alert(isPresented: self.$showAlert) {
+                        if self.onlyStatusError != nil {
+                            return Alert(title: Text("Cannot Delete"),
+                                         message: Text(self.onlyStatusError!),
+                                         dismissButton: .default(Text("OK"))
+                            )
+                        } else if self.error == nil {
+                            return Alert(title: Text("Delete '\(self.bookStatusToDelete!.status.getHumanReadableStatus())'"),
+                                         message: Text("Are you sure?"),
+                                         primaryButton: .destructive(Text("Delete")) {
+                                            self.swipeDeleteStatus()
+                                },
+                                         secondaryButton: .cancel()
+                            )
+                        } else {
+                            return Alert(title: Text("Error"),
+                                         message: Text(error!),
+                                         dismissButton: Alert.Button.default(
+                                            Text("OK"), action: {
+                                                self.error = nil
+                                                self.showAlert = false
+                                         }
+                                )
+                            )
                         }
                     }
-                    .onDelete(perform: self.findStatusToDelete)
+                } else {
+                    Text("Could not load status history")
                 }
-                .alert(isPresented: self.$showAlert) {
-                    if self.onlyStatusError != nil {
-                        return Alert(title: Text("Cannot Delete"),
-                                     message: Text(self.onlyStatusError!),
-                                     dismissButton: .default(Text("OK"))
-                        )
-                    } else if self.error == nil {
-                        return Alert(title: Text("Delete '\(self.bookStatusToDelete!.status.getHumanReadableStatus())'"),
-                                     message: Text("Are you sure?"),
-                                     primaryButton: .destructive(Text("Delete")) {
-                                        self.swipeDeleteStatus()
-                            },
-                                     secondaryButton: .cancel()
-                        )
-                    } else {
-                        return Alert(title: Text("Error"),
-                                     message: Text(error!),
-                                     dismissButton: Alert.Button.default(
-                                        Text("OK"), action: {
-                                            self.error = nil
-                                            self.showAlert = false
-                                     }
-                            )
-                        )
-                    }
-                }
-            } else {
-                Text("Could not load status history")
             }
         }
-        .onAppear(perform: { self.getStatusHistory() })
     }
     
     func findStatusToDelete(at offsets: IndexSet) {
@@ -111,23 +109,23 @@ struct StatusHistoryView: View {
                 }
                 
                 /*
-                // update book's current status and current status date
-                // find the most recent status
-                let statusHistory = updatedBook.status_history
-                var mostRecent: BookStatusList.BookStatus = statusHistory[0]
-                
-                // go through each status and check its date
-                // if its date is more recent than mostRecent, overwrite mostRecent
-                for status in statusHistory {
-                    if status.date > mostRecent.date {
-                        mostRecent = status
-                    }
-                }
-                
-                // change current_status to be mostRecent
-                updatedBook.current_status = mostRecent.status
-                updatedBook.current_status_date = mostRecent.date
-                */
+                 // update book's current status and current status date
+                 // find the most recent status
+                 let statusHistory = updatedBook.status_history
+                 var mostRecent: BookStatusList.BookStatus = statusHistory[0]
+                 
+                 // go through each status and check its date
+                 // if its date is more recent than mostRecent, overwrite mostRecent
+                 for status in statusHistory {
+                 if status.date > mostRecent.date {
+                 mostRecent = status
+                 }
+                 }
+                 
+                 // change current_status to be mostRecent
+                 updatedBook.current_status = mostRecent.status
+                 updatedBook.current_status_date = mostRecent.date
+                 */
                 
                 // update booklist
                 let updatedBooklist = self.env.bookList

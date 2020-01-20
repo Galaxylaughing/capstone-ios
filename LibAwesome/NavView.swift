@@ -23,7 +23,7 @@ enum TopViews {
     case tagdetail
     
     case currentreads
-    case statushistory
+//    case statushistory
     
     case googleresults
     case scanner
@@ -182,9 +182,9 @@ struct NavView: View {
         case .currentreads:
             self.turnOnBackButton()
             view = AnyView(CurrentReadsList())
-        case .statushistory:
-            self.turnOnBackButton()
-            view = AnyView(StatusHistoryView())
+//        case .statushistory:
+//            self.turnOnBackButton()
+//            view = AnyView(StatusHistoryView())
             
         case .googleresults:
             self.turnOnBackButton()
@@ -222,8 +222,8 @@ struct NavView: View {
             
         case .currentreads:
             title = "Currently Reading"
-        case .statushistory:
-            title = "Status History"
+//        case .statushistory:
+//            title = "Status History"
             
         case .googleresults:
             title = "Results"
