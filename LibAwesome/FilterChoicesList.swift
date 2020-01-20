@@ -12,13 +12,13 @@ struct FilterChoicesList: View {
     @EnvironmentObject var env: Env
     @Binding var showOptions: Bool
     
+    @Binding var selectedSort: Sort
+    
     var body: some View {
         Form {
             List() {
                 Section {
                     SelectAllButton(
-//                        selectedStatus: self.env.selectedStatusFilter,
-//                        isDefault: true,
                         text: "Show All",
                         selectAction: {
                             self.env.selectedStatusFilter = nil
@@ -26,6 +26,13 @@ struct FilterChoicesList: View {
                             self.showOptions = false
                         }
                     )
+                }
+                
+                Section(header: Text("Sort by \(self.selectedSort.method.rawValue)")) {
+                    Picker(selection: $selectedSort, label: Text("Sort List"), content: {
+                            Text("Sort by Title").tag(Sort(method: .title))
+                            Text("Sort by Date").tag(Sort(method: .date))
+                    }).pickerStyle(SegmentedPickerStyle())
                 }
                 
                 Section(header: Text("Filter by Status")) {
@@ -63,9 +70,13 @@ struct FilterChoicesList: View {
 
 struct FilterChoicesList_Previews: PreviewProvider {
     @State static var showOptions: Bool = true
+    @State static var sortMethod: Sort = Sort(method: .title)
     
     static var previews: some View {
-        FilterChoicesList(showOptions: self.$showOptions)
+        FilterChoicesList(
+            showOptions: self.$showOptions,
+            selectedSort: self.$sortMethod
+        )
         .environmentObject(Env())
     }
 }

@@ -114,6 +114,7 @@
 		04F5E14A23D5087200B845A2 /* SelectRatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14923D5087200B845A2 /* SelectRatingButton.swift */; };
 		04F5E14C23D50B6500B845A2 /* SelectAllButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14B23D50B6500B845A2 /* SelectAllButton.swift */; };
 		04F5E14E23D52D3800B845A2 /* ShowPasswordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14D23D52D3800B845A2 /* ShowPasswordButton.swift */; };
+		04F5E15023D5316300B845A2 /* Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14F23D5316300B845A2 /* Sort.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -246,6 +247,7 @@
 		04F5E14923D5087200B845A2 /* SelectRatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRatingButton.swift; sourceTree = "<group>"; };
 		04F5E14B23D50B6500B845A2 /* SelectAllButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAllButton.swift; sourceTree = "<group>"; };
 		04F5E14D23D52D3800B845A2 /* ShowPasswordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPasswordButton.swift; sourceTree = "<group>"; };
+		04F5E14F23D5316300B845A2 /* Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sort.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -433,6 +435,7 @@
 				0413027A23C4308300FDF25B /* Env.swift */,
 				04F5E11923D0FB3300B845A2 /* StatusEnum.swift */,
 				04F5E12E23D22FFB00B845A2 /* StatusList.swift */,
+				04F5E14F23D5316300B845A2 /* Sort.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -734,6 +737,7 @@
 				04080F3A23C676C9006E1523 /* TagsListView.swift in Sources */,
 				04E3124523C6C8A200757B56 /* TagDetailView.swift in Sources */,
 				041FB3E223CE725C00D34B41 /* AddBySearchForm.swift in Sources */,
+				04F5E15023D5316300B845A2 /* Sort.swift in Sources */,
 				04080F3E23C690AC006E1523 /* ShowTagCountButton.swift in Sources */,
 				04AA7C3523BBA43B003706C6 /* SceneDelegate.swift in Sources */,
 				04E3126723CA6BB600757B56 /* NavButton.swift in Sources */,

@@ -90,7 +90,6 @@ struct StatusHistoryView: View {
         }
     }
     
-    
     func swipeDeleteStatus() {
         self.showAlert = false
         

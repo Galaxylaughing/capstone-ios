@@ -21,7 +21,9 @@ struct BookListView: View {
     @State private var bookToDelete: Int = 0
     @State private var bookTitleToDelete: String = ""
     
-    func getSortedBookList() -> [BookList.Book] {
+    @State var selectedSort: Sort = Sort(method: .title)
+    
+    func getFilteredBookList() -> [BookList.Book] {
         var booklist = self.env.bookList.books
         if self.env.selectedStatusFilter != nil {
             booklist = BookHelper.filterByStatus(list: booklist, status: self.env.selectedStatusFilter!)
@@ -29,7 +31,26 @@ struct BookListView: View {
         else if self.env.selectedRatingFilter != nil {
             booklist = BookHelper.filterByRating(list: booklist, rating: self.env.selectedRatingFilter!)
         }
-        booklist = booklist.sorted(by: {$0 < $1})
+        return booklist
+    }
+    
+    func getSortedBooklist(list: [BookList.Book]) -> [BookList.Book] {
+        var booklist = list
+        
+        if self.selectedSort.method == .title {
+            booklist = booklist.sorted(by: { $0 < $1 })
+            
+        } else if self.selectedSort.method == .date {
+            booklist = booklist.sorted(by: { $0.current_status_date > $1.current_status_date })
+        }
+        
+        return booklist
+    }
+    
+    func getSortedAndFilteredBookList() -> [BookList.Book] {
+        var booklist = self.getFilteredBookList()
+        booklist = self.getSortedBooklist(list: booklist)
+        
         return booklist
     }
     
@@ -64,7 +85,7 @@ struct BookListView: View {
     fileprivate func listBooks() -> AnyView {
         return AnyView(
             List(selection: $selectKeeper) {
-                ForEach(self.getSortedBookList(), id: \.id) { book in
+                ForEach(self.getSortedAndFilteredBookList(), id: \.id) { book in
                     self.bookRow(for: book)
                 }
                 .onDelete(perform: self.displayConfirm)
@@ -99,7 +120,7 @@ struct BookListView: View {
             VStack {
                 Section {
                     VStack {
-                        FilterChoicesButton()
+                        FilterChoicesButton(selectedSort: self.$selectedSort)
                             .padding([.horizontal, .top])
                         Divider()
                     }

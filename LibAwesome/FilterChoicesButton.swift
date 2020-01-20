@@ -12,6 +12,8 @@ struct FilterChoicesButton: View {
     @EnvironmentObject var env: Env
     @State var showOptions: Bool = false
     
+    @Binding var selectedSort: Sort
+    
     var body: some View {
         Button(action: { self.showOptions.toggle() }) {
             HStack {
@@ -30,8 +32,11 @@ struct FilterChoicesButton: View {
                 .foregroundColor(Color.gray)
             }
         }.sheet(isPresented: self.$showOptions) {
-            FilterChoicesList(showOptions: self.$showOptions)
-                .environmentObject(self.env)
+            FilterChoicesList(
+                showOptions: self.$showOptions,
+                selectedSort: self.$selectedSort
+            )
+            .environmentObject(self.env)
         }
     }
 }
@@ -43,9 +48,10 @@ struct FilterChoicesButton_Previews: PreviewProvider {
         return previewEnv
     }
     static var env = makeEnv()
+    @State static var sortMethod = Sort(method: .title)
     
     static var previews: some View {
-        FilterChoicesButton()
+        FilterChoicesButton(selectedSort: self.$sortMethod)
             .environmentObject(self.env)
     }
 }
