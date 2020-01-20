@@ -18,6 +18,16 @@ struct BookHelper {
         return list.filter { $0.current_status == status }
     }
     
+    static func isPresentInList(isbn10: String, isbn13: String, in list: [BookList.Book]) -> Bool {
+        var isPresent: Bool = false
+        for book in list {
+            if book.isbn10 == isbn10 || book.isbn13 == isbn13 {
+                isPresent = true
+            }
+        }
+        return isPresent
+    }
+    
     static func isPresentInList(isbn: String, in list: [BookList.Book]) -> Bool {
         var isPresent: Bool = false
         for book in list {
