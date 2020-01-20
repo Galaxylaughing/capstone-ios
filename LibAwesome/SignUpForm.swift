@@ -26,6 +26,7 @@ struct SignUpForm: View {
                 Text("username")
                 TextField("username", text: $username)
                     .textContentType(.username)
+                    .autocapitalization(.none)
             }
             Section(header: HStack {
                 Spacer();

@@ -34,6 +34,7 @@ struct LoginForm: View {
                         Text("username")
                         TextField("username", text: $username)
                             .textContentType(.username)
+                            .autocapitalization(.none)
                     }
                     
                     HStack {
@@ -59,7 +60,9 @@ struct LoginForm: View {
                             Text("Login")
                             Spacer()
                         }
-                    }.alert(item: $error, content: { error in
+                    }
+                    .disabled(self.username == "" || self.password == "")
+                    .alert(item: $error, content: { error in
                         AlertHelper.alert(reason: error.reason)
                     })
                     
