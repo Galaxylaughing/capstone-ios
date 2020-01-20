@@ -16,7 +16,7 @@ struct SeeStatusHistoryButton: View {
         // you can only get here from the book detail page,
         // which has the env.book set already
         // so you don't have to set the env.book here
-        Button(action: { self.getStatusHistory(); self.showHistorySheet.toggle()/*self.env.topView = .statushistory*/ }) {
+        Button(action: { self.getStatusHistory(); self.showHistorySheet.toggle() }) {
             HStack {
                 Text("see status history")
                     .font(.caption)
@@ -24,6 +24,7 @@ struct SeeStatusHistoryButton: View {
         }.sheet(isPresented: self.$showHistorySheet) {
             StatusHistoryView()
                 .environmentObject(self.env)
+                .navigationViewStyle(StackNavigationViewStyle())
         }
     }
     

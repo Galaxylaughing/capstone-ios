@@ -32,7 +32,7 @@ class Env: ObservableObject {
         self.tag = tag
         self.tagToEdit = tagToEdit
         self.book = book
-        self.currentReadsCount = Env.getCurrentReadsCount(from: bookList) //CHECK
+        self.currentReadsCount = Env.getCurrentReadsCount(from: bookList)
     }
     
     init(env: Env) {
@@ -44,7 +44,7 @@ class Env: ObservableObject {
         self.tag = env.tag
         self.tagToEdit = env.tagToEdit
         self.book = BookList.Book()
-        self.currentReadsCount = env.currentReadsCount //CHECK
+        self.currentReadsCount = env.currentReadsCount
     }
     
     init() {
@@ -56,7 +56,7 @@ class Env: ObservableObject {
         self.tag = TagList.Tag(name: "", books: [])
         self.tagToEdit = TagList.Tag(name: "", books: [])
         self.book = BookList.Book()
-        self.currentReadsCount = 0 //CHECK
+        self.currentReadsCount = 0
     }
     
     static let defaultEnv = Env()
@@ -69,12 +69,14 @@ class Env: ObservableObject {
         // update tags
         let updatedTagList = EncodingHelper.getTags(from: newBookList)
         
+        // update current reads count
+        let currentReadsCount = Env.getCurrentReadsCount(from: newBookList)
+        
         // set environment
-//        DispatchQueue.main.async {
-            env.bookList = newBookList
-            env.authorList = updatedAuthorList
-            env.tagList = updatedTagList
-//        }
+        env.bookList = newBookList
+        env.authorList = updatedAuthorList
+        env.tagList = updatedTagList
+        env.currentReadsCount = currentReadsCount
     }
     
     static func getCurrentReadsCount(from bookList: BookList) -> Int {

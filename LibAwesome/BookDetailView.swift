@@ -23,8 +23,9 @@ struct BookDetailView: View {
                                     .font(.largeTitle)
                                     .multilineTextAlignment(.center)
                                     .padding(.horizontal)
-                                    // for some reason, the multiline alignment does not always word
-                                    // so I'm including this context menu to just show the full title on long-press
+                                    // for some reason, the multiline alignment has a max height
+                                    // so if the title + subtitle are too long, it will cut the title off.
+                                    // I'm including this context menu to just show the full title on long-press
                                     .contextMenu { Text(self.env.book.getMainTitle()) }
                             } else {
                                 Text(component)

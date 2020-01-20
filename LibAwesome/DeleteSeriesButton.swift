@@ -64,9 +64,14 @@ struct DeleteSeriesButton: View {
                 }
                 let seriesList = self.env.seriesList
                 seriesList.series.remove(at: indexToDelete)
+                
+                // update current reads count
+                let currentReadsCount = Env.getCurrentReadsCount(from: bookList)
+                
                 DispatchQueue.main.async {
                     self.env.seriesList = seriesList
                     self.env.bookList = bookList
+                    self.env.currentReadsCount = currentReadsCount
                     // return the view to previous position
                     NavView.goBack(env: self.env)
                 }

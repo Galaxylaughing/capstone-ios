@@ -52,7 +52,6 @@ struct BarcodeScanner: View {
                 .background(
                     Circle()
                 )
-//                .padding()
                 .alert(isPresented: self.$showAlert) {
                     if self.warningMessage != "" {
                         return Alert(
@@ -87,7 +86,9 @@ struct BarcodeScanner: View {
                 CodeScannerView(
                     codeTypes: [.ean8, .ean13, .upce, .code39, .code39Mod43, .code93, .code128, .interleaved2of5, .itf14],
                     simulatedData: "FakeNumber999",
-                    completion: self.handleScan)
+                    completion: self.handleScan
+                )
+                .navigationViewStyle(StackNavigationViewStyle())
             }
         }
     }

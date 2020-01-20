@@ -17,10 +17,7 @@ struct CallAPI {
             
             let updatedBook = env.book
             updatedBook.status_history = apiStatusList.status_history
-            
-//            DispatchQueue.main.async {
-                env.book = updatedBook
-//            }
+            env.book = updatedBook
         } else if let errorData = response["error"] {
             Debug.debug(msg: "\(errorData)", level: .error)
         } else {
@@ -34,9 +31,7 @@ struct CallAPI {
         if let data = response["success"] {
             let apiSeriesList = EncodingHelper.makeSeriesList(data: data) ?? SeriesList(series: [])
             // update the environment variable
-//            DispatchQueue.main.async {
-                env.seriesList = apiSeriesList
-//            }
+            env.seriesList = apiSeriesList
         } else if let errorData = response["error"] {
             Debug.debug(msg: "\(errorData)", level: .error)
         } else {
@@ -52,12 +47,9 @@ struct CallAPI {
             
             Debug.debug(msg: "\nCallAPI.getBooks is about to call getTags", level: .verbose)
             let tagList = EncodingHelper.getTags(from: apiBookList)
-            
             // update the environment variable
-//            DispatchQueue.main.async {
-                env.bookList = apiBookList
-                env.tagList = tagList
-//            }
+            env.bookList = apiBookList
+            env.tagList = tagList
         } else if let errorData = response["error"] {
             Debug.debug(msg: "\(errorData)", level: .error)
         } else {
@@ -79,16 +71,13 @@ struct CallAPI {
             Debug.debug(msg: "\nCallAPI.getBooks is about to call getTags", level: .verbose)
             let tagList = EncodingHelper.getTags(from: apiBookList)
             
-            //CHECK add current reads calculator?
             let currentReadsCount = Env.getCurrentReadsCount(from: apiBookList)
             
             // update the environment variable
-//            DispatchQueue.main.async {
-                env.bookList = apiBookList
-                env.authorList = authorList
-                env.tagList = tagList
-                env.currentReadsCount = currentReadsCount
-//            }
+            env.bookList = apiBookList
+            env.authorList = authorList
+            env.tagList = tagList
+            env.currentReadsCount = currentReadsCount
         } else if let errorData = response["error"] {
             Debug.debug(msg: "\(errorData)", level: .error)
         } else {

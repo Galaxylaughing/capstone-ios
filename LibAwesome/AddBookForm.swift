@@ -265,7 +265,7 @@ struct AddBookForm: View {
         let uncleanTags = self.bookToAdd.tags
         var cleanTags: [String] = []
         for tag in uncleanTags {
-            let cleanTagName = /*EncodingHelper.cleanTagNamesForDatabase(tagName:*/ tag/*)*/
+            let cleanTagName = tag
             cleanTags.append(cleanTagName)
         }
         bookToSend.tags = cleanTags

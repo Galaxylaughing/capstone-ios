@@ -13,28 +13,15 @@ struct CurrentReadCountBadge: View {
     
     var body: some View {
         VStack {
-            if self.env.currentReadsCount > 0 {
-                Text(String(self.env.currentReadsCount))
-                    .font(.caption)
-                    .padding(3)
-                    .foregroundColor(Color.white)
-                    .padding(.horizontal, 2)
-                    .background(
-                        Capsule()
-                            .fill(Color.blue)
-                    )
-            } else {
-                Text(String(self.env.currentReadsCount)) //CHECK or hide this altogether if zero?
-                    .font(.caption)
-                    .padding(3)
-                    .foregroundColor(Color.white)
-                    .padding(.horizontal, 2)
-                    .background(
-                        Capsule()
-                            .fill(Color.blue)
-                            .opacity(0.7)
-                    )
-            }
+            Text(String(self.env.currentReadsCount))
+                .font(.caption)
+                .padding(3)
+                .foregroundColor(Color.white)
+                .padding(.horizontal, 2)
+                .background(
+                    Capsule()
+                        .fill(Color.blue)
+                )
         }
     }
 }

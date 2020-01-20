@@ -12,17 +12,12 @@ struct SelectStatusButton: View {
     @EnvironmentObject var env: Env
     
     var selectedStatus: Status?
-//    var isDefault: Bool = false // true if the text is not a Status
     var text: String
     var selectAction: () -> ()
     
     fileprivate func isSelectedItem() -> Bool {
         return (self.selectedStatus != nil
                 && self.selectedStatus!.getHumanReadableStatus() == self.text)
-//            || (self.selectedStatus == nil
-//                && self.env.selectedStatusFilter == nil
-//                && self.env.selectedRatingFilter == nil
-//                && self.isDefault)
     }
     
     var body: some View {

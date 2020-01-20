@@ -51,8 +51,6 @@ struct AuthorDetailView: View {
                 }
             }
         }
-//        .navigationBarTitle("Author", displayMode: .inline)
-//        .navigationBarItems(trailing: EditSeriesButton().environmentObject(self.series))
     }
 }
 

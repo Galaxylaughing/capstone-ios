@@ -38,7 +38,7 @@ class TagList: ObservableObject {
                         tempTags[index].books.append(book)
                     }
                 } else {
-                    let cleanTag = /*EncodingHelper.unCleanTagNameForUser(tagName:*/ tag/*)*/
+                    let cleanTag = tag
                     // add this tag to the list of names
                     tagNames.append(cleanTag)
                     // add the tag to the temp list and add this book to its list of books

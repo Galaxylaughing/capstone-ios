@@ -37,6 +37,7 @@ struct FilterChoicesButton: View {
                 selectedSort: self.$selectedSort
             )
             .environmentObject(self.env)
+            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }

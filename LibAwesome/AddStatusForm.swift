@@ -89,7 +89,6 @@ struct AddStatusForm: View {
             isoDate: isoDateString
         )
         
-        let oldStatus = self.bookToUpdate.current_status
         let oldStatusDate = self.bookToUpdate.current_status_date
         let newStatusDate = self.date
         if response["success"] != nil {
@@ -105,15 +104,8 @@ struct AddStatusForm: View {
                 }
             }
             
-            // update environment currently reading count
-            var currentReadsCount = self.env.currentReadsCount
-            if newStatus == Status.current
-            && oldStatus != Status.current {
-                currentReadsCount += 1
-            } else if oldStatus == Status.current
-            && newStatus != Status.current {
-                currentReadsCount -= 1
-            }
+            // update current reads count
+            let currentReadsCount = Env.getCurrentReadsCount(from: tempBookList)
             
             DispatchQueue.main.async {
                 self.env.bookList = tempBookList

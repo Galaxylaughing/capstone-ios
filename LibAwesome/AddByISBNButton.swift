@@ -22,6 +22,7 @@ struct AddByISBNButton: View {
         .sheet(isPresented: $showForm) {
             AddByISBNForm(showForm: self.$showForm)
                 .environmentObject(self.env)
+                .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }

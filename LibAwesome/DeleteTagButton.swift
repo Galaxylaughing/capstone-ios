@@ -48,7 +48,7 @@ struct DeleteTagButton: View {
     func deleteTag() {
         self.showConfirm = false
         // make DELETE request
-        let cleanTagName = /*EncodingHelper.cleanTagNamesForDatabase(tagName: */self.env.tag.name/*)*/
+        let cleanTagName = self.env.tag.name
         Debug.debug(msg: "DELETING: \(cleanTagName)", level: .verbose)
         let response = APIHelper.deleteTag(token: self.env.user.token, tagName: cleanTagName)
         if response["success"] != nil {

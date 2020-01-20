@@ -20,7 +20,8 @@ struct EditTagButton: View {
                          tagToEdit: TagList.Tag(
                             name: EncodingHelper.unCleanTagNameForUser(tagName: self.env.tagToEdit.name),
                             books: self.env.tagToEdit.books))
-                .environmentObject(self.env)
+            .environmentObject(self.env)
+            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }

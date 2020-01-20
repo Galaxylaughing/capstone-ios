@@ -23,6 +23,7 @@ struct AddSeriesButton: View {
         }.sheet(isPresented: $showForm) {
             AddSeriesForm(showForm: self.$showForm)
                 .environmentObject(self.env)
+                .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }

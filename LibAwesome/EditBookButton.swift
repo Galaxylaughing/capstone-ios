@@ -22,6 +22,7 @@ struct EditBookButton: View {
                          seriesIndex: self.getSeriesIndex(),
                          seriesPositionIndex: (self.env.book.position - 1))
                 .environmentObject(self.env)
+                .navigationViewStyle(StackNavigationViewStyle())
         }
     }
     

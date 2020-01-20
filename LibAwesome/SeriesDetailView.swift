@@ -37,7 +37,6 @@ struct SeriesDetailView: View {
                         .padding(.top)
                     List {
                         ForEach(self.getBooks().sorted(by: {$0.position < $1.position})) { book in
-//                            NavigationLink(destination: BookDetailView().environmentObject(book)) {
                             Button(action: {
                                 self.env.book = book
                                 self.env.topView = .bookdetail
@@ -59,8 +58,6 @@ struct SeriesDetailView: View {
             }
             
         }
-//        .navigationBarTitle("Series", displayMode: .inline)
-//        .navigationBarItems(trailing: EditSeriesButton().environmentObject(self.series))
     }
     
     func getBooks() -> [BookList.Book] {

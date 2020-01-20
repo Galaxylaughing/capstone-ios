@@ -11,8 +11,6 @@ import SwiftUI
 struct EditIcon: View {
     var body: some View {
         HStack {
-//            Text("edit")
-//                .font(.caption)
             Image(systemName: "pencil")
         }
     }

@@ -19,6 +19,7 @@ struct AddBookButton: View {
         }.sheet(isPresented: $showForm) {
             AddBookForm(showForm: self.$showForm)
                 .environmentObject(self.env)
+                .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }

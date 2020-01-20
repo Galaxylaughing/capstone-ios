@@ -28,6 +28,7 @@ struct EditSeriesButton: View {
             )
                 .environmentObject(self.env)
                 .environmentObject(self.series)
+                .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }

@@ -362,7 +362,7 @@ struct BookListService: Decodable {
             let formatter = ISO8601DateFormatter()
             let isoDateString = formatter.string(from: book.current_status_date)
             
-            self.current_status_date = isoDateString //CHECK
+            self.current_status_date = isoDateString
             self.rating = book.rating.rawValue
             self.tags = book.tags
         }

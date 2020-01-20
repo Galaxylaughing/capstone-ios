@@ -21,7 +21,6 @@ struct SeriesListView: View {
             VStack {
                 List {
                     ForEach(env.seriesList.series.sorted(by: {$0 < $1})) { series in
-//                        NavigationLink(destination: SeriesDetailView().environmentObject(series)) {
                         Button(action: {
                             SeriesDetailView.series = series
                             self.env.topView = .seriesdetail

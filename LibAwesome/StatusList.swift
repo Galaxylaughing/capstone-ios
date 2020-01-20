@@ -42,15 +42,6 @@ class BookStatusList: ObservableObject {
             self.status = status
             self.date = date
         }
-        
-        /*
-        init(bookstatus: BookStatus) {
-            self.id = bookstatus.id
-            self.bookId = bookstatus.bookId
-            self.status = bookstatus.status
-            self.date = bookstatus.date
-        }
-         */
     }
     
     // make bookstatuslist object from API

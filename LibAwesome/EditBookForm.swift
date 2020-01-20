@@ -167,7 +167,7 @@ struct EditBookForm: View {
         for tag in self.env.tagList.tags {
             // determine if they should be checked or not by comparing with bookToEdit's tags
             var isChecked: Bool = false
-            let cleanTagName = /*EncodingHelper.cleanTagNamesForDatabase(tagName:*/ tag.name/*)*/
+            let cleanTagName = tag.name
             if self.bookToEdit.tags.contains(cleanTagName) {
                 isChecked = true
             }
@@ -400,7 +400,6 @@ struct EditBookForm: View {
                     Env.setEnv(in: self.env, to: bookList)
                     
                     let currentTag = self.env.tag
-                    print("current tag", currentTag.name)
                     for book in currentTag.books {
                         if book.id == newBook.id {
                             // find book in currentTag.books

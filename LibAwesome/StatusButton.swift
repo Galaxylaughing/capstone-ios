@@ -44,6 +44,7 @@ struct StatusButton: View {
                 newStatus: self.status
             )
             .environmentObject(self.env)
+            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }

@@ -18,7 +18,6 @@ struct EditTagForm: View {
     @State var tagToEdit: TagList.Tag
     @State var bookChecklist: [CheckListItem] = []
     
-    
     fileprivate func saveButton() -> some View {
         return Button(action: { self.editTag() }) {
             Text("Save Tag")
@@ -99,12 +98,9 @@ struct EditTagForm: View {
         let newBookIds = self.unBuildBookChecklist()
         
         // I passed in the unclean tag name (with "/") as tagToEdit.name; clean it to pass onward
-        print("form tag before: \(self.tagToEdit.name)")
         let cleanNewTagName = EncodingHelper.cleanTagNamesForDatabase(tagName: self.tagToEdit.name)
-        print("form tag after: \(cleanNewTagName)")
         
         let priorTagName = EncodingHelper.cleanTagNamesForDatabase(tagName: self.env.tagToEdit.name)
-        print("prior name: \(priorTagName)")
         // make PUT to update tag
         let response = APIHelper.putTag(
             token: self.env.user.token,
@@ -125,10 +121,6 @@ struct EditTagForm: View {
             for bookId in newBookIds {
                 if let index = self.env.bookList.books.firstIndex(where: {$0.id == bookId}) {
                     let foundBook = self.env.bookList.books[index]
-                    print("foundBook \(foundBook.title)")
-                    for tag in foundBook.tags {
-                        print("  tag \(tag)")
-                    }
                     if let index = foundBook.tags.firstIndex(where: { $0 == priorTagName }) {
                         foundBook.tags[index] = newTagName
                     }

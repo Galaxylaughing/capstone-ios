@@ -108,34 +108,19 @@ struct StatusHistoryView: View {
                     updatedBook.current_status_date = newCurrentStatusData.current_status_date
                 }
                 
-                /*
-                 // update book's current status and current status date
-                 // find the most recent status
-                 let statusHistory = updatedBook.status_history
-                 var mostRecent: BookStatusList.BookStatus = statusHistory[0]
-                 
-                 // go through each status and check its date
-                 // if its date is more recent than mostRecent, overwrite mostRecent
-                 for status in statusHistory {
-                 if status.date > mostRecent.date {
-                 mostRecent = status
-                 }
-                 }
-                 
-                 // change current_status to be mostRecent
-                 updatedBook.current_status = mostRecent.status
-                 updatedBook.current_status_date = mostRecent.date
-                 */
-                
                 // update booklist
                 let updatedBooklist = self.env.bookList
                 if let index = updatedBooklist.books.firstIndex(where: { $0.id == updatedBook.id }) {
                     updatedBooklist.books[index] = updatedBook
                 }
                 
+                // update current reads count
+                let currentReadsCount = Env.getCurrentReadsCount(from: updatedBooklist)
+                
                 DispatchQueue.main.async {
                     self.env.book = updatedBook
                     self.env.bookList = updatedBooklist
+                    self.env.currentReadsCount = currentReadsCount
                 }
             }
         } else if response["error"] != nil {

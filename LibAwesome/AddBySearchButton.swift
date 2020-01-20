@@ -22,6 +22,7 @@ struct AddBySearchButton: View {
         .sheet(isPresented: $showForm) {
             AddBySearchForm(showForm: self.$showForm)
                 .environmentObject(self.env)
+                .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }

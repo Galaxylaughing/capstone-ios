@@ -14,7 +14,7 @@ struct TagUpdate: View {
     @State var addTag: () -> Void
     
     var body: some View {
-        Section(header: Text("add tags")) { // tags
+        Section(header: Text("add tags")) {
             HStack {
                 TextField("add tag", text: $newTag)
                     .autocapitalization(.none)
