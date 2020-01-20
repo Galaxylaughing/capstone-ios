@@ -46,16 +46,14 @@ struct AddBookForm: View {
     func deleteAuthor(name: String) {
         // delete with button
         if let index = self.bookToAdd.authors.firstIndex(of: name) {
-            DispatchQueue.main.async {
-                self.bookToAdd.authors.remove(at: index)
-            }
+            self.bookToAdd.authors.remove(at: index)
+            self.bookToAdd = FormBook(book: self.bookToAdd)
         }
     }
     func swipeDeleteAuthor(at offsets: IndexSet) {
         // delete by swipe
-        DispatchQueue.main.async {
-            self.bookToAdd.authors.remove(atOffsets: offsets)
-        }
+        self.bookToAdd.authors.remove(atOffsets: offsets)
+        self.bookToAdd = FormBook(book: self.bookToAdd)
     }
     func addAuthor() {
         // add author to list
@@ -65,6 +63,17 @@ struct AddBookForm: View {
     }
     func addBookAuthors() -> some View {
         return Section(header: Text("author(s)")) {
+            List {
+                ForEach(self.bookToAdd.authors, id: \.self) { author in
+                    HStack {
+                        Text(author)
+                        Spacer()
+                        Button(action: { self.deleteAuthor(name: author) } ) {
+                            Image(systemName: "minus.circle")
+                        }
+                    }
+                }.onDelete(perform: self.swipeDeleteAuthor)
+            }
             VStack(alignment: .leading) {
                 HStack {
                     TextField("author name", text: $author)
@@ -73,18 +82,6 @@ struct AddBookForm: View {
                         Image(systemName: "plus.circle")
                     }.disabled(self.author == "")
                 }
-            }
-            List {
-                ForEach(bookToAdd.authors, id: \.self) { author in
-                    HStack {
-                        Text(author)
-                        Spacer()
-                        Text("delete")
-                        Button(action: { self.deleteAuthor(name: author) } ) {
-                            Image(systemName: "minus.circle")
-                        }
-                    }
-                }.onDelete(perform: self.swipeDeleteAuthor)
             }
         }
     }
