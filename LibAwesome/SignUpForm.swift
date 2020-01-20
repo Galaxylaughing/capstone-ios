@@ -9,10 +9,10 @@
 import SwiftUI
 
 struct SignUpForm: View {
-//    @EnvironmentObject var env: Env
-//    @EnvironmentObject var currentUser: User
     @Binding var showSignUp: Bool
     @Binding var signupSuccess: Bool
+    
+    @State var showPass: Bool = false
     
     @State private var username: String = ""
     @State private var password: String = ""
@@ -27,21 +27,38 @@ struct SignUpForm: View {
                 TextField("username", text: $username)
                     .textContentType(.username)
             }
-            Section {
+            Section(header: HStack {
+                Spacer();
+                ShowPasswordButton(showPass: self.$showPass)
+            }) {
                 HStack {
                     Text("password")
-                    SecureField("password", text: $password)
-                        .textContentType(.password)
+                    if self.showPass {
+                        TextField("password", text: $password)
+                            .autocapitalization(.none)
+                            .textContentType(.password)
+                    } else {
+                        SecureField("password", text: $password)
+                            .autocapitalization(.none)
+                            .textContentType(.password)
+                    }
                 }
                 
                 HStack {
                     Text("retype password")
-                    SecureField("password", text: $confirmPassword)
-                        .textContentType(.password)
+                    if self.showPass {
+                        TextField("password", text: $confirmPassword)
+                            .autocapitalization(.none)
+                            .textContentType(.password)
+                    } else {
+                        SecureField("password", text: $confirmPassword)
+                            .autocapitalization(.none)
+                            .textContentType(.password)
+                    }
                 }
             }
             
-            Button(action: { self.signupUser() }) {
+            Button(action: { self.checkPasswordsMatch() }) {
                 HStack {
                     Spacer()
                     Text("Create Account")
@@ -53,6 +70,14 @@ struct SignUpForm: View {
             
         }
         .navigationBarTitle("Sign Up", displayMode: .inline)
+    }
+    
+    func checkPasswordsMatch() {
+        if self.password != self.confirmPassword {
+            self.error = ErrorAlert(reason: "Passwords don't match")
+        } else {
+            self.signupUser()
+        }
     }
     
     // POST syntax from http://www.appsdeveloperblog.com/http-post-request-example-in-swift/
@@ -79,6 +104,5 @@ struct SignUpForm_Previews: PreviewProvider {
     
     static var previews: some View {
         SignUpForm(showSignUp: $showSignUp, signupSuccess: $signupSuccess)
-//            .environmentObject(User())
     }
 }

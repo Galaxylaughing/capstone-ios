@@ -113,6 +113,7 @@
 		04F5E14823D5078300B845A2 /* SelectStatusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14723D5078300B845A2 /* SelectStatusButton.swift */; };
 		04F5E14A23D5087200B845A2 /* SelectRatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14923D5087200B845A2 /* SelectRatingButton.swift */; };
 		04F5E14C23D50B6500B845A2 /* SelectAllButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14B23D50B6500B845A2 /* SelectAllButton.swift */; };
+		04F5E14E23D52D3800B845A2 /* ShowPasswordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14D23D52D3800B845A2 /* ShowPasswordButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -244,6 +245,7 @@
 		04F5E14723D5078300B845A2 /* SelectStatusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStatusButton.swift; sourceTree = "<group>"; };
 		04F5E14923D5087200B845A2 /* SelectRatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRatingButton.swift; sourceTree = "<group>"; };
 		04F5E14B23D50B6500B845A2 /* SelectAllButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAllButton.swift; sourceTree = "<group>"; };
+		04F5E14D23D52D3800B845A2 /* ShowPasswordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPasswordButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -413,6 +415,7 @@
 				04AA7C6C23BBAC53003706C6 /* LoginIconView.swift */,
 				04AA7C7023BBADF8003706C6 /* LoginForm.swift */,
 				04AA7C7423BBB158003706C6 /* SignUpForm.swift */,
+				04F5E14D23D52D3800B845A2 /* ShowPasswordButton.swift */,
 			);
 			name = LoginViews;
 			sourceTree = "<group>";
@@ -747,6 +750,7 @@
 				0442537C23CFBB72000BF2E9 /* BarcodeScanner.swift in Sources */,
 				04E3127723CA88ED00757B56 /* SettingsView.swift in Sources */,
 				04E3124323C6C2C900757B56 /* Alphabetical.swift in Sources */,
+				04F5E14E23D52D3800B845A2 /* ShowPasswordButton.swift in Sources */,
 				0413028623C5118700FDF25B /* EditSeriesButton.swift in Sources */,
 				0413023123BE5ABB00FDF25B /* LogoutButton.swift in Sources */,
 				04E3125323C7C4FD00757B56 /* DeleteIcon.swift in Sources */,
