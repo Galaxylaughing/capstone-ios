@@ -10,9 +10,9 @@ import SwiftUI
 
 struct LoginForm: View {
     @EnvironmentObject var env: Env
-//    @EnvironmentObject var currentUser: User
     @State private var showSignUp: Bool = false
     @State private var signupSuccess: Bool = false
+    @State private var showPass: Bool = false
     
     @State private var username: String = ""
     @State private var password: String = ""
@@ -35,11 +35,22 @@ struct LoginForm: View {
                         TextField("username", text: $username)
                             .textContentType(.username)
                     }
+                    
                     HStack {
                         Text("password")
-                        SecureField("password", text: $password)
-                            .textContentType(.password)
-                            .autocapitalization(.none)
+                        
+                        if self.showPass {
+                            TextField("password", text: $password)
+                                .autocapitalization(.none)
+                                .textContentType(.password)
+                        } else {
+                            SecureField("password", text: $password)
+                                .textContentType(.password)
+                                .autocapitalization(.none)
+                        }
+                        
+                        Spacer()
+                        ShowPasswordButton(showPass: self.$showPass)
                     }
                     
                     Button(action: { self.loginUser() }) {
