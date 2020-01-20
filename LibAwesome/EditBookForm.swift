@@ -145,7 +145,12 @@ struct EditBookForm: View {
     @State private var newTag: String = ""
     
     func addTag() {
-        // add tag to checklist
+        // clean up user-entered tag so spaces and delimiters match the proper display format
+        var bits = self.newTag.components(separatedBy: "/")
+        bits = bits.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+        self.newTag = bits.joined(separator: " / ")
+        
+        // add new tag to checklist
         var checklist: [CheckListItem] = self.tagChecklist
         let newChecklistItem = CheckListItem(isChecked: true, content: self.newTag)
         checklist.append(newChecklistItem)
@@ -162,11 +167,11 @@ struct EditBookForm: View {
         for tag in self.env.tagList.tags {
             // determine if they should be checked or not by comparing with bookToEdit's tags
             var isChecked: Bool = false
-            let cleanTagName = EncodingHelper.encodeTagName(tagName: tag.name)
+            let cleanTagName = /*EncodingHelper.cleanTagNamesForDatabase(tagName:*/ tag.name/*)*/
             if self.bookToEdit.tags.contains(cleanTagName) {
                 isChecked = true
             }
-            let checklistitem = CheckListItem(isChecked: isChecked, content: tag.name)
+            let checklistitem = CheckListItem(isChecked: isChecked, content: EncodingHelper.unCleanTagNameForUser(tagName: tag.name))
             checklist.append(checklistitem)
         }
         // sort checklist alphabetically
@@ -177,11 +182,12 @@ struct EditBookForm: View {
     func unBuildTagChecklist() {
         // assign correct tags to self.bookToEdit based on checklist
         for item in self.tagChecklist {
+            let cleanTagName = EncodingHelper.cleanTagNamesForDatabase(tagName: item.content)
             if item.isChecked {
-                self.bookToEdit.tags.append(item.content)
+                self.bookToEdit.tags.append(cleanTagName)
             } else {
                 // remove any unchecked tags from bookToEdit
-                if let index = self.bookToEdit.tags.firstIndex(of: item.content) {
+                if let index = self.bookToEdit.tags.firstIndex(of: cleanTagName) {
                     self.bookToEdit.tags.remove(at: index)
                 }
             }
@@ -283,15 +289,7 @@ struct EditBookForm: View {
         
         // determine tags
         self.unBuildTagChecklist()
-        let uncleanTags = self.bookToEdit.tags
-        var cleanTags: [String] = []
-        for tag in uncleanTags {
-            Debug.debug(msg: "    STARTED WITH  \(tag)", level: .verbose)
-            let cleanTagName = EncodingHelper.encodeTagName(tagName: tag)
-            Debug.debug(msg: "    CLEANED  \(cleanTagName) FOR BOOK", level: .verbose)
-            cleanTags.append(cleanTagName)
-        }
-        prepBook.tags = cleanTags
+        prepBook.tags = self.bookToEdit.tags
         Debug.debug(msg: "    tags: \(prepBook.tags)", level: .verbose)
         
         // determine series information
@@ -402,13 +400,19 @@ struct EditBookForm: View {
                     Env.setEnv(in: self.env, to: bookList)
                     
                     let currentTag = self.env.tag
+                    print("current tag", currentTag.name)
                     for book in currentTag.books {
-                        if book.id == newBook.id && !newBook.tags.contains(currentTag.name) {
-                            // remove book from currentTag
+                        if book.id == newBook.id {
+                            // find book in currentTag.books
                             if let index = currentTag.books.firstIndex(where: { $0.id == book.id }) {
-                                currentTag.books.remove(at: index)
+                                if !newBook.tags.contains(currentTag.name) {
+                                    // remove book from currentTag
+                                    currentTag.books.remove(at: index)
+                                } else {
+                                    // replace newBook in currentTag.books
+                                    currentTag.books[index] = newBook
+                                }
                             }
-                            
                         }
                     }
                     

@@ -38,7 +38,7 @@ class TagList: ObservableObject {
                         tempTags[index].books.append(book)
                     }
                 } else {
-                    let cleanTag = EncodingHelper.decodeTagName(tagName: tag)
+                    let cleanTag = /*EncodingHelper.unCleanTagNameForUser(tagName:*/ tag/*)*/
                     // add this tag to the list of names
                     tagNames.append(cleanTag)
                     // add the tag to the temp list and add this book to its list of books
@@ -57,7 +57,7 @@ class TagList: ObservableObject {
     class Tag: Comparable, Identifiable, ObservableObject {
         @Published var name: String
         @Published var books: [BookList.Book]
-        @Published var subtags: [Substring]
+        @Published var subtags: [String]
         
         init() {
             self.name = ""
@@ -77,12 +77,8 @@ class TagList: ObservableObject {
             self.subtags = Tag.getSubTags(tag: name)
         }
         
-        func displayName() -> String {
-            return EncodingHelper.decodeTagName(tagName: self.name)
-        }
-        
-        static func getSubTags(tag: String) -> [Substring] {
-            return tag.split(separator: "/")
+        static func getSubTags(tag: String) -> [String] {
+            return tag.components(separatedBy: NESTED_TAG_DELIMITER)
         }
         
         // conform to Comparable

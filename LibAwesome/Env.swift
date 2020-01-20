@@ -70,11 +70,11 @@ class Env: ObservableObject {
         let updatedTagList = EncodingHelper.getTags(from: newBookList)
         
         // set environment
-        DispatchQueue.main.async {
+//        DispatchQueue.main.async {
             env.bookList = newBookList
             env.authorList = updatedAuthorList
             env.tagList = updatedTagList
-        }
+//        }
     }
     
     static func getCurrentReadsCount(from bookList: BookList) -> Int {

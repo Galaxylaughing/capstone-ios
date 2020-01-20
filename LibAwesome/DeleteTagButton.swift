@@ -19,7 +19,7 @@ struct DeleteTagButton: View {
             DeleteIcon()
         }.alert(isPresented: self.$showConfirm) {
             if self.error == nil {
-                return Alert(title: Text("Delete '\(self.env.tag.name)'"),
+                return Alert(title: Text("Delete '\(EncodingHelper.unCleanTagNameForUser(tagName: self.env.tag.name))'"),
                              message: Text("Are you sure?"),
                              primaryButton: .destructive(Text("Delete")) {
                                 self.deleteTag()
@@ -48,7 +48,7 @@ struct DeleteTagButton: View {
     func deleteTag() {
         self.showConfirm = false
         // make DELETE request
-        let cleanTagName = EncodingHelper.encodeTagName(tagName: self.env.tag.name)
+        let cleanTagName = /*EncodingHelper.cleanTagNamesForDatabase(tagName: */self.env.tag.name/*)*/
         Debug.debug(msg: "DELETING: \(cleanTagName)", level: .verbose)
         let response = APIHelper.deleteTag(token: self.env.user.token, tagName: cleanTagName)
         if response["success"] != nil {

@@ -268,7 +268,7 @@ struct AddBookForm: View {
         let uncleanTags = self.bookToAdd.tags
         var cleanTags: [String] = []
         for tag in uncleanTags {
-            let cleanTagName = EncodingHelper.encodeTagName(tagName: tag)
+            let cleanTagName = /*EncodingHelper.cleanTagNamesForDatabase(tagName:*/ tag/*)*/
             cleanTags.append(cleanTagName)
         }
         bookToSend.tags = cleanTags
@@ -358,6 +358,8 @@ struct AddBookForm: View {
                 let seriesList = SeriesList(seriesList: self.env.seriesList)
                 DispatchQueue.main.async {
                     self.env.seriesList = seriesList
+                    self.env.book = newBook
+                    self.env.topView = .bookdetail
                 }
                 
                 Env.setEnv(in: self.env, to: bookList)

@@ -33,3 +33,6 @@ let SERIESLIST_ICON = AnyView(VStack{
     Text("Series")
 })
 let SCANNER_ICON = AnyView(Image(systemName: "barcode.viewfinder"))
+
+// OTHER
+let NESTED_TAG_DELIMITER = "__"

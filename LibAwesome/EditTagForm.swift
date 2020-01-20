@@ -39,7 +39,7 @@ struct EditTagForm: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("\(self.tagToEdit.displayName())")
+                Text("\(self.tagToEdit.name)")
                 
                 Form {
                     Section(header: Text("tag name")) {
@@ -98,13 +98,17 @@ struct EditTagForm: View {
     func editTag() {
         let newBookIds = self.unBuildBookChecklist()
         
-        let cleanTagName = EncodingHelper.encodeTagName(tagName: self.env.tagToEdit.name)
-        let cleanNewTagName = EncodingHelper.encodeTagName(tagName: self.tagToEdit.name)
+        // I passed in the unclean tag name (with "/") as tagToEdit.name; clean it to pass onward
+        print("form tag before: \(self.tagToEdit.name)")
+        let cleanNewTagName = EncodingHelper.cleanTagNamesForDatabase(tagName: self.tagToEdit.name)
+        print("form tag after: \(cleanNewTagName)")
         
+        let priorTagName = EncodingHelper.cleanTagNamesForDatabase(tagName: self.env.tagToEdit.name)
+        print("prior name: \(priorTagName)")
         // make PUT to update tag
         let response = APIHelper.putTag(
             token: self.env.user.token,
-            tagName: cleanTagName,
+            tagName: priorTagName,
             newTagName: cleanNewTagName,
             books: newBookIds)
         
@@ -121,16 +125,22 @@ struct EditTagForm: View {
             for bookId in newBookIds {
                 if let index = self.env.bookList.books.firstIndex(where: {$0.id == bookId}) {
                     let foundBook = self.env.bookList.books[index]
-                    if !foundBook.tags.contains(newTagName) {
-                        foundBook.tags.append(newTagName)
+                    print("foundBook \(foundBook.title)")
+                    for tag in foundBook.tags {
+                        print("  tag \(tag)")
+                    }
+                    if let index = foundBook.tags.firstIndex(where: { $0 == priorTagName }) {
+                        foundBook.tags[index] = newTagName
                     }
                     taggedBooks.append(foundBook)
                 }
             }
             let newTagToEdit = TagList.Tag(name: newUncleanTagName, books: taggedBooks)
             Debug.debug(msg: "I'M BACK WITH: \(newTagToEdit) \(newTagToEdit.name)", level: .verbose)
-            for book in newTagToEdit.books {
-                Debug.debug(msg: "-- \(book.title)", level: .verbose)
+            if Debug.debugLevel == .verbose {
+                for book in newTagToEdit.books {
+                    Debug.debug(msg: "-- \(book.title)", level: .verbose)
+                }
             }
             
             var currentBookList = self.env.tag.books
@@ -138,26 +148,49 @@ struct EditTagForm: View {
                 if !currentBookList.contains(book) {
                     currentBookList.append(book)
                 }
+                // replace
+                else {
+                    if let outdatedIndex = currentBookList.firstIndex(where: { $0.id == book.id }) {
+                        currentBookList[outdatedIndex] = book
+                    }
+                }
             }
-            for (index, book) in currentBookList.enumerated() {
+            var idsToBeDeleted: [Int] = []
+            for book in currentBookList {
                 if !taggedBooks.contains(book) {
                     // potentially could be deleted
                     var hasPrefix: Bool = false
                     for tag in book.tags {
                         // does the tag have the prefix
-                        let prefix = cleanTagName + "__" // check for old tag name + __
+                        let prefix = priorTagName + NESTED_TAG_DELIMITER // check for old tag name + __
                         if tag.hasPrefix(prefix) {
                             hasPrefix = true
                             break
                         }
                     }
                     if !hasPrefix {
-                        // remove book from current book list
-                        currentBookList.remove(at: index)
+                        idsToBeDeleted.append(book.id)
                     }
                 }
             }
+            for id in idsToBeDeleted {
+                // remove book from current book list
+                if let bookindex = currentBookList.firstIndex(where: { $0.id == id }) {
+                    currentBookList.remove(at: bookindex)
+                }
+            }
+            
             let newTag = TagList.Tag(name: newUncleanTagName, books: currentBookList)
+            
+            if Debug.debugLevel == .debug {
+                Debug.debug(msg: "newTag \(newTag.name)")
+                for book in newTag.books {
+                    Debug.debug(msg: "\t\(book.title)")
+                    for tag in book.tags {
+                        Debug.debug(msg: "\t\t\(tag)")
+                    }
+                }
+            }
                             
             // update tag in environment
             DispatchQueue.main.async {

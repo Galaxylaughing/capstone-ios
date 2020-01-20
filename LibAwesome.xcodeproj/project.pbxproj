@@ -115,6 +115,9 @@
 		04F5E14C23D50B6500B845A2 /* SelectAllButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14B23D50B6500B845A2 /* SelectAllButton.swift */; };
 		04F5E14E23D52D3800B845A2 /* ShowPasswordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14D23D52D3800B845A2 /* ShowPasswordButton.swift */; };
 		04F5E15023D5316300B845A2 /* Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E14F23D5316300B845A2 /* Sort.swift */; };
+		04F5E15223D61D3300B845A2 /* AddBookButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E15123D61D3300B845A2 /* AddBookButton.swift */; };
+		04F5E15423D6209C00B845A2 /* ButtonBacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E15323D6209C00B845A2 /* ButtonBacking.swift */; };
+		04F5E15A23D6238A00B845A2 /* MenuIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5E15923D6238A00B845A2 /* MenuIcon.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -248,6 +251,9 @@
 		04F5E14B23D50B6500B845A2 /* SelectAllButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAllButton.swift; sourceTree = "<group>"; };
 		04F5E14D23D52D3800B845A2 /* ShowPasswordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPasswordButton.swift; sourceTree = "<group>"; };
 		04F5E14F23D5316300B845A2 /* Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sort.swift; sourceTree = "<group>"; };
+		04F5E15123D61D3300B845A2 /* AddBookButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookButton.swift; sourceTree = "<group>"; };
+		04F5E15323D6209C00B845A2 /* ButtonBacking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonBacking.swift; sourceTree = "<group>"; };
+		04F5E15923D6238A00B845A2 /* MenuIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuIcon.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -359,6 +365,7 @@
 				04D4006523BD240B009D256C /* ContentView.swift */,
 				04E3126823CA6DAA00757B56 /* NavView.swift */,
 				04E3126B23CA71F900757B56 /* HomeView.swift */,
+				04F5E15323D6209C00B845A2 /* ButtonBacking.swift */,
 				043E15C223CFE41400F9E214 /* HomeNavButton.swift */,
 				04E3126623CA6BB600757B56 /* NavButton.swift */,
 				0413023023BE5ABB00FDF25B /* LogoutButton.swift */,
@@ -460,6 +467,7 @@
 				04F5E11723D0F11E00B845A2 /* CurrentReadCountBadge.swift */,
 				0413026523C39B5500FDF25B /* AddBookIcon.swift */,
 				04E3127023CA7A9C00757B56 /* ArrowRight.swift */,
+				04F5E15923D6238A00B845A2 /* MenuIcon.swift */,
 				0413027623C3DFA400FDF25B /* AddIcon.swift */,
 				043E15C623CFEE4100F9E214 /* MassDeleteIcon.swift */,
 				0413028723C5120600FDF25B /* EditIcon.swift */,
@@ -535,6 +543,7 @@
 				04F5E13A23D3824100B845A2 /* Filter Booklist */,
 				043E15C423CFEE1000F9E214 /* MassDeleteButton.swift */,
 				0413024C23C0566E00FDF25B /* AddButton.swift */,
+				04F5E15123D61D3300B845A2 /* AddBookButton.swift */,
 				0413024E23C0613F00FDF25B /* AddBookForm.swift */,
 				041FB3CC23CCE98800D34B41 /* AddByISBNButton.swift */,
 				041FB3D023CCEA2900D34B41 /* AddByISBNForm.swift */,
@@ -722,6 +731,7 @@
 				04E3126C23CA71F900757B56 /* HomeView.swift in Sources */,
 				04AA7C3323BBA43B003706C6 /* AppDelegate.swift in Sources */,
 				0413028023C4F4C400FDF25B /* BookHelper.swift in Sources */,
+				04F5E15A23D6238A00B845A2 /* MenuIcon.swift in Sources */,
 				041FB3D723CD170600D34B41 /* GoogleBooksHelper.swift in Sources */,
 				0413028823C5120600FDF25B /* EditIcon.swift in Sources */,
 				04E3127B23CAC0CF00757B56 /* DeleteBookButton.swift in Sources */,
@@ -765,6 +775,7 @@
 				04D4006423BBF982009D256C /* ErrorAlert.swift in Sources */,
 				04E3124F23C78E0A00757B56 /* CallAPI.swift in Sources */,
 				041FB3E823CF805200D34B41 /* SearchResultChecklist.swift in Sources */,
+				04F5E15423D6209C00B845A2 /* ButtonBacking.swift in Sources */,
 				04F5E12123D2191700B845A2 /* StatusButton.swift in Sources */,
 				04AA7C7F23BBC3AF003706C6 /* Constants.swift in Sources */,
 				0413024A23C022B400FDF25B /* BookDetailView.swift in Sources */,
@@ -806,6 +817,7 @@
 				04F5E14423D4D0BF00B845A2 /* RatingEnum.swift in Sources */,
 				04E3127923CABD2A00757B56 /* DeleteTagButton.swift in Sources */,
 				04AA7C6D23BBAC53003706C6 /* LoginIconView.swift in Sources */,
+				04F5E15223D61D3300B845A2 /* AddBookButton.swift in Sources */,
 				04E3124123C6C03200757B56 /* TagBubble.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

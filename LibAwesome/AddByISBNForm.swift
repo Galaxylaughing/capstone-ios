@@ -79,6 +79,7 @@ struct AddByISBNForm: View {
                     ) {
                         VStack(alignment: .leading) {
                             TextField("isbn", text: $isbn)
+                                .keyboardType(.numberPad)
                         }
                     }
                 }

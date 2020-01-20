@@ -18,7 +18,7 @@ struct EditTagButton: View {
         }.sheet(isPresented: $showForm) {
             EditTagForm(showForm: self.$showForm,
                          tagToEdit: TagList.Tag(
-                            name: self.env.tagToEdit.name,
+                            name: EncodingHelper.unCleanTagNameForUser(tagName: self.env.tagToEdit.name),
                             books: self.env.tagToEdit.books))
                 .environmentObject(self.env)
         }

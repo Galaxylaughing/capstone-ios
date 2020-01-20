@@ -44,13 +44,15 @@ struct BarcodeScanner: View {
                         Text(" ")
                     }
                     Image(systemName: "barcode.viewfinder")
+                    .resizable()
+                    .frame(width: 20, height: 20)
                 }
                 .foregroundColor(Color.white)
                 .padding()
                 .background(
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    Circle()
                 )
-                .padding()
+//                .padding()
                 .alert(isPresented: self.$showAlert) {
                     if self.warningMessage != "" {
                         return Alert(
@@ -152,6 +154,6 @@ struct BarcodeScanner: View {
 
 struct BarcodeScanner_Previews: PreviewProvider {
     static var previews: some View {
-        BarcodeScanner()
+        BarcodeScanner(showText: false)
     }
 }

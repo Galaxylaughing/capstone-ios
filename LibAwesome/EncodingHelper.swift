@@ -11,13 +11,16 @@ import SwiftUI
 
 struct EncodingHelper {
     // TAG NAMES
-    static func encodeTagName(tagName: String) -> String {
+    static func cleanTagNamesForDatabase(tagName: String) -> String {
         // change all occurrences of '/' delimiter to '__' to send info to API
-        return tagName.replacingOccurrences(of: "/", with: "__")
+        var bits = tagName.components(separatedBy: "/")
+        bits = bits.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+        let nestedTag = bits.joined(separator: NESTED_TAG_DELIMITER)
+        return nestedTag
     }
-    static func decodeTagName(tagName: String) -> String {
+    static func unCleanTagNameForUser(tagName: String) -> String {
         // change all occurrences of '__' delimiter to '/' to get info from API
-        return tagName.replacingOccurrences(of: "__", with: "/")
+        return tagName.replacingOccurrences(of: NESTED_TAG_DELIMITER, with: " / ")
     }
     
     // PERCENT ENCODE STRINGS

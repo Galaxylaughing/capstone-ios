@@ -10,15 +10,7 @@ import SwiftUI
 
 struct AddIcon: View {
     var body: some View {
-        ZStack {
-            Circle()
-                .fill(Color.white)
-                .frame(width: 50, height: 50)
-            Image(systemName: "plus.circle.fill")
-                .resizable()
-                .frame(width: 50, height: 50)
-        }
-        .padding(10)
+        MenuIcon(image: "plus.circle.fill")
     }
 }
 

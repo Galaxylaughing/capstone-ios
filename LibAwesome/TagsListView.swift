@@ -51,14 +51,14 @@ struct TagsListView: View {
     }
     
     func constructTagName(list: [TagList.Tag], tagIndex: Int, subtagIndex: Int) -> String {
-        let tagName = list[tagIndex].subtags[0 ... subtagIndex].joined(separator: "/")
+        let tagName = list[tagIndex].subtags[0 ... subtagIndex].joined(separator: NESTED_TAG_DELIMITER)
         return tagName
     }
     
     func matchingPrefixes(list: [TagList.Tag], tagIndex: Int, subtagIndex: Int) -> [BookList.Book] {
         // find all tags that start with tagame and add their books to a list
         var matchingBooks: Set<BookList.Book> = []
-        let tagName = self.constructTagName(list: list, tagIndex: tagIndex, subtagIndex: subtagIndex) + "/"
+        let tagName = self.constructTagName(list: list, tagIndex: tagIndex, subtagIndex: subtagIndex) + NESTED_TAG_DELIMITER
         Debug.debug(msg: "FINDING books for tag \(tagName)")
         
         let subtagCount = list[tagIndex].subtags.count

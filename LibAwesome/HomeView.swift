@@ -23,7 +23,15 @@ struct HomeView: View {
                 TagListView()
                 Spacer()
             }
-            BarcodeScanner(showText: false)
+            ButtonBacking(button: AnyView(
+                BarcodeScanner(showText: false)
+                .contextMenu() {
+                    AddBookButton()
+                    AddBySearchButton()
+                    AddByISBNButton()
+                    BarcodeScanner()
+                }
+            ))
         }
     }
 }

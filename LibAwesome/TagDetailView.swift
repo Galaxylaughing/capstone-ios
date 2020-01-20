@@ -27,11 +27,7 @@ struct TagDetailView: View {
             text = self.getDescendantName(tagName: tagName)
         } else {
             text = tagName
-        }
-        
-        // swap underscores for slashes
-        text = EncodingHelper.decodeTagName(tagName: text)
-        
+        }        
         return text
     }
     
@@ -39,10 +35,8 @@ struct TagDetailView: View {
         return AnyView(
             ForEach(book.tags, id: \.self) { tag in
                 VStack {
-                    if tag != self.env.tag.name {
-                        Text(self.getOtherTagNames(tagName: tag))
-                            .font(.caption)
-                    }
+                    MiniTagBubble(text: EncodingHelper.unCleanTagNameForUser(tagName: tag))
+                        .padding(.vertical, 1)
                 }
             }
         )
@@ -51,9 +45,7 @@ struct TagDetailView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(self.env.tag.name)
-                    .font(.title)
-                    .fontWeight(.semibold)
+                TitleTagBubble(text: "\(EncodingHelper.unCleanTagNameForUser(tagName: self.env.tag.name))")
             }
             .padding([.top, .leading, .trailing])
             

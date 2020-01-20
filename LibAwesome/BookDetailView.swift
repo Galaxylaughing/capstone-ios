@@ -169,7 +169,7 @@ struct BookDetailView: View {
                                     Spacer()
                                     VStack(alignment: .leading) {
                                         ForEach(Alphabetical(self.env.book.tags), id: \.self) { tag in
-                                            TagBubble(text: EncodingHelper.decodeTagName(tagName: tag))
+                                            TagBubble(text: EncodingHelper.unCleanTagNameForUser(tagName: tag))
                                                 .padding(.vertical, 4.0)
                                         }
                                     }

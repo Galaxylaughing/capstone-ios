@@ -64,7 +64,18 @@ struct BookListView: View {
                     VStack(alignment: .leading) {
                         Text(book.title)
                         HStack {
-                            Text(book.authorNames())
+                            VStack(alignment: .leading) {
+                                Text(book.authorNames())
+                                if self.selectedSort.method == .date {
+                                    HStack {
+                                        Text("\(book.current_status.getHumanReadableStatus())")
+                                        .italic()
+                                        Text("—")
+                                        Text("\(book.current_status_date, formatter: DateHelper.getDateFormatter())")
+                                        .italic()
+                                    }
+                                }
+                            }
                             Spacer()
                             if book.rating != Rating.unrated {
                                 Text(book.rating.getEmojiStarredRating())
@@ -130,11 +141,13 @@ struct BookListView: View {
                 }
             }
             if self.mode?.wrappedValue == .active {
-                MassDeleteButton(itemsToDelete: self.selectKeeper, showConfirm: self.$showConfirm, error: self.$error)
-                    .padding(10)
+                ButtonBacking(button: AnyView(
+                    MassDeleteButton(itemsToDelete: self.selectKeeper, showConfirm: self.$showConfirm, error: self.$error)
+                ))
             } else {
-                AddButton()
-                    .padding(10)
+                ButtonBacking(button: AnyView(
+                    AddButton()
+                ))
             }
         }
         .navigationBarTitle("Library", displayMode: .large)
@@ -183,6 +196,8 @@ struct BookListView_Previews: PreviewProvider {
             "Neil Gaiman",
             "Terry Pratchett",
         ],
+        current_status: Status.wanttoread,
+        current_status_date: Date(),
         rating: Rating.four
     )
     static var exampleBook2 = BookList.Book(
@@ -191,6 +206,8 @@ struct BookListView_Previews: PreviewProvider {
         authors: [
             "Libba Bray"
         ],
+        current_status: Status.completed,
+        current_status_date: Date(),
         rating: Rating.three
     )
     static var exampleBook3 = BookList.Book(
@@ -199,6 +216,8 @@ struct BookListView_Previews: PreviewProvider {
         authors: [
             "Naomi Novik"
         ],
+        current_status: Status.current,
+        current_status_date: Date(),
         rating: Rating.five
     )
     static var exampleBook4 = BookList.Book(
@@ -207,6 +226,8 @@ struct BookListView_Previews: PreviewProvider {
         authors: [
             "Lois McMaster Bujold"
         ],
+        current_status: Status.current,
+        current_status_date: Date(),
         rating: Rating.unrated
     )
     static var bookList = BookList(books: [exampleBook1, exampleBook2, exampleBook3, exampleBook4])

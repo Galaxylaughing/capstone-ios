@@ -10,15 +10,7 @@ import SwiftUI
 
 struct MassDeleteIcon: View {
     var body: some View {
-        ZStack {
-            Circle()
-                .fill(Color.white)
-                .frame(width: 50, height: 50)
-            Image(systemName: "trash.circle.fill")
-                .resizable()
-                .frame(width: 50, height: 50)
-        }
-        .padding(10)
+        MenuIcon(image: "trash.circle.fill")
     }
 }
 

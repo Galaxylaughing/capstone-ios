@@ -8,6 +8,29 @@
 
 import SwiftUI
 
+struct MiniTagBubble: View {
+    let text: String
+    
+    var body: some View {
+        TagBubble(text: self.text)
+            .font(.caption)
+    }
+}
+
+struct TitleTagBubble: View {
+    let text: String
+    
+    var body: some View {
+        Text(self.text)
+            .font(.title)
+            .fontWeight(.semibold)
+            .foregroundColor(Color.white)
+            .padding([.leading, .trailing], 15)
+            .background(Color.blue)
+            .cornerRadius(20)
+    }
+}
+
 struct TagBubble: View {
     let text: String
     
