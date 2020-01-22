@@ -1,4 +1,6 @@
-# capstone-ios -- Project Overview
+# capstone-ios
+
+# Project Overview
 
 This is the front-end of my capstone project, the details of which can be found [here](https://gist.github.com/Galaxylaughing/52fbe0aea39b01cd202cfce2dd982ae5). 
 The back-end can be found [here](https://github.com/Galaxylaughing/capstone-api).
